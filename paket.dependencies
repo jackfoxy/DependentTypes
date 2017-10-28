@@ -1,0 +1,21 @@
+framework: auto-detect
+source https://nuget.org/api/v2
+
+nuget FSharp.Core
+nuget Argu
+
+group Build
+  source https://nuget.org/api/v2
+  
+  nuget FAKE
+  nuget FSharp.Formatting
+
+  github fsharp/FAKE modules/Octokit/Octokit.fsx
+
+group Test
+	source https://nuget.org/api/v2
+  
+	nuget Expecto
+	nuget Expecto.BenchmarkDotNet
+	nuget Expecto.FsCheck
+	nuget Expecto.VisualStudio.TestAdapter version_in_path: true
