@@ -1,9 +1,9 @@
-namespace DependentTypes.Tests
+namespace DomainLib.Tests
 
 open FsCheck
 open System
 
-module GeneratorsCode =
+module DomainGeneratorsCode =
 
 //https://msdn.microsoft.com/en-us/library/system.char.iswhitespace(v=vs.110).aspx
     let spaceSeparator = [
@@ -237,9 +237,9 @@ module GeneratorsCode =
             return uri
         }
         
-type Generators =
+type DomainGenerators =
         static member NonEmptyStringList() =
             {new Arbitrary<string list>() with
                 override __.Generator = 
-                    GeneratorsCode.genNonEmptyNonAllWhitespaceStringList()
+                    DomainGeneratorsCode.genNonEmptyNonAllWhitespaceStringList()
                     }

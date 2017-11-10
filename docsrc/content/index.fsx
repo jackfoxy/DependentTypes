@@ -1,8 +1,8 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin"
-
+#I "../../bin/DependentTypes"
+#r "DependentTypes.dll"
 (**
 DependentTypes
 ======================
@@ -26,10 +26,10 @@ Example
 This example demonstrates using a function defined in this sample library.
 
 *)
-#r "DependentTypes.dll"
+open robkuz.DependentTypes
 open DependentTypes
 
-printfn "hello = %i" <| Library.hello 0
+printfn "hello = %i"  0
 
 (**
 Some more info

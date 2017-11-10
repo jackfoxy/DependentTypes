@@ -35,18 +35,72 @@
           
 <h1><a name="Introducing-your-project" class="anchor" href="#Introducing-your-project">Introducing your project</a></h1>
 <p>Say more</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#r</span> <span class="s">&quot;DependentTypes.dll&quot;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">robkuz</span><span class="o">.</span><span class="i">DependentTypes</span>
 <span class="k">open</span> <span class="i">DependentTypes</span>
+<span class="k">open</span> <span class="i">System</span>
 
-<span class="i">Library</span><span class="o">.</span><span class="i">hello</span> <span class="n">0</span>
+<span class="k">module</span> <span class="i">TrimNonEmptyStringDef</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="i">verifyTrimNonEmptyString</span> _ (<span class="i">value</span> <span class="o">:</span> <span class="i">string</span>) <span class="o">=</span>
+        <span class="k">if</span> <span class="i">String</span><span class="o">.</span><span class="i">IsNullOrWhiteSpace</span> <span class="i">value</span> <span class="k">then</span>
+            <span class="i">None</span>        
+        <span class="k">else</span> 
+            <span class="i">Some</span> <span class="o">&lt;|</span> <span class="i">value</span><span class="o">.</span><span class="i">Trim</span>()
+
+    <span class="k">type</span> <span class="i">NonEmptyValidator</span>(<span class="i">config</span>) <span class="o">=</span> 
+        <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">unit</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">verifyTrimNonEmptyString</span>)
+        <span class="k">new</span>() <span class="o">=</span> <span class="i">NonEmptyValidator</span>(())
+
+    <span class="k">type</span> <span class="i">NonEmpty</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NonEmptyValidator</span>()
+
+<span class="k">type</span> <span class="i">TrimNonEmptyString</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">TrimNonEmptyStringDef</span><span class="o">.</span><span class="i">NonEmpty</span>, <span class="i">unit</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span> 
 </code></pre></td>
 </tr>
 </table>
+<p>Some more info</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">myGoodString</span> <span class="o">=</span> (<span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryParse</span> <span class="s">&quot;good string   &quot;</span>)<span class="o">.</span><span class="i">Value</span>
+
+<span class="k">let</span> <span class="i">notTrimNonEmptyString</span> <span class="o">=</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryParse</span> <span class="s">&quot;    &quot;</span>
+
+<span class="c">// DependentType &quot;good string&quot;</span>
+<span class="i">printfn</span> <span class="s">&quot;%A&quot;</span> <span class="i">myGoodString</span>
+
+
+<span class="c">// true</span>
+<span class="i">printfn</span> <span class="s">&quot;%b&quot;</span> <span class="i">notTrimNonEmptyString</span><span class="o">.</span><span class="i">IsNone</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Some more info</p>
 <p>Some more info</p>
 
 

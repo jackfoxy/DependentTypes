@@ -1,24 +1,36 @@
 namespace DependentTypes
 
-open CommandLine
-open Prelude
-open System
-
 module console1 =
 
     [<EntryPoint>]
-    let main argv = 
-        printfn "%A" argv
+    let main _ = 
 
-        let parsedCommand = parse (System.Reflection.Assembly.GetExecutingAssembly().GetName().Name) argv
+        printfn  ""
+        printfn  "LimitedValue"
+        DemoLimitedValue.demo1()
+        printfn  ""
+        printfn  "DependentType"
+        DemoDependentType.demo1()
 
-        match parsedCommand.Error with
-            | Some e -> 
-                printfn "%s" <| formatExceptionDisplay e
-                printfn "%s" parsedCommand.Usage
-            | None -> 
-                printfn "%A" parsedCommand
+        printfn  ""
+        printfn  "LimitedValue"
+        DemoLimitedValue.demo2()
+        printfn  ""
+        printfn  "DependentType"
+        DemoDependentType.demo2()
 
+        printfn  ""
+        printfn  "LimitedValue"
+        DemoLimitedValue.demo3()
+        printfn  ""
+        printfn  "DependentType"
+        DemoDependentType.demo3()
+
+        DemoDependentType.demo4()
+
+        DemoDependentType.demo5()
+
+        printfn  ""
         printfn "Hit any key to exit."
         System.Console.ReadKey() |> ignore
         0

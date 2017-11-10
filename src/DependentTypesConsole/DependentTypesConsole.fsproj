@@ -44,6 +44,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoLimitedValue.fs" />
+    <Compile Include="DemoDependentType.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
   </ItemGroup>
