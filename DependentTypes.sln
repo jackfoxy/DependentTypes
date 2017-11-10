@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ED8079DD-2B06-4030-9F0F-DC548F98E1C4}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DomainLib.Tests", "tests\DependentTypes.Tests\DomainLib.Tests.fsproj", "{C7CA54E7-DB18-4203-BD04-438CA319E8B0}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DomainLib.Tests", "tests\DomainLib.Tests\DomainLib.Tests.fsproj", "{C7CA54E7-DB18-4203-BD04-438CA319E8B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{078A9C52-DDC1-46F4-9235-9E6C89C87AFD}"
 	ProjectSection(SolutionItems) = preProject
