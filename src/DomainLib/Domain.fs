@@ -5,42 +5,39 @@ open System
 open System.Text.RegularExpressions
 
 module TrimNonEmptyStringDef =
-    let verifyTrimNonEmptyString config (value : string) =
+    let verifyTrimNonEmptyString _ (value : string) =
         if String.IsNullOrWhiteSpace value then
             None        
         else 
             Some <| value.Trim()
 
-    type NonEmptyValidator(config) = 
-        inherit Cctor<unit, string, string>(config, verifyTrimNonEmptyString)
-        new() = NonEmptyValidator(())
+    type NonEmptyValidator() = 
+        inherit Cctor<unit, string, string>((), verifyTrimNonEmptyString)
 
     type NonEmpty () = inherit NonEmptyValidator()
 
 type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string> 
 
 module UtcDateTimeDef =
-    let verifyUtcDateTime config (value : DateTime) =
+    let verifyUtcDateTime _ (value : DateTime) =
         Some <| value.ToUniversalTime()     
 
-    type UtcDateTimeValidator(config) = 
-        inherit Cctor<unit, DateTime, DateTime>(config, verifyUtcDateTime)
-        new() = UtcDateTimeValidator(())
+    type UtcDateTimeValidator() = 
+        inherit Cctor<unit, DateTime, DateTime>((), verifyUtcDateTime)
 
     type ValidUtcDateTime () = inherit UtcDateTimeValidator()
     
 type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime, DateTime> 
 
 module NonEmptySetDef =
-    let verifyNonEmptySet f (value : Set<int>) =
+    let verifyNonEmptySet _ (value : Set<int>) =
         if value.Count > 0 then
             Some value  
         else
             None
 
-    type NonEmptySetValidator(config) = 
-        inherit Validator<unit, Set<int>>(config, verifyNonEmptySet)
-        new() = NonEmptySetValidator(())
+    type NonEmptySetValidator() = 
+        inherit Validator<unit, Set<int>>((), verifyNonEmptySet)
 
     type ValidNonEmptySet() = inherit NonEmptySetValidator()
     
@@ -70,7 +67,6 @@ module UpperLatinDef =
 
     type UpperLatinValidator(config) = 
         inherit Cctor<int, string, string>(config, verifyUpperLatin)
-        new() = UpperLatinValidator(0)
 
     type ValidUpperLatin2 () = inherit UpperLatinValidator(2)
     type ValidUpperLatin3 () = inherit UpperLatinValidator(3)
@@ -85,7 +81,6 @@ module DigitsDef =
 
     type DigitsValidator(config) = 
         inherit Cctor<int, string, string>(config, verifyDigits)
-        new() = DigitsValidator(0)
 
     type ValidDigits () = inherit DigitsValidator(0)
     type ValidDigits2 () = inherit DigitsValidator(2)
@@ -96,4 +91,3 @@ type Digits = DependentType<DigitsDef.ValidDigits, int, string, string>
 type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
 type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
-

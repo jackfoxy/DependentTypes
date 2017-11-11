@@ -53,6 +53,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DependentTypesConsole", "sr
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DomainLib", "src\DomainLib\DomainLib.fsproj", "{7DDDA547-CF56-41E9-B67E-4C5033CDB037}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DependentTypes.Tests", "tests\DependentTypes.Tests\DependentTypes.Tests.fsproj", "{D56F4735-245A-46EC-8FFC-FF004366DF3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{7DDDA547-CF56-41E9-B67E-4C5033CDB037}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DDDA547-CF56-41E9-B67E-4C5033CDB037}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DDDA547-CF56-41E9-B67E-4C5033CDB037}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D56F4735-245A-46EC-8FFC-FF004366DF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D56F4735-245A-46EC-8FFC-FF004366DF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D56F4735-245A-46EC-8FFC-FF004366DF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D56F4735-245A-46EC-8FFC-FF004366DF3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{83F16175-43B1-4C90-A1EE-8E351C33435D} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
 		{8E6D5255-776D-4B61-85F9-73C37AA1FB9A} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
 		{C7CA54E7-DB18-4203-BD04-438CA319E8B0} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
+		{D56F4735-245A-46EC-8FFC-FF004366DF3D} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A77D573-8218-4FA7-9170-4BCA01975266}

@@ -139,3 +139,28 @@ let demo5() =
     let neg500ValToString5 : Option<String5> = convertTo neg500Val
 
     printfn "neg500Val converted to String5: %A of type %A" neg500ValToString5.Value <| neg500ValToString5.GetType()
+
+let demo6() =
+    let neg500_1 =  (Multiply5ToString.TryParse -100).Value
+    let neg500_2 =  (Multiply5ToString.TryParse -100).Value
+
+    printfn "same values equal?: %b" (neg500_1 = neg500_2)
+
+let demo6_1() =
+    let neg500 =  (Multiply5ToString.TryParse -100).Value
+    let neg1000 =  (Multiply5ToString.TryParse -200).Value
+
+    printfn "unequal values equal?: %b" (neg500 = neg1000)
+
+
+let demo7() =
+    let n1 =  (String5.TryParse "100").Value
+    let n2 =  (String5.TryParse "200").Value
+    let n3 =  (String5.TryParse "300").Value
+    let n4 =  (String5.TryParse "400").Value
+    let n5 =  (String5.TryParse "500").Value
+
+    let l1 = [n1; n2; n3; n4; n5]
+    let l2 = [n5; n4; n1; n2; n3]
+
+    printfn "supports comparison?: %b" (l1 = (l2 |> List.sort))

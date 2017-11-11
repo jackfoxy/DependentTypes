@@ -30,6 +30,12 @@ module console1 =
 
         DemoDependentType.demo5()
 
+        DemoDependentType.demo6()
+
+        DemoDependentType.demo6_1()
+
+        DemoDependentType.demo7()
+
         printfn  ""
         printfn "Hit any key to exit."
         System.Console.ReadKey() |> ignore

@@ -28,17 +28,12 @@ type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime
 
 module NonEmptySetDef =
     type NonEmptySetValidator =
-      class
         inherit Validator<unit,Set<int>>
-        new : unit -> NonEmptySetValidator
-        new : config:unit -> NonEmptySetValidator
-      end
+        new : config : unit -> NonEmptySetValidator
 
     type ValidNonEmptySet =
-      class
         inherit NonEmptySetValidator
         new : unit -> ValidNonEmptySet
-      end
 
 /// note using LimitedValue<'Validator, 'Config, 'T> type, not DependentType<'Cctor, 'Config, 'T, 'T2>
 type NonEmptyIntSet = LimitedValue<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>

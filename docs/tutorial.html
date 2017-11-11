@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Introducing your project
+    <title>Dependent types tutorial
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="F# DependentTypes"/>
@@ -33,8 +33,12 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1><a name="Introducing-your-project" class="anchor" href="#Introducing-your-project">Introducing your project</a></h1>
-<p>Say more</p>
+<h1><a name="Dependent-types-tutorial" class="anchor" href="#Dependent-types-tutorial">Dependent types tutorial</a></h1>
+<p>Most of the examples support both the <code>'T1 -&gt; 'T2</code> (named DependentType) and <code>'T -&gt; 'T</code> (named LimitedValue) style
+dependent types.</p>
+<h3><a name="Trimmed-non-empty-non-null-strings" class="anchor" href="#Trimmed-non-empty-non-null-strings">Trimmed, non-empty, non-null strings</a></h3>
+<p>The <code>module</code> is for code formatting purposes. Otherwise it serves no functional purpose. This is an example of passing <code>unit</code>
+as the <code>config</code>.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -75,7 +79,7 @@
 </code></pre></td>
 </tr>
 </table>
-<p>Some more info</p>
+<p>The <code>DependentType.Value</code> returns the element in its base type.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -86,6 +90,8 @@
 <span class="l"> 8: </span>
 <span class="l"> 9: </span>
 <span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">myGoodString</span> <span class="o">=</span> (<span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryParse</span> <span class="s">&quot;good string   &quot;</span>)<span class="o">.</span><span class="i">Value</span>
 
@@ -94,14 +100,205 @@
 <span class="c">// DependentType &quot;good string&quot;</span>
 <span class="i">printfn</span> <span class="s">&quot;%A&quot;</span> <span class="i">myGoodString</span>
 
+<span class="c">// &quot;good string&quot;</span>
+<span class="i">printfn</span> <span class="s">&quot;%s&quot;</span> <span class="i">myGoodString</span><span class="o">.</span><span class="i">Value</span>
 
 <span class="c">// true</span>
 <span class="i">printfn</span> <span class="s">&quot;%b&quot;</span> <span class="i">notTrimNonEmptyString</span><span class="o">.</span><span class="i">IsNone</span>
 </code></pre></td>
 </tr>
 </table>
-<p>Some more info</p>
-<p>Some more info</p>
+<h3><a name="Overloaded-try-and-parse-create-methods" class="anchor" href="#Overloaded-try-and-parse-create-methods">Overloaded try and parse (create) methods</a></h3>
+<p>If the dependent type construction is guaranteed to return <code>Some</code>, you can safely use the <code>Parse</code> method.</p>
+<p>If <code>DependentType</code> supported method extensions, only 1 <code>TryParse</code> static member would be required, and users
+could overload <code>TryParse``` and</code>Parse<code>to meet their needs. For now we must provide all necessary overloads in
+the</code>DependentTypes```` library.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">UtcDateTimeDef</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="i">verifyUtcDateTime</span> _ (<span class="i">value</span> <span class="o">:</span> <span class="i">DateTime</span>) <span class="o">=</span>
+        <span class="i">Some</span> <span class="o">&lt;|</span> <span class="i">value</span><span class="o">.</span><span class="i">ToUniversalTime</span>()     
+
+    <span class="k">type</span> <span class="i">UtcDateTimeValidator</span>() <span class="o">=</span> 
+        <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">unit</span>, <span class="i">DateTime</span>, <span class="i">DateTime</span><span class="o">&gt;</span>((), <span class="i">verifyUtcDateTime</span>)
+
+    <span class="k">type</span> <span class="i">ValidUtcDateTime</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">UtcDateTimeValidator</span>()
+    
+<span class="k">type</span> <span class="i">UtcDateTime</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">UtcDateTimeDef</span><span class="o">.</span><span class="i">ValidUtcDateTime</span>, <span class="i">unit</span>, <span class="i">DateTime</span>, <span class="i">DateTime</span><span class="o">&gt;</span> 
+
+<span class="k">let</span> <span class="i">utcTime</span> <span class="o">=</span> <span class="i">DateTime</span><span class="o">.</span><span class="i">Now</span> <span class="o">|&gt;</span> <span class="i">UtcDateTime</span><span class="o">.</span><span class="i">Parse</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Generalized-and-specific-type-creation" class="anchor" href="#Generalized-and-specific-type-creation">Generalized and specific type creation</a></h3>
+<p>Use the <code>config</code> input to make more specific types over a generalized validator function.</p>
+<p>Construct the <code>DependentType option</code> one of two ways</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">validate</span> <span class="i">normalize</span> <span class="i">fn</span> <span class="i">v</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="i">fn</span> (<span class="i">normalize</span> <span class="i">v</span>) <span class="k">then</span> <span class="i">Some</span> (<span class="i">normalize</span> <span class="i">v</span>) <span class="k">else</span> <span class="i">None</span>
+
+<span class="c">//let validateLen len s = </span>
+<span class="c">//    validate id (fun (s:string) -&gt; s.Length &lt;= len) s</span>
+
+<span class="c">//type LenValidator(config) = </span>
+<span class="c">//    inherit Cctor&lt;int, string, string&gt;(config, validateLen)</span>
+<span class="k">let</span> <span class="i">validateRange</span> (<span class="i">min</span>,<span class="i">max</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> <span class="i">id</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&gt;</span><span class="o">=</span> <span class="i">min</span> <span class="o">&amp;&amp;</span> <span class="i">v</span> <span class="o">&lt;=</span> <span class="i">max</span>) <span class="i">v</span>
+
+<span class="k">type</span> <span class="i">NumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateRange</span>)
+
+<span class="k">type</span> <span class="i">MaxPos100</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="n">0</span>, <span class="n">100</span>)
+
+<span class="k">type</span> <span class="i">PositiveInt100</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">MaxPos100</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+
+<span class="k">let</span> <span class="i">a</span> <span class="o">:</span> <span class="i">Option</span><span class="o">&lt;</span><span class="i">PositiveInt100</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">mkDependentType</span> <span class="n">100</span>
+
+<span class="k">let</span> <span class="i">b</span> <span class="o">=</span> <span class="i">PositiveInt100</span><span class="o">.</span><span class="i">TryParse</span> <span class="n">100</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Working-with-the-underlying-element" class="anchor" href="#Working-with-the-underlying-element">Working with the underlying element</a></h3>
+<p>Return the underlying typed element with the <code>extract</code> function or the <code>Value</code> property.</p>
+<p><code>DependentType.ToString()</code> implements the underlying element's type <code>ToString()</code>.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">a&#39;</span> <span class="o">=</span> <span class="i">a</span><span class="o">.</span><span class="i">Value</span> <span class="o">|&gt;</span> <span class="i">extract</span>
+<span class="k">let</span> <span class="i">b&#39;</span> <span class="o">=</span> <span class="i">b</span><span class="o">.</span><span class="i">Value</span><span class="o">.</span><span class="i">Value</span>
+
+<span class="c">// 100</span>
+<span class="i">printfn</span> <span class="s">&quot;%i&quot;</span> <span class="i">a&#39;</span>
+
+<span class="c">// &quot;100&quot;</span>
+<span class="i">printfn</span> <span class="s">&quot;%s&quot;</span> <span class="o">&lt;|</span> <span class="i">b</span><span class="o">.</span><span class="i">ToString</span>()
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Converting-between-dependent-types" class="anchor" href="#Converting-between-dependent-types">Converting between dependent types</a></h3>
+<p><code>convertTo</code> supports trying to convert between dependent types. F# type inference cannot infer the resulting option type, therefore a hint is needed.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="i">MaxPos200</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="n">0</span>, <span class="n">200</span>)
+
+<span class="k">type</span> <span class="i">PositiveInt200</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">MaxPos100</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+
+<span class="k">let</span> <span class="i">valToString5</span> <span class="o">:</span> <span class="i">Option</span><span class="o">&lt;</span><span class="i">PositiveInt200</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">convertTo</span> <span class="i">a</span><span class="o">.</span><span class="i">Value</span>
+
+<span class="i">printfn</span> <span class="s">&quot;PositiveInt100 converted to PositiveInt200: %A of type %A&quot;</span> <span class="i">valToString5</span><span class="o">.</span><span class="i">Value</span> <span class="o">&lt;|</span> <span class="i">valToString5</span><span class="o">.</span><span class="i">GetType</span>()
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="A-dependent-function-example" class="anchor" href="#A-dependent-function-example">A dependent function example</a></h3>
+<p>Most treatises on type theory include the dependent function type and the dependent pair type to introduce dependent typing.</p>
+<p>It's hard to think of a practical use for a dependent function in a strongly typed programming language. The
+example requires knowing in advance the type returned by specifying the type hint, and of course this
+technique of boxing is not limited to dependent types.</p>
+<p>This is just some fun code that further exercises dependent types.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">Helpers</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="i">validateMax</span> (<span class="i">max</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> <span class="i">id</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&lt;=</span> <span class="i">max</span>) <span class="i">v</span>
+    <span class="k">let</span> <span class="i">validateMin</span> (<span class="i">min</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> <span class="i">id</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&gt;</span><span class="o">=</span> <span class="i">min</span>) <span class="i">v</span>
+    <span class="k">type</span> <span class="i">MinNumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateMin</span>)
+    <span class="k">type</span> <span class="i">MaxNumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateMax</span>)
+
+    <span class="k">type</span> <span class="i">RangeMinus100To100</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="o">-</span><span class="n">100</span>, <span class="n">100</span>)
+    <span class="k">type</span> <span class="i">Min101</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">MinNumRangeValidator</span>(<span class="n">101</span>)
+    <span class="k">type</span> <span class="i">MaxMinus101</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">MaxNumRangeValidator</span>(<span class="o">-</span><span class="n">101</span>)
+
+<span class="k">type</span> <span class="i">Minus100To100</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">Helpers</span><span class="o">.</span><span class="i">RangeMinus100To100</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">GT100</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">Helpers</span><span class="o">.</span><span class="i">Min101</span>, <span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">LTminus100</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">Helpers</span><span class="o">.</span><span class="i">MaxMinus101</span>, <span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+
+<span class="c">/// this is a dependent function</span>
+<span class="c">/// the type hint is not necessary, only to enhance the intellisense</span>
+<span class="k">let</span> <span class="i">f</span> <span class="i">n</span> <span class="o">:</span> <span class="i">DependentType</span><span class="o">&lt;</span>_, _, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span> <span class="o">=</span>
+    <span class="k">match</span> <span class="i">n</span> <span class="k">with</span>
+    | <span class="i">n&#39;</span> <span class="k">when</span> <span class="i">n&#39;</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">100</span> <span class="k">-&gt;</span> (<span class="i">LTminus100</span><span class="o">.</span><span class="i">TryParse</span> <span class="i">n</span>)<span class="o">.</span><span class="i">Value</span> <span class="o">|&gt;</span> <span class="i">box</span>
+    | <span class="i">n&#39;</span> <span class="k">when</span> <span class="i">n&#39;</span> <span class="o">&gt;</span> <span class="n">100</span> <span class="k">-&gt;</span> (<span class="i">GT100</span><span class="o">.</span><span class="i">TryParse</span> <span class="i">n</span>)<span class="o">.</span><span class="i">Value</span> <span class="o">|&gt;</span> <span class="i">box</span>
+    | _ <span class="k">-&gt;</span> (<span class="i">Minus100To100</span><span class="o">.</span><span class="i">TryParse</span> <span class="i">n</span> )<span class="o">.</span><span class="i">Value</span><span class="o">|&gt;</span> <span class="i">box</span>
+    <span class="o">|&gt;</span> <span class="i">unbox</span>
+
+<span class="k">let</span> <span class="i">lTminus100</span> <span class="o">:</span> <span class="i">LTminus100</span> <span class="o">=</span> <span class="i">f</span> <span class="o">-</span><span class="n">200</span>
+<span class="k">let</span> <span class="i">gT100</span> <span class="o">:</span> <span class="i">GT100</span> <span class="o">=</span> <span class="i">f</span> <span class="n">101</span>
+<span class="k">let</span> <span class="i">minus100To100</span> <span class="o">:</span> <span class="i">Minus100To100</span> <span class="o">=</span> <span class="i">f</span> <span class="n">1</span>
+
+<span class="i">printfn</span> <span class="s">&quot;dependent function result is: %A of type %A&quot;</span> <span class="i">lTminus100</span> <span class="o">&lt;|</span> <span class="i">lTminus100</span><span class="o">.</span><span class="i">GetType</span>()
+<span class="i">printfn</span> <span class="s">&quot;dependent function result is: %A of type %A&quot;</span> <span class="i">gT100</span> <span class="o">&lt;|</span> <span class="i">gT100</span><span class="o">.</span><span class="i">GetType</span>()
+<span class="i">printfn</span> <span class="s">&quot;dependent function result is: %A of type %A&quot;</span> <span class="i">minus100To100</span> <span class="o">&lt;|</span>  <span class="i">minus100To100</span><span class="o">.</span><span class="i">GetType</span>()
+</code></pre></td>
+</tr>
+</table>
 
 
         </div>
