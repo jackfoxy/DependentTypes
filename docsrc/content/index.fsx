@@ -112,7 +112,7 @@ Samples & documentation
    and functions in the library. This includes additional brief samples on using most of the
    functions.
 
- * The DomainLib project is a sample library of useful dependent types:
+ * The [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib) project is a sample library of useful dependent types:
 
  **trimmed, non-empty, non-null string**
 
@@ -124,8 +124,10 @@ Samples & documentation
 
  **digit string of undetermined or static length**
 
- * The DependentTypesConsole project runs demos on both the ````'T1 -> 'T2```` and ````'T -> 'T```` style
+ * The [DependentTypesConsole](https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypesConsole) project runs demos on both the ````'T1 -> 'T2```` and ````'T -> 'T```` style
    dependent types.
+
+ * [Expecto](https://github.com/haf/expecto) test projects for both [DependentTypes](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DependentTypes.Tests) library and the [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DomainLib.Tests) sample dependent types.
 
 Issues
 ------
