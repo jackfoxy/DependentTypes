@@ -66,8 +66,9 @@ type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
 
 let myDigits = Digits.Parse "0938"
+let myDigitsofLength3 = Digits.Parse "007"
 (**
-Notes: 
+### Notes: 
 
 1. The full validation function ````regExStringVerify```` is not shown.
 
@@ -79,7 +80,9 @@ Notes:
 
 5. Yes, ````Cctor```` is not really a constructor.
 
-6. With possible changes to the F# language, the intervening ````'Config```` consuming helper type may be superfluous.
+6. With [possible changes to the F# language](https://github.com/jackfoxy/DependentTypes/issues/3), the intervening ````'Config```` consuming helper type may be superfluous.
+
+### Alternate form of dependent types
 
 Alternately, a dependent type that restricts the underlying base type to the input element type is less complex insofar as it takes one less type parameter.
 *)
@@ -111,15 +114,15 @@ Samples & documentation
 
  * The DomainLib project is a sample library of useful dependent types:
 
- trimmed, non-empty, non-null string
+ **trimmed, non-empty, non-null string**
 
- non-empty integer set
+ **non-empty integer set**
 
- utc datetime
+ **utc datetime**
 
- uppercase Latin string of undetermined or static length
+ **uppercase Latin string of undetermined or static length**
 
- digit string of undetermined or static length
+ **digit string of undetermined or static length**
 
  * The DependentTypesConsole project runs demos on both the ````'T1 -> 'T2```` and ````'T -> 'T```` style
    dependent types.
@@ -129,11 +132,11 @@ Issues
 
 Several issues are available for discussion. Among the most interesting
 
- * Dependent types do not support extension methods.
+ * [Dependent types do not support extension methods](https://github.com/jackfoxy/DependentTypes/issues/1).
  
- * What is the best verb to describe the create / try create method?
+ * [What is the best verb to describe the create / try create method?](https://github.com/jackfoxy/DependentTypes/issues/2)
 
- * Future direction: literal type parameters.
+ * [Future direction: literal type parameters](https://github.com/jackfoxy/DependentTypes/issues/3).
  
 Contributing and copyright
 --------------------------
@@ -144,7 +147,7 @@ Further discussion [here](https://github.com/robkuz/robkuz.github.io/issues/6)
 
 You can [report issues][issues], fork 
 the project, and submit pull requests. Please also 
-add tests and [samples][content] that can be turned into a documentation.
+add tests and samples that can be turned into a [documentation](https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content).
 
 The library is available under Public Domain license, which allows modification and 
 redistribution for both commercial and non-commercial purposes. For more information see the 

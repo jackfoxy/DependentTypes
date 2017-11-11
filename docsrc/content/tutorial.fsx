@@ -54,7 +54,7 @@ printfn "%b" notTrimNonEmptyString.IsNone
 If the dependent type construction is guaranteed to return ````Some````, you can safely use the ````Parse```` method.
 
 If ````DependentType```` supported method extensions, only 1 ````TryParse```` static member would be required, and users
-could overload ````TryParse``` and ````Parse```` to meet their needs. For now we must provide all necessary overloads in
+could overload ````TryParse```` and ````Parse```` to meet their needs. For now we must provide all necessary overloads in
 the ````DependentTypes```` library.
 *)
 module UtcDateTimeDef =

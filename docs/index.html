@@ -79,6 +79,7 @@ taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent
 <span class="l">19: </span>
 <span class="l">20: </span>
 <span class="l">21: </span>
+<span class="l">22: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">robkuz</span><span class="o">.</span><span class="i">DependentTypes</span>
 
@@ -101,18 +102,20 @@ taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent
 <span class="k">type</span> <span class="i">Digits4</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">DigitsDef</span><span class="o">.</span><span class="i">ValidDigits4</span>, <span class="i">int</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span>
 
 <span class="k">let</span> <span class="i">myDigits</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Parse</span> <span class="s">&quot;0938&quot;</span>
+<span class="k">let</span> <span class="i">myDigitsofLength3</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Parse</span> <span class="s">&quot;007&quot;</span>
 </code></pre></td>
 </tr>
 </table>
-<p>Notes:</p>
+<h3><a name="Notes" class="anchor" href="#Notes">Notes:</a></h3>
 <ol>
 <li><p>The full validation function <code>regExStringVerify</code> is not shown.</p></li>
 <li><p>The presence of <code>module DigitsDef</code> is strictly for readability purposes, segregating all the "helper" functions and types.</p></li>
 <li>All the helpers types must have the same access level as the dependent type.</li>
 <li>Aliasing is optional, but obviously provides better readability.</li>
 <li><p>Yes, <code>Cctor</code> is not really a constructor.</p></li>
-<li><p>With possible changes to the F# language, the intervening <code>'Config</code> consuming helper type may be superfluous.</p></li>
+<li><p>With <a href="https://github.com/jackfoxy/DependentTypes/issues/3">possible changes to the F# language</a>, the intervening <code>'Config</code> consuming helper type may be superfluous.</p></li>
 </ol>
+<h3><a name="Alternate-form-of-dependent-types" class="anchor" href="#Alternate-form-of-dependent-types">Alternate form of dependent types</a></h3>
 <p>Alternately, a dependent type that restricts the underlying base type to the input element type is less complex insofar as it takes one less type parameter.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -158,11 +161,11 @@ functions.</p>
 </li>
 <li>
 <p>The DomainLib project is a sample library of useful dependent types:</p>
-<p>trimmed, non-empty, non-null string</p>
-<p>non-empty integer set</p>
-<p>utc datetime</p>
-<p>uppercase Latin string of undetermined or static length</p>
-<p>digit string of undetermined or static length</p>
+<p><strong>trimmed, non-empty, non-null string</strong></p>
+<p><strong>non-empty integer set</strong></p>
+<p><strong>utc datetime</strong></p>
+<p><strong>uppercase Latin string of undetermined or static length</strong></p>
+<p><strong>digit string of undetermined or static length</strong></p>
 </li>
 <li>
 <p>The DependentTypesConsole project runs demos on both the <code>'T1 -&gt; 'T2</code> and <code>'T -&gt; 'T</code> style
@@ -172,9 +175,9 @@ dependent types.</p>
 <h2><a name="Issues" class="anchor" href="#Issues">Issues</a></h2>
 <p>Several issues are available for discussion. Among the most interesting</p>
 <ul>
-<li>Dependent types do not support extension methods.</li>
-<li>What is the best verb to describe the create / try create method?</li>
-<li>Future direction: literal type parameters.</li>
+<li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/1">Dependent types do not support extension methods</a>.</p></li>
+<li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/2">What is the best verb to describe the create / try create method?</a></p></li>
+<li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/3">Future direction: literal type parameters</a>.</p></li>
 </ul>
 <h2><a name="Contributing-and-copyright" class="anchor" href="#Contributing-and-copyright">Contributing and copyright</a></h2>
 <p>This library is based on original experiments by @robkuz with the LimitedValue type,
@@ -182,7 +185,7 @@ dependent types.</p>
 Further discussion <a href="https://github.com/robkuz/robkuz.github.io/issues/6">here</a></p>
 <p>You can <a href="https://github.com/jackfoxy/DependentTypes/issues">report issues</a>, fork
 the project, and submit pull requests. Please also
-add tests and <a href="https://github.com/jackfoxy/DependentTypes/tree/master/docs/content">samples</a> that can be turned into a documentation.</p>
+add tests and samples that can be turned into a <a href="https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content">documentation</a>.</p>
 <p>The library is available under Public Domain license, which allows modification and
 redistribution for both commercial and non-commercial purposes. For more information see the
 <a href="https://github.com/jackfoxy/DependentTypes/blob/master/LICENSE.txt">License file</a> in the GitHub repository.</p>
