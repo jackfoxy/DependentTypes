@@ -26,9 +26,8 @@ module TrimNonEmptyStringDef =
         else 
             Some <| value.Trim()
 
-    type NonEmptyValidator(config) = 
-        inherit Cctor<unit, string, string>(config, verifyTrimNonEmptyString)
-        new() = NonEmptyValidator(())
+    type NonEmptyValidator() = 
+        inherit Cctor<unit, string, string>((), verifyTrimNonEmptyString)
 
     type NonEmpty () = inherit NonEmptyValidator()
 
@@ -122,44 +121,3 @@ type PositiveInt200 = DependentType<MaxPos100, int * int, int, int>
 let valToString5 : Option<PositiveInt200> = convertTo a.Value
 
 printfn "PositiveInt100 converted to PositiveInt200: %A of type %A" valToString5.Value <| valToString5.GetType()
-(**
-### A dependent function example
-
-Most treatises on type theory include the dependent function type and the dependent pair type to introduce dependent typing.
-
-It's hard to think of a practical use for a dependent function in a strongly typed programming language. The
-example requires knowing in advance the type returned by specifying the type hint, and of course this
-technique of boxing is not limited to dependent types.
-
-This is just some fun code that further exercises dependent types.
-*)
-module Helpers =
-    let validateMax (max) v = validate id (fun v -> v <= max) v
-    let validateMin (min) v = validate id (fun v -> v >= min) v
-    type MinNumRangeValidator(config) = inherit Cctor<int, int, int>(config, validateMin)
-    type MaxNumRangeValidator(config) = inherit Cctor<int, int, int>(config, validateMax)
-
-    type RangeMinus100To100 () = inherit NumRangeValidator(-100, 100)
-    type Min101 () = inherit MinNumRangeValidator(101)
-    type MaxMinus101 () = inherit MaxNumRangeValidator(-101)
-
-type Minus100To100 = DependentType<Helpers.RangeMinus100To100, int * int, int, int>
-type GT100 = DependentType<Helpers.Min101, int, int, int>
-type LTminus100 = DependentType<Helpers.MaxMinus101, int, int, int>
-
-/// this is a dependent function
-/// the type hint is not necessary, only to enhance the intellisense
-let f n : DependentType<_, _, int, int> =
-    match n with
-    | n' when n' < -100 -> (LTminus100.TryParse n).Value |> box
-    | n' when n' > 100 -> (GT100.TryParse n).Value |> box
-    | _ -> (Minus100To100.TryParse n ).Value|> box
-    |> unbox
-
-let lTminus100 : LTminus100 = f -200
-let gT100 : GT100 = f 101
-let minus100To100 : Minus100To100 = f 1
-
-printfn "dependent function result is: %A of type %A" lTminus100 <| lTminus100.GetType()
-printfn "dependent function result is: %A of type %A" gT100 <| gT100.GetType()
-printfn "dependent function result is: %A of type %A" minus100To100 <|  minus100To100.GetType()
