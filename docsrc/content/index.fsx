@@ -85,6 +85,9 @@ let myDigitsofLength3 = Digits.Create "007"
 ### Alternate form of dependent types
 
 Alternately, a dependent type that restricts the underlying base type to the input element type is less complex insofar as it takes one less type parameter.
+
+See the [Tutorial](tutorial.html) and [sampple library of dependent types](https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib) for an
+example of a generic collection type, ````Set<'T>````.
 *)
 module NonEmptySetDef =
     let verifyNonEmptySet _ (value : Set<int>) =
@@ -116,7 +119,7 @@ Samples & documentation
 
  **trimmed, non-empty, non-null string**
 
- **non-empty integer set**
+ **non-empty generic set**
 
  **utc datetime**
 

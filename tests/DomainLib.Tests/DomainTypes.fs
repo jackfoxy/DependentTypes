@@ -292,6 +292,20 @@ module DomainTypes =
                 let ordered =
                     [Digits4.TryCreate "5555"; Digits4.TryCreate "1111"; Digits4.TryCreate "2232"; Digits4.TryCreate "2222"; ]
                     |> List.sort
-                Expect.isTrue (ordered = [Digits4.TryCreate "1111"; Digits4.TryCreate "2222"; Digits4.TryCreate "2232"; Digits4.TryCreate "5555"; ])
+                Expect.equal ordered [Digits4.TryCreate "1111"; Digits4.TryCreate "2222"; Digits4.TryCreate "2232"; Digits4.TryCreate "5555"; ]
+                    "expected equality"
+        ]
+
+    [<Tests>]
+    let genericSet =
+        testList "DomainTypes.GenericSet" [
+            testCase "int" <| fun () ->
+                let nonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.Create
+                Expect.equal nonEmptyIntSet.Value ([1;2;3] |> Set.ofList)
+                    "expected equality"
+
+            testCase "string" <| fun () ->
+                let nonEmptyIntSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.Create
+                Expect.equal nonEmptyIntSet.Value (["Rob";"Jack";"Don"] |> Set.ofList)
                     "expected equality"
         ]

@@ -121,3 +121,24 @@ type PositiveInt200 = DependentType<MaxPos100, int * int, int, int>
 let valToString5 : Option<PositiveInt200> = convertTo a.Value
 
 printfn "PositiveInt100 converted to PositiveInt200: %A of type %A" valToString5.Value <| valToString5.GetType()
+(**
+### Generic dependent types
+
+You can also create generic dependent types.
+*)
+module NonEmptySetDef =
+    let verifyNonEmptySet _ (value : Set<'T>) =
+        if value.Count > 0 then
+            Some value  
+        else
+            None
+
+    type NonEmptySetValidator<'T when 'T : comparison>() = 
+        inherit Cctor<unit, Set<'T>, Set<'T>>((), verifyNonEmptySet)
+
+    type ValidNonEmptySet<'T when 'T : comparison>() = inherit NonEmptySetValidator<'T>()
+    
+type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>, Set<'T>>
+
+let myNonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.Create
+let myNonEmptyStringSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.Create
