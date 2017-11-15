@@ -91,3 +91,27 @@ type Digits = DependentType<DigitsDef.ValidDigits, int, string, string>
 type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
 type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
+
+module IntRange =
+    let validate fn v =
+        if fn v then Some v else None
+    let validateRange (min,max) v = validate (fun v -> v >= min && v <= max) v
+    let validateMin (min) v = validate (fun v -> v >= min) v
+    let validateMax (max) v = validate (fun v -> v <= max) v
+
+    type NumRangeValidator(config) = inherit Validator<int * int, int>(config, validateRange)
+    type MinNumRangeValidator(config) = inherit Validator<int, int>(config, validateMin)
+    type MaxNumRangeValidator(config) = inherit Validator<int, int>(config, validateMax)
+
+    type MaxPos100 () = inherit NumRangeValidator(0, 100)
+    type MaxPos20000 () = inherit NumRangeValidator(0, 20000)
+    type RangeMinus100To100 () = inherit NumRangeValidator(-100, 100)
+    type Min101 () = inherit MinNumRangeValidator(101)
+    type MaxMinus101 () = inherit MaxNumRangeValidator(-101)
+
+type PositiveInt100 = LimitedValue<IntRange.MaxPos100, int * int, int>
+type PositiveInt20000 = LimitedValue<IntRange.MaxPos20000, int * int, int>
+type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100, int * int, int>
+
+type GT100 = LimitedValue<IntRange.Min101, int, int>
+type LTminus100 = LimitedValue<IntRange.MaxMinus101, int, int>

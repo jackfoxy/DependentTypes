@@ -265,6 +265,58 @@ the <code>DependentTypes</code> library.</p>
 </code></pre></td>
 </tr>
 </table>
+<h3><a name="Limit-values-to-ranges" class="anchor" href="#Limit-values-to-ranges">Limit values to ranges</a></h3>
+<p>Exercise for the student: make the following dependent types for generic numbers.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">IntRange</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="i">validate</span> <span class="i">fn</span> <span class="i">v</span> <span class="o">=</span>
+        <span class="k">if</span> <span class="i">fn</span> <span class="i">v</span> <span class="k">then</span> <span class="i">Some</span> <span class="i">v</span> <span class="k">else</span> <span class="i">None</span>
+    <span class="k">let</span> <span class="i">validateRange</span> (<span class="i">min</span>,<span class="i">max</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&gt;</span><span class="o">=</span> <span class="i">min</span> <span class="o">&amp;&amp;</span> <span class="i">v</span> <span class="o">&lt;=</span> <span class="i">max</span>) <span class="i">v</span>
+    <span class="k">let</span> <span class="i">validateMin</span> (<span class="i">min</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&gt;</span><span class="o">=</span> <span class="i">min</span>) <span class="i">v</span>
+    <span class="k">let</span> <span class="i">validateMax</span> (<span class="i">max</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&lt;=</span> <span class="i">max</span>) <span class="i">v</span>
+
+    <span class="k">type</span> <span class="i">NumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Validator</span><span class="o">&lt;</span><span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateRange</span>)
+    <span class="k">type</span> <span class="i">MinNumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Validator</span><span class="o">&lt;</span><span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateMin</span>)
+    <span class="k">type</span> <span class="i">MaxNumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Validator</span><span class="o">&lt;</span><span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateMax</span>)
+
+    <span class="k">type</span> <span class="i">MaxPos150</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="n">0</span>, <span class="n">150</span>)
+    <span class="k">type</span> <span class="i">MaxPos20000</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="n">0</span>, <span class="n">20000</span>)
+    <span class="k">type</span> <span class="i">RangeMinus100To100</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="o">-</span><span class="n">100</span>, <span class="n">100</span>)
+    <span class="k">type</span> <span class="i">Min101</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">MinNumRangeValidator</span>(<span class="n">101</span>)
+    <span class="k">type</span> <span class="i">MaxMinus101</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">MaxNumRangeValidator</span>(<span class="o">-</span><span class="n">101</span>)
+
+<span class="k">type</span> <span class="i">PositiveInt150</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">MaxPos150</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">PositiveInt20000</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">MaxPos20000</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">Minus100To100</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">RangeMinus100To100</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+
+<span class="k">type</span> <span class="i">GT100</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">Min101</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">LTminus100</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">MaxMinus101</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+</code></pre></td>
+</tr>
+</table>
 
 
         </div>
