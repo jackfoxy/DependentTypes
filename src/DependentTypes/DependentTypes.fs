@@ -66,7 +66,14 @@ type LimitedValue<'Validator, 'Config, 'T when 'Validator :> Validator<'Config, 
         static member TryCreate(x:'T) : Option<LimitedValue<'Validator, 'Config, 'T>> =
             (new 'Validator()).Validate x
             |> Option.map DependentType
-
+        static member Create (x : 'T) : LimitedValue<'Validator, 'Config, 'T> =
+                (LimitedValue.TryCreate x).Value
+        static member Create (xs : 'T seq) : LimitedValue<'Validator, 'Config, 'T> seq =
+            xs
+            |> Seq.choose LimitedValue.TryCreate 
+        static member Create (xs : 'T list) : LimitedValue<'Validator, 'Config, 'T> list =
+            xs
+            |> List.choose LimitedValue.TryCreate 
         static member inline ConvertTo(x : LimitedValue<'x, 'y, 'q> ) : Option<LimitedValue<'a, 'b, 'q>> = 
             let (DependentType v) = x
             mkDependentType v
