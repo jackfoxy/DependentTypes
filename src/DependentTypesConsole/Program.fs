@@ -19,13 +19,6 @@ module console1 =
         printfn  "DependentType"
         DemoDependentType.demo2()
 
-        printfn  ""
-        printfn  "LimitedValue"
-        DemoLimitedValue.demo3()
-        printfn  ""
-        printfn  "DependentType"
-        DemoDependentType.demo3()
-
         DemoDependentType.demo4()
 
         DemoDependentType.demo5()
