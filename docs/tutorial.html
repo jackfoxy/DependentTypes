@@ -317,6 +317,81 @@ the <code>DependentTypes</code> library.</p>
 </code></pre></td>
 </tr>
 </table>
+<h3><a name="Create-and-TryCreate-overrides" class="anchor" href="#Create-and-TryCreate-overrides">Create and TryCreate overrides</a></h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">aa</span> <span class="o">=</span> <span class="i">Some</span> <span class="s">&quot; this string &quot;</span> <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryCreate</span>
+
+<span class="k">let</span> <span class="i">bb</span> <span class="o">=</span> <span class="s">&quot;this string &quot;</span> <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryCreate</span>
+
+<span class="k">let</span> <span class="i">cc</span> <span class="o">=</span> <span class="s">&quot;this string &quot;</span> <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">Create</span>
+
+<span class="k">let</span> <span class="i">dd</span> <span class="o">=</span> [<span class="s">&quot; this string &quot;</span>; <span class="s">&quot;that string&quot;</span>; <span class="s">&quot;the other string &quot;</span>] <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">Create</span>
+
+<span class="k">let</span> <span class="i">ee</span> <span class="o">=</span> [|<span class="s">&quot; this string &quot;</span>; <span class="s">&quot;that string&quot;</span>; <span class="s">&quot;the other string &quot;</span>|] <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">Create</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Why-T1-gt-T2" class="anchor" href="#Why-T1-gt-T2">Why 'T1 -&gt; 'T2?</a></h3>
+<p>So far we have not shown any compelling examples exploiting <code>DependentType</code> taking <code>'T1</code> input to a <code>'T2</code> base type.
+That's because we have not thought of any! But we do not want to deny you the opportunity to come up with your own use case.</p>
+<p>Here is a trivial example:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">TrivialT1toT2</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="i">tryConstruct</span> <span class="i">normalize</span> <span class="i">fn</span> <span class="i">v</span> <span class="o">=</span>
+        <span class="i">fn</span> (<span class="i">normalize</span> <span class="i">v</span>)
+
+    <span class="k">let</span> <span class="i">tryConstructIndexToString</span> <span class="i">i</span> <span class="o">=</span> 
+        <span class="i">tryConstruct</span> <span class="i">id</span> (<span class="k">fun</span> <span class="i">i&#39;</span> <span class="k">-&gt;</span> 
+            (<span class="k">match</span> <span class="i">i&#39;</span> <span class="k">with</span>
+            | <span class="i">n</span> <span class="k">when</span> <span class="i">n</span> <span class="o">&lt;</span> <span class="n">0</span> <span class="k">-&gt;</span> <span class="s">&quot;negative&quot;</span>
+            | <span class="i">n</span> <span class="k">when</span> <span class="i">n</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="k">-&gt;</span> <span class="s">&quot;positive&quot;</span>
+            | _ <span class="k">-&gt;</span> <span class="s">&quot;zero&quot;</span> )
+            <span class="o">|&gt;</span> <span class="i">Some</span> ) <span class="i">i</span>
+
+    <span class="k">let</span> <span class="i">tryIndexToString</span> _ <span class="i">v</span> <span class="o">=</span> <span class="i">tryConstruct</span> <span class="i">id</span> <span class="i">tryConstructIndexToString</span> <span class="i">v</span>
+
+    <span class="k">type</span> <span class="i">IndexToStringCctor</span>() <span class="o">=</span> 
+        <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">unit</span>, <span class="i">int</span>, <span class="i">string</span><span class="o">&gt;</span>((), <span class="i">tryIndexToString</span>)
+
+<span class="k">type</span> <span class="i">IndexToString</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">TrivialT1toT2</span><span class="o">.</span><span class="i">IndexToStringCctor</span>, <span class="i">unit</span>, <span class="i">int</span>, <span class="i">string</span><span class="o">&gt;</span>
+
+<span class="k">let</span> <span class="i">neg</span> <span class="o">=</span>  (<span class="i">IndexToString</span><span class="o">.</span><span class="i">TryCreate</span> <span class="o">-</span><span class="n">100</span>)<span class="o">.</span><span class="i">Value</span>
+
+<span class="i">printfn</span> <span class="s">&quot;%s&quot;</span> <span class="i">neg</span><span class="o">.</span><span class="i">Value</span>
+</code></pre></td>
+</tr>
+</table>
 
 
         </div>

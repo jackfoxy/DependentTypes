@@ -170,3 +170,45 @@ type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100, int * int, int>
 
 type GT100 = LimitedValue<IntRange.Min101, int, int>
 type LTminus100 = LimitedValue<IntRange.MaxMinus101, int, int>
+(**
+### Create and TryCreate overrides
+*)
+let aa = Some " this string " |> TrimNonEmptyString.TryCreate
+
+let bb = "this string " |> TrimNonEmptyString.TryCreate
+
+let cc = "this string " |> TrimNonEmptyString.Create
+
+let dd = [" this string "; "that string"; "the other string "] |> TrimNonEmptyString.Create
+
+let ee = [|" this string "; "that string"; "the other string "|] |> TrimNonEmptyString.Create
+(**
+### Why 'T1 -> 'T2?
+
+So far we have not shown any compelling examples exploiting ````DependentType```` taking ````'T1```` input to a ````'T2```` base type.
+That's because we have not thought of any! But we do not want to deny you the opportunity to come up with your own use case.
+
+Here is a trivial example:
+*)
+module TrivialT1toT2 =
+    let tryConstruct normalize fn v =
+        fn (normalize v)
+
+    let tryConstructIndexToString i = 
+        tryConstruct id (fun i' -> 
+            (match i' with
+            | n when n < 0 -> "negative"
+            | n when n > 0 -> "positive"
+            | _ -> "zero" )
+            |> Some ) i
+
+    let tryIndexToString _ v = tryConstruct id tryConstructIndexToString v
+
+    type IndexToStringCctor() = 
+        inherit Cctor<unit, int, string>((), tryIndexToString)
+
+type IndexToString = DependentType<TrivialT1toT2.IndexToStringCctor, unit, int, string>
+
+let neg =  (IndexToString.TryCreate -100).Value
+
+printfn "%s" neg.Value

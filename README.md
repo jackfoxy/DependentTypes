@@ -1,7 +1,7 @@
 # DependentTypes
 
-experiments with @robkuz LimitedValue type
+Experiments with @robkuz's LimitedValue type to create fully functioning F# dependent types.
 
-[Creating Generic Wrappers for Validated Values](https://robkuz.github.io/Limited-Values/)
+[Documentation and tutorial](https://jackfoxy.github.io/DependentTypes/)
 
-Further discussion [here](https://github.com/robkuz/robkuz.github.io/issues/6)
+Based on the article [Creating Generic Wrappers for Validated Values](https://robkuz.github.io/Limited-Values/) and [discussion here](https://github.com/robkuz/robkuz.github.io/issues/6).

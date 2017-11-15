@@ -36,7 +36,7 @@ let summary = "F# DependentTypes"
 let description = "F# DependentTypes"
 
 // List of author names (for NuGet package)
-let authors = [ "Robert Kuzelj" ]
+let authors = [ "Robert Kuzelj"; "Jack Fox" ]
 
 // Tags for your project (for NuGet package)
 let tags = "DependentTypes DependentType F# fsharp"
