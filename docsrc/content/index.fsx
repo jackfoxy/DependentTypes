@@ -65,8 +65,8 @@ type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
 type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
 
-let myDigits = Digits.Parse "0938"
-let myDigitsofLength3 = Digits.Parse "007"
+let myDigits = Digits.Create "0938"
+let myDigitsofLength3 = Digits.Create "007"
 (**
 ### Notes: 
 
@@ -100,7 +100,7 @@ module NonEmptySetDef =
     
 type NonEmptyIntSet = LimitedValue<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>
 
-let myNonEmptyIntSetOpt = [1;2;3] |> Set.ofList |> NonEmptyIntSet.TryParse
+let myNonEmptyIntSetOpt = [1;2;3] |> Set.ofList |> NonEmptyIntSet.TryCreate
 (**
 
 Samples & documentation

@@ -101,8 +101,8 @@ taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent
 <span class="k">type</span> <span class="i">Digits3</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">DigitsDef</span><span class="o">.</span><span class="i">ValidDigits3</span>, <span class="i">int</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span>
 <span class="k">type</span> <span class="i">Digits4</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">DigitsDef</span><span class="o">.</span><span class="i">ValidDigits4</span>, <span class="i">int</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span>
 
-<span class="k">let</span> <span class="i">myDigits</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Parse</span> <span class="s">&quot;0938&quot;</span>
-<span class="k">let</span> <span class="i">myDigitsofLength3</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Parse</span> <span class="s">&quot;007&quot;</span>
+<span class="k">let</span> <span class="i">myDigits</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Create</span> <span class="s">&quot;0938&quot;</span>
+<span class="k">let</span> <span class="i">myDigitsofLength3</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Create</span> <span class="s">&quot;007&quot;</span>
 </code></pre></td>
 </tr>
 </table>
@@ -147,7 +147,7 @@ taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent
     
 <span class="k">type</span> <span class="i">NonEmptyIntSet</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">NonEmptySetDef</span><span class="o">.</span><span class="i">ValidNonEmptySet</span>, <span class="i">unit</span>, <span class="i">Set</span><span class="o">&lt;</span><span class="i">int</span><span class="o">&gt;</span><span class="o">&gt;</span>
 
-<span class="k">let</span> <span class="i">myNonEmptyIntSetOpt</span> <span class="o">=</span> [<span class="n">1</span>;<span class="n">2</span>;<span class="n">3</span>] <span class="o">|&gt;</span> <span class="i">Set</span><span class="o">.</span><span class="i">ofList</span> <span class="o">|&gt;</span> <span class="i">NonEmptyIntSet</span><span class="o">.</span><span class="i">TryParse</span>
+<span class="k">let</span> <span class="i">myNonEmptyIntSetOpt</span> <span class="o">=</span> [<span class="n">1</span>;<span class="n">2</span>;<span class="n">3</span>] <span class="o">|&gt;</span> <span class="i">Set</span><span class="o">.</span><span class="i">ofList</span> <span class="o">|&gt;</span> <span class="i">NonEmptyIntSet</span><span class="o">.</span><span class="i">TryCreate</span>
 </code></pre></td>
 </tr>
 </table>

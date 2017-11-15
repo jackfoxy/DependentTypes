@@ -91,9 +91,9 @@ as the <code>config</code>.</p>
 <span class="l">11: </span>
 <span class="l">12: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">myGoodString</span> <span class="o">=</span> (<span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryParse</span> <span class="s">&quot;good string   &quot;</span>)<span class="o">.</span><span class="i">Value</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">myGoodString</span> <span class="o">=</span> (<span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryCreate</span> <span class="s">&quot;good string   &quot;</span>)<span class="o">.</span><span class="i">Value</span>
 
-<span class="k">let</span> <span class="i">notTrimNonEmptyString</span> <span class="o">=</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryParse</span> <span class="s">&quot;    &quot;</span>
+<span class="k">let</span> <span class="i">notTrimNonEmptyString</span> <span class="o">=</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryCreate</span> <span class="s">&quot;    &quot;</span>
 
 <span class="c">// DependentType &quot;good string&quot;</span>
 <span class="i">printfn</span> <span class="s">&quot;%A&quot;</span> <span class="i">myGoodString</span>
@@ -106,10 +106,10 @@ as the <code>config</code>.</p>
 </code></pre></td>
 </tr>
 </table>
-<h3><a name="Overloaded-try-and-parse-create-methods" class="anchor" href="#Overloaded-try-and-parse-create-methods">Overloaded try and parse (create) methods</a></h3>
-<p>If the dependent type construction is guaranteed to return <code>Some</code>, you can safely use the <code>Parse</code> method.</p>
-<p>If <code>DependentType</code> supported method extensions, only 1 <code>TryParse</code> static member would be required, and users
-could overload <code>TryParse</code> and <code>Parse</code> to meet their needs. For now we must provide all necessary overloads in
+<h3><a name="Overloaded-try-and-Create-create-methods" class="anchor" href="#Overloaded-try-and-Create-create-methods">Overloaded try and Create (create) methods</a></h3>
+<p>If the dependent type construction is guaranteed to return <code>Some</code>, you can safely use the <code>Create</code> method.</p>
+<p>If <code>DependentType</code> supported method extensions, only 1 <code>TryCreate</code> static member would be required, and users
+could overload <code>TryCreate</code> and <code>Create</code> to meet their needs. For now we must provide all necessary overloads in
 the <code>DependentTypes</code> library.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -135,7 +135,7 @@ the <code>DependentTypes</code> library.</p>
     
 <span class="k">type</span> <span class="i">UtcDateTime</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">UtcDateTimeDef</span><span class="o">.</span><span class="i">ValidUtcDateTime</span>, <span class="i">unit</span>, <span class="i">DateTime</span>, <span class="i">DateTime</span><span class="o">&gt;</span> 
 
-<span class="k">let</span> <span class="i">utcTime</span> <span class="o">=</span> <span class="i">DateTime</span><span class="o">.</span><span class="i">Now</span> <span class="o">|&gt;</span> <span class="i">UtcDateTime</span><span class="o">.</span><span class="i">Parse</span>
+<span class="k">let</span> <span class="i">utcTime</span> <span class="o">=</span> <span class="i">DateTime</span><span class="o">.</span><span class="i">Now</span> <span class="o">|&gt;</span> <span class="i">UtcDateTime</span><span class="o">.</span><span class="i">Create</span>
 </code></pre></td>
 </tr>
 </table>
@@ -180,7 +180,7 @@ the <code>DependentTypes</code> library.</p>
 
 <span class="k">let</span> <span class="i">a</span> <span class="o">:</span> <span class="i">Option</span><span class="o">&lt;</span><span class="i">PositiveInt100</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">mkDependentType</span> <span class="n">100</span>
 
-<span class="k">let</span> <span class="i">b</span> <span class="o">=</span> <span class="i">PositiveInt100</span><span class="o">.</span><span class="i">TryParse</span> <span class="n">100</span>
+<span class="k">let</span> <span class="i">b</span> <span class="o">=</span> <span class="i">PositiveInt100</span><span class="o">.</span><span class="i">TryCreate</span> <span class="n">100</span>
 </code></pre></td>
 </tr>
 </table>

@@ -35,9 +35,9 @@ type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, st
 (**
 The ````DependentType.Value```` returns the element in its base type.
 *)
-let myGoodString = (TrimNonEmptyString.TryParse "good string   ").Value
+let myGoodString = (TrimNonEmptyString.TryCreate "good string   ").Value
 
-let notTrimNonEmptyString = TrimNonEmptyString.TryParse "    "
+let notTrimNonEmptyString = TrimNonEmptyString.TryCreate "    "
 
 // DependentType "good string"
 printfn "%A" myGoodString
@@ -48,12 +48,12 @@ printfn "%s" myGoodString.Value
 // true
 printfn "%b" notTrimNonEmptyString.IsNone
 (**
-### Overloaded try and parse (create) methods
+### Overloaded try and Create (create) methods
 
-If the dependent type construction is guaranteed to return ````Some````, you can safely use the ````Parse```` method.
+If the dependent type construction is guaranteed to return ````Some````, you can safely use the ````Create```` method.
 
-If ````DependentType```` supported method extensions, only 1 ````TryParse```` static member would be required, and users
-could overload ````TryParse```` and ````Parse```` to meet their needs. For now we must provide all necessary overloads in
+If ````DependentType```` supported method extensions, only 1 ````TryCreate```` static member would be required, and users
+could overload ````TryCreate```` and ````Create```` to meet their needs. For now we must provide all necessary overloads in
 the ````DependentTypes```` library.
 *)
 module UtcDateTimeDef =
@@ -67,7 +67,7 @@ module UtcDateTimeDef =
     
 type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime, DateTime> 
 
-let utcTime = DateTime.Now |> UtcDateTime.Parse
+let utcTime = DateTime.Now |> UtcDateTime.Create
 (**
 ### Generalized and specific type creation
 
@@ -93,7 +93,7 @@ type PositiveInt100 = DependentType<MaxPos100, int * int, int, int>
 
 let a : Option<PositiveInt100> = mkDependentType 100
 
-let b = PositiveInt100.TryParse 100
+let b = PositiveInt100.TryCreate 100
 (**
 ### Working with the underlying element
 

@@ -20,8 +20,8 @@ type Size5 () = inherit LenValidator(5)
 type String5 = DependentType<Size5, int, string, string>
 
 let demo1() =
-    let okString = String5.TryParse "short" // Some
-    let failString = String5.TryParse "much too long" //None
+    let okString = String5.TryCreate "short" // Some
+    let failString = String5.TryCreate "much too long" //None
     let z = okString.Value
     printfn "okString is: %s" z.Value
     printfn "failString is: %A" failString
@@ -60,9 +60,9 @@ let demo2() =
 /// the type hint is not necessary, only to enhance the intellisense
 let f n : DependentType<_, _, int, int> =
     match n with
-    | n' when n' < -100 -> (LTminus100.TryParse n).Value |> box
-    | n' when n' > 100 -> (GT100.TryParse n).Value |> box
-    | _ -> (Minus100To100.TryParse n ).Value|> box
+    | n' when n' < -100 -> (LTminus100.TryCreate n).Value |> box
+    | n' when n' > 100 -> (GT100.TryCreate n).Value |> box
+    | _ -> (Minus100To100.TryCreate n ).Value|> box
     |> unbox
 
 let demo3() =
@@ -97,7 +97,7 @@ type IndexToString = DependentType<IndexToStringCctor, unit, int, string>
 let demo4() =
     printfn ""
     printfn "dependent type that indexes to string (int -> string)"
-    let neg =  (IndexToString.TryParse -100).Value
+    let neg =  (IndexToString.TryCreate -100).Value
 
     printfn "%s" neg.Value
 
@@ -126,7 +126,7 @@ type Multiply5ToString = DependentType<Multiply5ToStringCctor, int, int, string>
 let demo5() =
     printfn ""
     printfn "dependent type that performs arithmentic on element and converts to string (int -> string)"
-    let neg500 =  (Multiply5ToString.TryParse -100).Value
+    let neg500 =  (Multiply5ToString.TryCreate -100).Value
 
     printfn "%s" neg500.Value
 
@@ -141,24 +141,24 @@ let demo5() =
     printfn "neg500Val converted to String5: %A of type %A" neg500ValToString5.Value <| neg500ValToString5.GetType()
 
 let demo6() =
-    let neg500_1 =  (Multiply5ToString.TryParse -100).Value
-    let neg500_2 =  (Multiply5ToString.TryParse -100).Value
+    let neg500_1 =  (Multiply5ToString.TryCreate -100).Value
+    let neg500_2 =  (Multiply5ToString.TryCreate -100).Value
 
     printfn "same values equal?: %b" (neg500_1 = neg500_2)
 
 let demo6_1() =
-    let neg500 =  (Multiply5ToString.TryParse -100).Value
-    let neg1000 =  (Multiply5ToString.TryParse -200).Value
+    let neg500 =  (Multiply5ToString.TryCreate -100).Value
+    let neg1000 =  (Multiply5ToString.TryCreate -200).Value
 
     printfn "unequal values equal?: %b" (neg500 = neg1000)
 
 
 let demo7() =
-    let n1 =  (String5.TryParse "100").Value
-    let n2 =  (String5.TryParse "200").Value
-    let n3 =  (String5.TryParse "300").Value
-    let n4 =  (String5.TryParse "400").Value
-    let n5 =  (String5.TryParse "500").Value
+    let n1 =  (String5.TryCreate "100").Value
+    let n2 =  (String5.TryCreate "200").Value
+    let n3 =  (String5.TryCreate "300").Value
+    let n4 =  (String5.TryCreate "400").Value
+    let n5 =  (String5.TryCreate "500").Value
 
     let l1 = [n1; n2; n3; n4; n5]
     let l2 = [n5; n4; n1; n2; n3]
