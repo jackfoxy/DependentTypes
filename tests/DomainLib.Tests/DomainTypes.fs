@@ -144,7 +144,7 @@ module DomainTypes =
                 let ordered =
                     [Digits.TryCreate "555"; Digits.TryCreate "111"; Digits.TryCreate "33"; Digits.TryCreate "2"; ]
                     |> List.sort
-                Expect.isTrue (ordered = [Digits.TryCreate "111"; Digits.TryCreate "2"; Digits.TryCreate "33"; Digits.TryCreate "555"; ])
+                Expect.equal ordered [Digits.TryCreate "111"; Digits.TryCreate "2"; Digits.TryCreate "33"; Digits.TryCreate "555"; ]
                     "expected equality"
         ]
 
@@ -194,105 +194,7 @@ module DomainTypes =
                 let ordered =
                     [Digits2.TryCreate "55"; Digits2.TryCreate "11"; Digits2.TryCreate "33"; Digits2.TryCreate "22"; ]
                     |> List.sort
-                Expect.isTrue (ordered = [Digits2.TryCreate "11"; Digits2.TryCreate "22"; Digits2.TryCreate "33"; Digits2.TryCreate "55"; ])
-                    "expected equality"
-        ]
-
-    [<Tests>]
-    let digits3 =
-        testList "DomainTypes.Digits3" [
-
-            testCase "TryCreate None on empty string" <| fun () ->
-                Expect.isNone (Digits3.TryCreate System.String.Empty) "Expected None"
-
-            testCase "TryCreate None on null string" <| fun () ->
-                Expect.isNone (Digits3.TryCreate null) "Expected None"
-
-            testPropertyWithConfig config10k "TryCreate None on non-digital string" <|
-                fun  () ->
-                    Prop.forAll (Arb.fromGen <| nonDigitalString())
-                        (fun (x : string) -> 
-                           let t = Digits3.TryCreate x
-                           t.IsNone)
-            testPropertyWithConfig config10k "TryCreate None on wrong length digital string" <|
-                fun  (digits : NonNegativeInt) ->
-                    let t = invalidDigits digits 3 |> Digits3.TryCreate
-                    t.IsNone
-            
-            testPropertyWithConfig config10k "TryCreate" <|
-                fun  (digits : NonNegativeInt) ->
-                    let validDigit = validDigits digits 3
-                    let t = Digits3.TryCreate validDigit
-                    validDigit = t.Value.Value
-
-            testPropertyWithConfig config10k "TryCreate trims" <|
-                fun  () ->
-                    Prop.forAll (Arb.fromGen <| genDigitsOfLengthInWhiteSpace 3)
-                        (fun (x : string) -> 
-                           let t = Digits3.TryCreate x
-                           x.Trim() = t.Value.Value)
-
-            testPropertyWithConfig config10k "equality" <|
-                fun  (digits : NonNegativeInt) ->
-                    let validDigit = validDigits digits 3
-                    let t = Digits3.TryCreate validDigit
-                    let t2 = Digits3.TryCreate t.Value.Value
-                    t2 = t
-
-            testCase "ordered" <| fun () ->
-                let ordered =
-                    [Digits3.TryCreate "555"; Digits3.TryCreate "111"; Digits3.TryCreate "223"; Digits3.TryCreate "222"; ]
-                    |> List.sort
-                Expect.isTrue (ordered = [Digits3.TryCreate "111"; Digits3.TryCreate "222"; Digits3.TryCreate "223"; Digits3.TryCreate "555"; ])
-                    "expected equality"
-        ]
-
-    [<Tests>]
-    let digits4 =
-        testList "DomainTypes.Digits4" [
-
-            testCase "TryCreate None on empty string" <| fun () ->
-                Expect.isNone (Digits4.TryCreate System.String.Empty) "Expected None"
-
-            testCase "TryCreate None on null string" <| fun () ->
-                Expect.isNone (Digits4.TryCreate null) "Expected None"
-
-            testPropertyWithConfig config10k "TryCreate None on non-digital string" <|
-                fun  () ->
-                    Prop.forAll (Arb.fromGen <| nonDigitalString())
-                        (fun (x : string) -> 
-                           let t = Digits4.TryCreate x
-                           t.IsNone)
-            testPropertyWithConfig config10k "TryCreate None on wrong length digital string" <|
-                fun  (digits : NonNegativeInt) ->
-                    let t = invalidDigits digits 4 |> Digits4.TryCreate
-                    t.IsNone
-            
-            testPropertyWithConfig config10k "TryCreate" <|
-                fun  (digits : NonNegativeInt) ->
-                    let validDigit = validDigits digits 4
-                    let t = Digits4.TryCreate validDigit
-                    validDigit = t.Value.Value
-
-            testPropertyWithConfig config10k "TryCreate trims" <|
-                fun  () ->
-                    Prop.forAll (Arb.fromGen <| genDigitsOfLengthInWhiteSpace 4)
-                        (fun (x : string) -> 
-                           let t = Digits4.TryCreate x
-                           x.Trim() = t.Value.Value)
-
-            testPropertyWithConfig config10k "equality" <|
-                fun  (digits : NonNegativeInt) ->
-                    let validDigit = validDigits digits 4
-                    let t = Digits4.TryCreate validDigit 
-                    let t2 = Digits4.TryCreate t.Value.Value
-                    t2 = t
-
-            testCase "ordered" <| fun () ->
-                let ordered =
-                    [Digits4.TryCreate "5555"; Digits4.TryCreate "1111"; Digits4.TryCreate "2232"; Digits4.TryCreate "2222"; ]
-                    |> List.sort
-                Expect.equal ordered [Digits4.TryCreate "1111"; Digits4.TryCreate "2222"; Digits4.TryCreate "2232"; Digits4.TryCreate "5555"; ]
+                Expect.equal ordered [Digits2.TryCreate "11"; Digits2.TryCreate "22"; Digits2.TryCreate "33"; Digits2.TryCreate "55"; ]
                     "expected equality"
         ]
 
