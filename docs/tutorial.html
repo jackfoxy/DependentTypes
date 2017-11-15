@@ -91,9 +91,9 @@ as the <code>config</code>.</p>
 <span class="l">11: </span>
 <span class="l">12: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">myGoodString</span> <span class="o">=</span> (<span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryParse</span> <span class="s">&quot;good string   &quot;</span>)<span class="o">.</span><span class="i">Value</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">myGoodString</span> <span class="o">=</span> (<span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryCreate</span> <span class="s">&quot;good string   &quot;</span>)<span class="o">.</span><span class="i">Value</span>
 
-<span class="k">let</span> <span class="i">notTrimNonEmptyString</span> <span class="o">=</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryParse</span> <span class="s">&quot;    &quot;</span>
+<span class="k">let</span> <span class="i">notTrimNonEmptyString</span> <span class="o">=</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryCreate</span> <span class="s">&quot;    &quot;</span>
 
 <span class="c">// DependentType &quot;good string&quot;</span>
 <span class="i">printfn</span> <span class="s">&quot;%A&quot;</span> <span class="i">myGoodString</span>
@@ -106,10 +106,10 @@ as the <code>config</code>.</p>
 </code></pre></td>
 </tr>
 </table>
-<h3><a name="Overloaded-try-and-parse-create-methods" class="anchor" href="#Overloaded-try-and-parse-create-methods">Overloaded try and parse (create) methods</a></h3>
-<p>If the dependent type construction is guaranteed to return <code>Some</code>, you can safely use the <code>Parse</code> method.</p>
-<p>If <code>DependentType</code> supported method extensions, only 1 <code>TryParse</code> static member would be required, and users
-could overload <code>TryParse</code> and <code>Parse</code> to meet their needs. For now we must provide all necessary overloads in
+<h3><a name="Overloaded-try-and-Create-create-methods" class="anchor" href="#Overloaded-try-and-Create-create-methods">Overloaded try and Create (create) methods</a></h3>
+<p>If the dependent type construction is guaranteed to return <code>Some</code>, you can safely use the <code>Create</code> method.</p>
+<p>If <code>DependentType</code> supported method extensions, only 1 <code>TryCreate</code> static member would be required, and users
+could overload <code>TryCreate</code> and <code>Create</code> to meet their needs. For now we must provide all necessary overloads in
 the <code>DependentTypes</code> library.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -135,7 +135,7 @@ the <code>DependentTypes</code> library.</p>
     
 <span class="k">type</span> <span class="i">UtcDateTime</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">UtcDateTimeDef</span><span class="o">.</span><span class="i">ValidUtcDateTime</span>, <span class="i">unit</span>, <span class="i">DateTime</span>, <span class="i">DateTime</span><span class="o">&gt;</span> 
 
-<span class="k">let</span> <span class="i">utcTime</span> <span class="o">=</span> <span class="i">DateTime</span><span class="o">.</span><span class="i">Now</span> <span class="o">|&gt;</span> <span class="i">UtcDateTime</span><span class="o">.</span><span class="i">Parse</span>
+<span class="k">let</span> <span class="i">utcTime</span> <span class="o">=</span> <span class="i">DateTime</span><span class="o">.</span><span class="i">Now</span> <span class="o">|&gt;</span> <span class="i">UtcDateTime</span><span class="o">.</span><span class="i">Create</span>
 </code></pre></td>
 </tr>
 </table>
@@ -180,7 +180,7 @@ the <code>DependentTypes</code> library.</p>
 
 <span class="k">let</span> <span class="i">a</span> <span class="o">:</span> <span class="i">Option</span><span class="o">&lt;</span><span class="i">PositiveInt100</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">mkDependentType</span> <span class="n">100</span>
 
-<span class="k">let</span> <span class="i">b</span> <span class="o">=</span> <span class="i">PositiveInt100</span><span class="o">.</span><span class="i">TryParse</span> <span class="n">100</span>
+<span class="k">let</span> <span class="i">b</span> <span class="o">=</span> <span class="i">PositiveInt100</span><span class="o">.</span><span class="i">TryCreate</span> <span class="n">100</span>
 </code></pre></td>
 </tr>
 </table>
@@ -224,6 +224,171 @@ the <code>DependentTypes</code> library.</p>
 <span class="k">let</span> <span class="i">valToString5</span> <span class="o">:</span> <span class="i">Option</span><span class="o">&lt;</span><span class="i">PositiveInt200</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">convertTo</span> <span class="i">a</span><span class="o">.</span><span class="i">Value</span>
 
 <span class="i">printfn</span> <span class="s">&quot;PositiveInt100 converted to PositiveInt200: %A of type %A&quot;</span> <span class="i">valToString5</span><span class="o">.</span><span class="i">Value</span> <span class="o">&lt;|</span> <span class="i">valToString5</span><span class="o">.</span><span class="i">GetType</span>()
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Generic-dependent-types" class="anchor" href="#Generic-dependent-types">Generic dependent types</a></h3>
+<p>You can also create generic dependent types.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">NonEmptySetDef</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="i">verifyNonEmptySet</span> _ (<span class="i">value</span> <span class="o">:</span> <span class="i">Set</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span><span class="o">&gt;</span>) <span class="o">=</span>
+        <span class="k">if</span> <span class="i">value</span><span class="o">.</span><span class="i">Count</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="k">then</span>
+            <span class="i">Some</span> <span class="i">value</span>  
+        <span class="k">else</span>
+            <span class="i">None</span>
+
+    <span class="k">type</span> <span class="i">NonEmptySetValidator</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span> <span class="k">when</span> <span class="o">&#39;</span><span class="i">T</span> <span class="o">:</span> <span class="i">comparison</span><span class="o">&gt;</span>() <span class="o">=</span> 
+        <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">unit</span>, <span class="i">Set</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span><span class="o">&gt;</span>, <span class="i">Set</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span><span class="o">&gt;</span><span class="o">&gt;</span>((), <span class="i">verifyNonEmptySet</span>)
+
+    <span class="k">type</span> <span class="i">ValidNonEmptySet</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span> <span class="k">when</span> <span class="o">&#39;</span><span class="i">T</span> <span class="o">:</span> <span class="i">comparison</span><span class="o">&gt;</span>() <span class="o">=</span> <span class="k">inherit</span> <span class="i">NonEmptySetValidator</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span><span class="o">&gt;</span>()
+    
+<span class="k">type</span> <span class="i">NonEmptySet</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span>  <span class="k">when</span> <span class="o">&#39;</span><span class="i">T</span> <span class="o">:</span> <span class="i">comparison</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">NonEmptySetDef</span><span class="o">.</span><span class="i">ValidNonEmptySet</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span><span class="o">&gt;</span>, <span class="i">unit</span>, <span class="i">Set</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span><span class="o">&gt;</span>, <span class="i">Set</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">T</span><span class="o">&gt;</span><span class="o">&gt;</span>
+
+<span class="k">let</span> <span class="i">myNonEmptyIntSet</span> <span class="o">=</span> [<span class="n">1</span>;<span class="n">2</span>;<span class="n">3</span>] <span class="o">|&gt;</span> <span class="i">Set</span><span class="o">.</span><span class="i">ofList</span> <span class="o">|&gt;</span> <span class="i">NonEmptySet</span><span class="o">.</span><span class="i">Create</span>
+<span class="k">let</span> <span class="i">myNonEmptyStringSet</span> <span class="o">=</span> [<span class="s">&quot;Rob&quot;</span>;<span class="s">&quot;Jack&quot;</span>;<span class="s">&quot;Don&quot;</span>] <span class="o">|&gt;</span> <span class="i">Set</span><span class="o">.</span><span class="i">ofList</span> <span class="o">|&gt;</span> <span class="i">NonEmptySet</span><span class="o">.</span><span class="i">Create</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Limit-values-to-ranges" class="anchor" href="#Limit-values-to-ranges">Limit values to ranges</a></h3>
+<p>Exercise for the student: make the following dependent types for generic numbers.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">IntRange</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="i">validate</span> <span class="i">fn</span> <span class="i">v</span> <span class="o">=</span>
+        <span class="k">if</span> <span class="i">fn</span> <span class="i">v</span> <span class="k">then</span> <span class="i">Some</span> <span class="i">v</span> <span class="k">else</span> <span class="i">None</span>
+    <span class="k">let</span> <span class="i">validateRange</span> (<span class="i">min</span>,<span class="i">max</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&gt;</span><span class="o">=</span> <span class="i">min</span> <span class="o">&amp;&amp;</span> <span class="i">v</span> <span class="o">&lt;=</span> <span class="i">max</span>) <span class="i">v</span>
+    <span class="k">let</span> <span class="i">validateMin</span> (<span class="i">min</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&gt;</span><span class="o">=</span> <span class="i">min</span>) <span class="i">v</span>
+    <span class="k">let</span> <span class="i">validateMax</span> (<span class="i">max</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&lt;=</span> <span class="i">max</span>) <span class="i">v</span>
+
+    <span class="k">type</span> <span class="i">NumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Validator</span><span class="o">&lt;</span><span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateRange</span>)
+    <span class="k">type</span> <span class="i">MinNumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Validator</span><span class="o">&lt;</span><span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateMin</span>)
+    <span class="k">type</span> <span class="i">MaxNumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Validator</span><span class="o">&lt;</span><span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateMax</span>)
+
+    <span class="k">type</span> <span class="i">MaxPos150</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="n">0</span>, <span class="n">150</span>)
+    <span class="k">type</span> <span class="i">MaxPos20000</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="n">0</span>, <span class="n">20000</span>)
+    <span class="k">type</span> <span class="i">RangeMinus100To100</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">NumRangeValidator</span>(<span class="o">-</span><span class="n">100</span>, <span class="n">100</span>)
+    <span class="k">type</span> <span class="i">Min101</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">MinNumRangeValidator</span>(<span class="n">101</span>)
+    <span class="k">type</span> <span class="i">MaxMinus101</span> () <span class="o">=</span> <span class="k">inherit</span> <span class="i">MaxNumRangeValidator</span>(<span class="o">-</span><span class="n">101</span>)
+
+<span class="k">type</span> <span class="i">PositiveInt150</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">MaxPos150</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">PositiveInt20000</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">MaxPos20000</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">Minus100To100</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">RangeMinus100To100</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+
+<span class="k">type</span> <span class="i">GT100</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">Min101</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+<span class="k">type</span> <span class="i">LTminus100</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">IntRange</span><span class="o">.</span><span class="i">MaxMinus101</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Create-and-TryCreate-overrides" class="anchor" href="#Create-and-TryCreate-overrides">Create and TryCreate overrides</a></h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">aa</span> <span class="o">=</span> <span class="i">Some</span> <span class="s">&quot; this string &quot;</span> <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryCreate</span>
+
+<span class="k">let</span> <span class="i">bb</span> <span class="o">=</span> <span class="s">&quot;this string &quot;</span> <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">TryCreate</span>
+
+<span class="k">let</span> <span class="i">cc</span> <span class="o">=</span> <span class="s">&quot;this string &quot;</span> <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">Create</span>
+
+<span class="k">let</span> <span class="i">dd</span> <span class="o">=</span> [<span class="s">&quot; this string &quot;</span>; <span class="s">&quot;that string&quot;</span>; <span class="s">&quot;the other string &quot;</span>] <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">Create</span>
+
+<span class="k">let</span> <span class="i">ee</span> <span class="o">=</span> [|<span class="s">&quot; this string &quot;</span>; <span class="s">&quot;that string&quot;</span>; <span class="s">&quot;the other string &quot;</span>|] <span class="o">|&gt;</span> <span class="i">TrimNonEmptyString</span><span class="o">.</span><span class="i">Create</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Why-T1-gt-T2" class="anchor" href="#Why-T1-gt-T2">Why 'T1 -&gt; 'T2?</a></h3>
+<p>So far we have not shown any compelling examples exploiting <code>DependentType</code> taking <code>'T1</code> input to a <code>'T2</code> base type.
+That's because we have not thought of any! But we do not want to deny you the opportunity to come up with your own use case.</p>
+<p>Here is a trivial example:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="i">TrivialT1toT2</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="i">tryConstruct</span> <span class="i">normalize</span> <span class="i">fn</span> <span class="i">v</span> <span class="o">=</span>
+        <span class="i">fn</span> (<span class="i">normalize</span> <span class="i">v</span>)
+
+    <span class="k">let</span> <span class="i">tryConstructIndexToString</span> <span class="i">i</span> <span class="o">=</span> 
+        <span class="i">tryConstruct</span> <span class="i">id</span> (<span class="k">fun</span> <span class="i">i&#39;</span> <span class="k">-&gt;</span> 
+            (<span class="k">match</span> <span class="i">i&#39;</span> <span class="k">with</span>
+            | <span class="i">n</span> <span class="k">when</span> <span class="i">n</span> <span class="o">&lt;</span> <span class="n">0</span> <span class="k">-&gt;</span> <span class="s">&quot;negative&quot;</span>
+            | <span class="i">n</span> <span class="k">when</span> <span class="i">n</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="k">-&gt;</span> <span class="s">&quot;positive&quot;</span>
+            | _ <span class="k">-&gt;</span> <span class="s">&quot;zero&quot;</span> )
+            <span class="o">|&gt;</span> <span class="i">Some</span> ) <span class="i">i</span>
+
+    <span class="k">let</span> <span class="i">tryIndexToString</span> _ <span class="i">v</span> <span class="o">=</span> <span class="i">tryConstruct</span> <span class="i">id</span> <span class="i">tryConstructIndexToString</span> <span class="i">v</span>
+
+    <span class="k">type</span> <span class="i">IndexToStringCctor</span>() <span class="o">=</span> 
+        <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">unit</span>, <span class="i">int</span>, <span class="i">string</span><span class="o">&gt;</span>((), <span class="i">tryIndexToString</span>)
+
+<span class="k">type</span> <span class="i">IndexToString</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">TrivialT1toT2</span><span class="o">.</span><span class="i">IndexToStringCctor</span>, <span class="i">unit</span>, <span class="i">int</span>, <span class="i">string</span><span class="o">&gt;</span>
+
+<span class="k">let</span> <span class="i">neg</span> <span class="o">=</span>  (<span class="i">IndexToString</span><span class="o">.</span><span class="i">TryCreate</span> <span class="o">-</span><span class="n">100</span>)<span class="o">.</span><span class="i">Value</span>
+
+<span class="i">printfn</span> <span class="s">&quot;%s&quot;</span> <span class="i">neg</span><span class="o">.</span><span class="i">Value</span>
 </code></pre></td>
 </tr>
 </table>

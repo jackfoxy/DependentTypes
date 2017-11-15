@@ -101,8 +101,8 @@ taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent
 <span class="k">type</span> <span class="i">Digits3</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">DigitsDef</span><span class="o">.</span><span class="i">ValidDigits3</span>, <span class="i">int</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span>
 <span class="k">type</span> <span class="i">Digits4</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">DigitsDef</span><span class="o">.</span><span class="i">ValidDigits4</span>, <span class="i">int</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span>
 
-<span class="k">let</span> <span class="i">myDigits</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Parse</span> <span class="s">&quot;0938&quot;</span>
-<span class="k">let</span> <span class="i">myDigitsofLength3</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Parse</span> <span class="s">&quot;007&quot;</span>
+<span class="k">let</span> <span class="i">myDigits</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Create</span> <span class="s">&quot;0938&quot;</span>
+<span class="k">let</span> <span class="i">myDigitsofLength3</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Create</span> <span class="s">&quot;007&quot;</span>
 </code></pre></td>
 </tr>
 </table>
@@ -117,6 +117,8 @@ taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent
 </ol>
 <h3><a name="Alternate-form-of-dependent-types" class="anchor" href="#Alternate-form-of-dependent-types">Alternate form of dependent types</a></h3>
 <p>Alternately, a dependent type that restricts the underlying base type to the input element type is less complex insofar as it takes one less type parameter.</p>
+<p>See the <a href="tutorial.html">Tutorial</a> and <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib">sampple library of dependent types</a> for an
+example of a generic collection type, <code>Set&lt;'T&gt;</code>.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -147,7 +149,7 @@ taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent
     
 <span class="k">type</span> <span class="i">NonEmptyIntSet</span> <span class="o">=</span> <span class="i">LimitedValue</span><span class="o">&lt;</span><span class="i">NonEmptySetDef</span><span class="o">.</span><span class="i">ValidNonEmptySet</span>, <span class="i">unit</span>, <span class="i">Set</span><span class="o">&lt;</span><span class="i">int</span><span class="o">&gt;</span><span class="o">&gt;</span>
 
-<span class="k">let</span> <span class="i">myNonEmptyIntSetOpt</span> <span class="o">=</span> [<span class="n">1</span>;<span class="n">2</span>;<span class="n">3</span>] <span class="o">|&gt;</span> <span class="i">Set</span><span class="o">.</span><span class="i">ofList</span> <span class="o">|&gt;</span> <span class="i">NonEmptyIntSet</span><span class="o">.</span><span class="i">TryParse</span>
+<span class="k">let</span> <span class="i">myNonEmptyIntSetOpt</span> <span class="o">=</span> [<span class="n">1</span>;<span class="n">2</span>;<span class="n">3</span>] <span class="o">|&gt;</span> <span class="i">Set</span><span class="o">.</span><span class="i">ofList</span> <span class="o">|&gt;</span> <span class="i">NonEmptyIntSet</span><span class="o">.</span><span class="i">TryCreate</span>
 </code></pre></td>
 </tr>
 </table>
@@ -162,7 +164,7 @@ functions.</p>
 <li>
 <p>The <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib">DomainLib</a> project is a sample library of useful dependent types:</p>
 <p><strong>trimmed, non-empty, non-null string</strong></p>
-<p><strong>non-empty integer set</strong></p>
+<p><strong>non-empty generic set</strong></p>
 <p><strong>utc datetime</strong></p>
 <p><strong>uppercase Latin string of undetermined or static length</strong></p>
 <p><strong>digit string of undetermined or static length</strong></p>

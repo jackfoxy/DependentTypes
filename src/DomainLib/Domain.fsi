@@ -27,16 +27,16 @@ module UtcDateTimeDef =
 type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime, DateTime> 
 
 module NonEmptySetDef =
-    type NonEmptySetValidator =
-        inherit Validator<unit,Set<int>>
-        new : config : unit -> NonEmptySetValidator
+    type NonEmptySetValidator<'T when 'T : comparison> =
+        inherit Validator<unit,Set<'T>>
+        new : config : unit -> NonEmptySetValidator<'T>
 
-    type ValidNonEmptySet =
-        inherit NonEmptySetValidator
-        new : unit -> ValidNonEmptySet
+    type ValidNonEmptySet<'T when 'T : comparison> =
+        inherit NonEmptySetValidator<'T>
+        new : unit -> ValidNonEmptySet<'T>
 
 /// note using LimitedValue<'Validator, 'Config, 'T> type, not DependentType<'Cctor, 'Config, 'T, 'T2>
-type NonEmptyIntSet = LimitedValue<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>
+type NonEmptySet<'T when 'T : comparison> = LimitedValue<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>>
 
 module UpperLatinDef =
     type UpperLatinValidator =

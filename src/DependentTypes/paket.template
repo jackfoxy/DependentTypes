@@ -2,9 +2,9 @@ type project
 title
     DependentTypes
 owners
-    Robert Kuzelj
+    Robert Kuzelj, Jack Fox
 authors 
-    Robert Kuzelj
+    Robert Kuzelj, Jack Fox
 projectUrl
     https://github.com/jackfoxy/DependentTypes
 iconUrl
@@ -14,7 +14,7 @@ licenseUrl
 requireLicenseAcceptance
     false
 copyright
-    Copyright 2015
+    Copyright 2017
 tags
     DependentTypes DependentType F# fsharp
 summary

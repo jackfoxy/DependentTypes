@@ -27,23 +27,23 @@ module DependentType =
         testList "DependentTypes.Equality and Comparison" [
 
             testCase "Equality" <| fun () ->
-                let s100_1 =  (String5.TryParse "100").Value
-                let s100_2 =  (String5.TryParse "100").Value
+                let s100_1 =  (String5.TryCreate "100").Value
+                let s100_2 =  (String5.TryCreate "100").Value
 
                 Expect.equal s100_1 s100_2 "Expected equal"
 
             testCase "Inequality" <| fun () ->
-                let s100 =  (String5.TryParse "100").Value
-                let s200 =  (String5.TryParse "200").Value
+                let s100 =  (String5.TryCreate "100").Value
+                let s200 =  (String5.TryCreate "200").Value
 
                 Expect.notEqual s100 s200 "Expected not equal"
 
             testCase "Comparison" <| fun () ->
-                let n1 =  (String5.TryParse "100").Value
-                let n2 =  (String5.TryParse "200").Value
-                let n3 =  (String5.TryParse "300").Value
-                let n4 =  (String5.TryParse "400").Value
-                let n5 =  (String5.TryParse "500").Value
+                let n1 =  (String5.TryCreate "100").Value
+                let n2 =  (String5.TryCreate "200").Value
+                let n3 =  (String5.TryCreate "300").Value
+                let n4 =  (String5.TryCreate "400").Value
+                let n5 =  (String5.TryCreate "500").Value
 
                 let l1 = [n1; n2; n3; n4; n5]
                 let l2 = [n5; n4; n1; n2; n3]
