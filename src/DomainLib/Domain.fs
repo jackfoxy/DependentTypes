@@ -30,18 +30,18 @@ module UtcDateTimeDef =
 type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime, DateTime> 
 
 module NonEmptySetDef =
-    let verifyNonEmptySet _ (value : Set<int>) =
+    let verifyNonEmptySet _ (value : Set<'T>) =
         if value.Count > 0 then
             Some value  
         else
             None
 
-    type NonEmptySetValidator() = 
-        inherit Validator<unit, Set<int>>((), verifyNonEmptySet)
+    type NonEmptySetValidator<'T when 'T : comparison>() = 
+        inherit Validator<unit, Set<'T>>((), verifyNonEmptySet)
 
-    type ValidNonEmptySet() = inherit NonEmptySetValidator()
+    type ValidNonEmptySet<'T when 'T : comparison>() = inherit NonEmptySetValidator<'T>()
     
-type NonEmptyIntSet = LimitedValue<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>   
+type NonEmptySet<'T  when 'T : comparison> = LimitedValue<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>>   
 
 module RegExStringVerify =
     let regExStringVerify (regex : Regex) config (value : string) =
