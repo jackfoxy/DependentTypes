@@ -77,3 +77,35 @@ type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
 type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
 
+module IntRange =
+    type NumRangeValidator =
+        inherit Validator<(int * int),int>
+        new : config:(int * int) -> NumRangeValidator
+    type MinNumRangeValidator =
+        inherit Validator<int,int>
+        new : config:int -> MinNumRangeValidator
+    type MaxNumRangeValidator =
+        inherit Validator<int,int>
+        new : config:int -> MaxNumRangeValidator
+
+    type MaxPos100 =
+        inherit NumRangeValidator
+        new : unit -> MaxPos100
+    type MaxPos20000 =
+        inherit NumRangeValidator
+        new : unit -> MaxPos20000
+    type RangeMinus100To100 =
+        inherit NumRangeValidator
+        new : unit -> RangeMinus100To100
+    type Min101 =
+        inherit MinNumRangeValidator
+        new : unit -> Min101
+    type MaxMinus101 =
+        inherit MaxNumRangeValidator
+        new : unit -> MaxMinus101
+
+type PositiveInt100 = LimitedValue<IntRange.MaxPos100,(int * int),int>
+type PositiveInt20000 = LimitedValue<IntRange.MaxPos20000,(int * int),int>
+type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100,(int * int),int>
+type GT100 = LimitedValue<IntRange.Min101,int,int>
+type LTminus100 = LimitedValue<IntRange.MaxMinus101,int,int>
