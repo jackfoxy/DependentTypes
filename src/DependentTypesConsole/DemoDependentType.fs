@@ -1,6 +1,6 @@
 ﻿module DemoDependentType
 
-open robkuz.DependentTypes
+open DependentTypes
 open DependentTypes
 open System
 

@@ -45,7 +45,7 @@ which in turn requires a function ````'Config -> 'T1 -> 'T2 option```` that vali
 
 In practice the whole construction looks like this:
 *)
-open robkuz.DependentTypes
+open DependentTypes
 
 module DigitsDef =
     let regex = new Regex("^[0-9]+$")

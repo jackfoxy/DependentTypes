@@ -1,6 +1,6 @@
 ﻿namespace DomainLib.Tests
 
-open robkuz.DependentTypes
+open DependentTypes
 open Jackfoxy.DomainLib
 open DomainGeneratorsCode
 open Expecto

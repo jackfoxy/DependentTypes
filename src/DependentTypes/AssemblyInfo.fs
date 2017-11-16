@@ -5,8 +5,8 @@ open System.Reflection
 [<assembly: AssemblyTitleAttribute("DependentTypes")>]
 [<assembly: AssemblyProductAttribute("DependentTypes")>]
 [<assembly: AssemblyDescriptionAttribute("F# DependentTypes")>]
-[<assembly: AssemblyVersionAttribute("0.0.2")>]
-[<assembly: AssemblyFileVersionAttribute("0.0.2")>]
+[<assembly: AssemblyVersionAttribute("0.0.3")>]
+[<assembly: AssemblyFileVersionAttribute("0.0.3")>]
 [<assembly: AssemblyConfigurationAttribute("Release")>]
 do ()
 
@@ -14,6 +14,6 @@ module internal AssemblyVersionInformation =
     let [<Literal>] AssemblyTitle = "DependentTypes"
     let [<Literal>] AssemblyProduct = "DependentTypes"
     let [<Literal>] AssemblyDescription = "F# DependentTypes"
-    let [<Literal>] AssemblyVersion = "0.0.2"
-    let [<Literal>] AssemblyFileVersion = "0.0.2"
+    let [<Literal>] AssemblyVersion = "0.0.3"
+    let [<Literal>] AssemblyFileVersion = "0.0.3"
     let [<Literal>] AssemblyConfiguration = "Release"

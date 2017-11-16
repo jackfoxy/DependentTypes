@@ -6,13 +6,15 @@ owners
 authors 
     Robert Kuzelj, Jack Fox
 projectUrl
-    https://github.com/jackfoxy/DependentTypes
+    https://jackfoxy.github.io/DependentTypes/
 iconUrl
     https://raw.githubusercontent.com/jackfoxy/DependentTypes/master/docs/files/img/logo.png
 licenseUrl
     https://github.com/jackfoxy/DependentTypes/blob/master/LICENSE.txt
 requireLicenseAcceptance
     false
+language
+    F#
 copyright
     Copyright 2017
 tags

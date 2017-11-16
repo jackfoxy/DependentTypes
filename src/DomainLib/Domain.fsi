@@ -1,6 +1,6 @@
 ﻿namespace Jackfoxy.DomainLib
 
-open robkuz.DependentTypes
+open DependentTypes
 open System 
 open System.Collections.Generic
 

@@ -1,4 +1,4 @@
-﻿namespace robkuz.DependentTypes
+﻿namespace DependentTypes
 
 module DependentTypes =
     let inline mkDependentType (x: ^S) : Option< ^T> = 

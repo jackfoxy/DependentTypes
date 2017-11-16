@@ -15,7 +15,7 @@ dependent types.
 The ````module```` is for code formatting purposes. Otherwise it serves no functional purpose. This is an example of passing ````unit````
 as the ````config````.
 *)
-open robkuz.DependentTypes
+open DependentTypes
 open DependentTypes
 open System
 

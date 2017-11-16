@@ -1,6 +1,6 @@
 ﻿namespace DependentTypes.Tests
 
-open robkuz.DependentTypes
+open DependentTypes
 open Expecto
 open FsCheck
 
