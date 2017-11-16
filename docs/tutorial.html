@@ -106,11 +106,8 @@ as the <code>config</code>.</p>
 </code></pre></td>
 </tr>
 </table>
-<h3><a name="Overloaded-try-and-Create-create-methods" class="anchor" href="#Overloaded-try-and-Create-create-methods">Overloaded try and Create (create) methods</a></h3>
+<h3><a name="TryCreate-and-Create-methods" class="anchor" href="#TryCreate-and-Create-methods">TryCreate and Create methods</a></h3>
 <p>If the dependent type construction is guaranteed to return <code>Some</code>, you can safely use the <code>Create</code> method.</p>
-<p>If <code>DependentType</code> supported method extensions, only 1 <code>TryCreate</code> static member would be required, and users
-could overload <code>TryCreate</code> and <code>Create</code> to meet their needs. For now we must provide all necessary overloads in
-the <code>DependentTypes</code> library.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -156,20 +153,10 @@ the <code>DependentTypes</code> library.</p>
 <span class="l">12: </span>
 <span class="l">13: </span>
 <span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">validate</span> <span class="i">normalize</span> <span class="i">fn</span> <span class="i">v</span> <span class="o">=</span>
     <span class="k">if</span> <span class="i">fn</span> (<span class="i">normalize</span> <span class="i">v</span>) <span class="k">then</span> <span class="i">Some</span> (<span class="i">normalize</span> <span class="i">v</span>) <span class="k">else</span> <span class="i">None</span>
 
-<span class="c">//let validateLen len s = </span>
-<span class="c">//    validate id (fun (s:string) -&gt; s.Length &lt;= len) s</span>
-
-<span class="c">//type LenValidator(config) = </span>
-<span class="c">//    inherit Cctor&lt;int, string, string&gt;(config, validateLen)</span>
 <span class="k">let</span> <span class="i">validateRange</span> (<span class="i">min</span>,<span class="i">max</span>) <span class="i">v</span> <span class="o">=</span> <span class="i">validate</span> <span class="i">id</span> (<span class="k">fun</span> <span class="i">v</span> <span class="k">-&gt;</span> <span class="i">v</span> <span class="o">&gt;</span><span class="o">=</span> <span class="i">min</span> <span class="o">&amp;&amp;</span> <span class="i">v</span> <span class="o">&lt;=</span> <span class="i">max</span>) <span class="i">v</span>
 
 <span class="k">type</span> <span class="i">NumRangeValidator</span>(<span class="i">config</span>) <span class="o">=</span> <span class="k">inherit</span> <span class="i">Cctor</span><span class="o">&lt;</span><span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>(<span class="i">config</span>, <span class="i">validateRange</span>)
@@ -178,7 +165,7 @@ the <code>DependentTypes</code> library.</p>
 
 <span class="k">type</span> <span class="i">PositiveInt100</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">MaxPos100</span>, <span class="i">int</span> <span class="o">*</span> <span class="i">int</span>, <span class="i">int</span>, <span class="i">int</span><span class="o">&gt;</span>
 
-<span class="k">let</span> <span class="i">a</span> <span class="o">:</span> <span class="i">Option</span><span class="o">&lt;</span><span class="i">PositiveInt100</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">mkDependentType</span> <span class="n">100</span>
+<span class="k">let</span> <span class="i">a</span> <span class="o">:</span> <span class="i">PositiveInt100</span> <span class="i">option</span> <span class="o">=</span> <span class="i">mkDependentType</span> <span class="n">100</span>
 
 <span class="k">let</span> <span class="i">b</span> <span class="o">=</span> <span class="i">PositiveInt100</span><span class="o">.</span><span class="i">TryCreate</span> <span class="n">100</span>
 </code></pre></td>
@@ -318,6 +305,9 @@ the <code>DependentTypes</code> library.</p>
 </tr>
 </table>
 <h3><a name="Create-and-TryCreate-overrides" class="anchor" href="#Create-and-TryCreate-overrides">Create and TryCreate overrides</a></h3>
+<p>If <code>DependentType</code> and <code>LimitedValue</code> supported method extensions, only a single <code>TryCreate</code> static member would be required, and users
+could overload <code>TryCreate</code> and <code>Create</code> to meet their needs. For now we must provide all necessary overloads in
+the <code>DependentTypes</code> library.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>

@@ -34,12 +34,11 @@
         <div class="span9" id="main">
           
 <h1><a name="DependentTypes" class="anchor" href="#DependentTypes">DependentTypes</a></h1>
-<p>This project is an experiment in bringing <a href="https://en.wikipedia.org/wiki/Dependent_type">dependent types</a> to F#. Dependent typing makes supporting a finer level of granularity in
-types easier. There are other methods for creating new types by <a href="https://fsharpforfunandprofit.com/posts/designing-with-types-more-semantic-types/">constraining existing types</a>,
-for instance, but they are not as easily generalized.</p>
-<p>This library presents 2 alternate generic dependent types. One taking an input element to the same base type within the dependent type <code>'T -&gt; 'T</code>, and the other
-taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent types supports the same equality and comparison traits as its base type
-(<code>'T</code> or <code>'T2</code>). Extension methods are not supported.</p>
+<p>This project is an experiment in bringing <a href="https://en.wikipedia.org/wiki/Dependent_type">dependent types</a> to F#.
+Dependent typing makes supporting a finer level of type granularity easier.</p>
+<p>This library presents two alternate generic dependent types. One taking an input element to the same base type within the dependent type <code>'T -&gt; 'T</code>, and the other
+taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. Dependent types support the same equality and comparison traits as their base type
+(<code>'T</code> or <code>'T2</code>). <a href="https://github.com/jackfoxy/DependentTypes/issues/1">Extension methods are not yet supported</a>.</p>
 <p>The core dependent type</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -101,23 +100,23 @@ taking the input type to a new base type <code>'T1 -&gt; 'T2</code>. A dependent
 <span class="k">type</span> <span class="i">Digits3</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">DigitsDef</span><span class="o">.</span><span class="i">ValidDigits3</span>, <span class="i">int</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span>
 <span class="k">type</span> <span class="i">Digits4</span> <span class="o">=</span> <span class="i">DependentType</span><span class="o">&lt;</span><span class="i">DigitsDef</span><span class="o">.</span><span class="i">ValidDigits4</span>, <span class="i">int</span>, <span class="i">string</span>, <span class="i">string</span><span class="o">&gt;</span>
 
-<span class="k">let</span> <span class="i">myDigits</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Create</span> <span class="s">&quot;0938&quot;</span>
-<span class="k">let</span> <span class="i">myDigitsofLength3</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Create</span> <span class="s">&quot;007&quot;</span>
+<span class="k">let</span> <span class="i">digits</span> <span class="o">=</span> <span class="i">Digits</span><span class="o">.</span><span class="i">Create</span> <span class="s">&quot;093884765&quot;</span>
+<span class="k">let</span> <span class="i">digitsofLength3</span> <span class="o">=</span> <span class="i">Digits3</span><span class="o">.</span><span class="i">Create</span> <span class="s">&quot;007&quot;</span>
 </code></pre></td>
 </tr>
 </table>
 <h3><a name="Notes" class="anchor" href="#Notes">Notes:</a></h3>
 <ol>
 <li><p>The full validation function <code>regExStringVerify</code> is not shown.</p></li>
-<li><p>The presence of <code>module DigitsDef</code> is strictly for readability purposes, segregating all the "helper" functions and types.</p></li>
-<li>All the helpers types must have the same access level as the dependent type.</li>
+<li><p>The presence of <code>module DigitsDef</code> is strictly for readability purposes, segregating the "helper" functions and types.</p></li>
+<li>All the helper types must have the same access level as the dependent type.</li>
 <li>Aliasing is optional, but obviously provides better readability.</li>
 <li><p>Yes, <code>Cctor</code> is not really a constructor.</p></li>
 <li><p>With <a href="https://github.com/jackfoxy/DependentTypes/issues/3">possible changes to the F# language</a>, the intervening <code>'Config</code> consuming helper type may be superfluous.</p></li>
 </ol>
 <h3><a name="Alternate-form-of-dependent-types" class="anchor" href="#Alternate-form-of-dependent-types">Alternate form of dependent types</a></h3>
-<p>Alternately, a dependent type that restricts the underlying base type to the input element type is less complex insofar as it takes one less type parameter.</p>
-<p>See the <a href="tutorial.html">Tutorial</a> and <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib">sampple library of dependent types</a> for an
+<p>Alternately, a dependent type that restricts the underlying base type to the input element type requires one less type parameter.</p>
+<p>See the <a href="tutorial.html">Tutorial</a> and <a href="https://github.com/jackfoxy/DependentTypes/blob/9281602a7d119920735e1c786df462ca000d4ab2/src/DomainLib/Domain.fs#L32">sample library of dependent types</a> for an
 example of a generic collection type, <code>Set&lt;'T&gt;</code>.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -157,29 +156,29 @@ example of a generic collection type, <code>Set&lt;'T&gt;</code>.</p>
 <ul>
 <li><p><a href="tutorial.html">Tutorial</a> contains a further explanation of this dependent types library.</p></li>
 <li>
-<p><a href="reference/index.html">API Reference</a> contains automatically generated documentation for all types, modules
-and functions in the library. This includes additional brief samples on using most of the
-functions.</p>
+<p><a href="reference/index.html">API Reference</a> contains automatically generated documentation for all types, modules,
+and functions in the library.</p>
 </li>
 <li>
-<p>The <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib">DomainLib</a> project is a sample library of useful dependent types:</p>
+<p>The <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib/Domain.fs">DomainLib</a> project is a sample library of useful dependent types:</p>
 <p><strong>trimmed, non-empty, non-null string</strong></p>
 <p><strong>non-empty generic set</strong></p>
 <p><strong>utc datetime</strong></p>
 <p><strong>uppercase Latin string of undetermined or static length</strong></p>
 <p><strong>digit string of undetermined or static length</strong></p>
+<p><strong>integer restricted to a range</strong></p>
 </li>
 <li>
 <p>The <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypesConsole">DependentTypesConsole</a> project runs demos on both the <code>'T1 -&gt; 'T2</code> and <code>'T -&gt; 'T</code> style
 dependent types.</p>
 </li>
-<li><p><a href="https://github.com/haf/expecto">Expecto</a> test projects for both <a href="https://github.com/jackfoxy/DependentTypes/tree/master/tests/DependentTypes.Tests">DependentTypes</a> library and the <a href="https://github.com/jackfoxy/DependentTypes/tree/master/tests/DomainLib.Tests">DomainLib</a> sample dependent types.</p></li>
+<li><p><a href="https://github.com/haf/expecto">Expecto</a> test projects for both the <a href="https://github.com/jackfoxy/DependentTypes/tree/master/tests/DependentTypes.Tests">DependentTypes</a> library and the <a href="https://github.com/jackfoxy/DependentTypes/tree/master/tests/DomainLib.Tests">DomainLib</a> sample dependent types.</p></li>
 </ul>
 <h2><a name="Issues" class="anchor" href="#Issues">Issues</a></h2>
 <p>Several issues are available for discussion. Among the most interesting</p>
 <ul>
 <li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/1">Dependent types do not support extension methods</a>.</p></li>
-<li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/2">What is the best verb to describe the create / try create method?</a></p></li>
+<li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/5">Add Expecto BenchmarkDotNet performance tests</a></p></li>
 <li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/3">Future direction: literal type parameters</a>.</p></li>
 </ul>
 <h2><a name="Contributing-and-copyright" class="anchor" href="#Contributing-and-copyright">Contributing and copyright</a></h2>
@@ -188,7 +187,7 @@ dependent types.</p>
 Further discussion <a href="https://github.com/robkuz/robkuz.github.io/issues/6">here</a></p>
 <p>You can <a href="https://github.com/jackfoxy/DependentTypes/issues">report issues</a>, fork
 the project, and submit pull requests. Please also
-add tests and samples that can be turned into a <a href="https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content">documentation</a>.</p>
+add tests and samples that can be turned into <a href="https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content">documentation</a>.</p>
 <p>The library is available under Public Domain license, which allows modification and
 redistribution for both commercial and non-commercial purposes. For more information see the
 <a href="https://github.com/jackfoxy/DependentTypes/blob/master/LICENSE.txt">License file</a> in the GitHub repository.</p>

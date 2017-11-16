@@ -48,13 +48,9 @@ printfn "%s" myGoodString.Value
 // true
 printfn "%b" notTrimNonEmptyString.IsNone
 (**
-### Overloaded try and Create (create) methods
+### TryCreate and Create methods
 
 If the dependent type construction is guaranteed to return ````Some````, you can safely use the ````Create```` method.
-
-If ````DependentType```` supported method extensions, only 1 ````TryCreate```` static member would be required, and users
-could overload ````TryCreate```` and ````Create```` to meet their needs. For now we must provide all necessary overloads in
-the ````DependentTypes```` library.
 *)
 module UtcDateTimeDef =
     let verifyUtcDateTime _ (value : DateTime) =
@@ -78,11 +74,6 @@ Construct the ````DependentType option```` one of two ways
 let validate normalize fn v =
     if fn (normalize v) then Some (normalize v) else None
 
-//let validateLen len s = 
-//    validate id (fun (s:string) -> s.Length <= len) s
-
-//type LenValidator(config) = 
-//    inherit Cctor<int, string, string>(config, validateLen)
 let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
 
 type NumRangeValidator(config) = inherit Cctor<int * int, int, int>(config, validateRange)
@@ -91,7 +82,7 @@ type MaxPos100 () = inherit NumRangeValidator(0, 100)
 
 type PositiveInt100 = DependentType<MaxPos100, int * int, int, int>
 
-let a : Option<PositiveInt100> = mkDependentType 100
+let a : PositiveInt100 option = mkDependentType 100
 
 let b = PositiveInt100.TryCreate 100
 (**
@@ -172,6 +163,10 @@ type GT100 = LimitedValue<IntRange.Min101, int, int>
 type LTminus100 = LimitedValue<IntRange.MaxMinus101, int, int>
 (**
 ### Create and TryCreate overrides
+
+If ````DependentType```` and ````LimitedValue```` supported method extensions, only a single ````TryCreate```` static member would be required, and users
+could overload ````TryCreate```` and ````Create```` to meet their needs. For now we must provide all necessary overloads in
+the ````DependentTypes```` library.
 *)
 let aa = Some " this string " |> TrimNonEmptyString.TryCreate
 

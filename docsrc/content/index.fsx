@@ -24,13 +24,12 @@ let regExStringVerify (regex : Regex) config (value : string) =
 DependentTypes
 ==============
 
-This project is an experiment in bringing [dependent types](https://en.wikipedia.org/wiki/Dependent_type) to F#. Dependent typing makes supporting a finer level of granularity in
-types easier. There are other methods for creating new types by [constraining existing types](https://fsharpforfunandprofit.com/posts/designing-with-types-more-semantic-types/),
-for instance, but they are not as easily generalized. 
+This project is an experiment in bringing [dependent types](https://en.wikipedia.org/wiki/Dependent_type) to F#.
+Dependent typing makes supporting a finer level of type granularity easier.
 
-This library presents 2 alternate generic dependent types. One taking an input element to the same base type within the dependent type ````'T -> 'T````, and the other
-taking the input type to a new base type ````'T1 -> 'T2````. A dependent types supports the same equality and comparison traits as its base type
-(````'T```` or ````'T2````). Extension methods are not supported.
+This library presents two alternate generic dependent types. One taking an input element to the same base type within the dependent type ````'T -> 'T````, and the other
+taking the input type to a new base type ````'T1 -> 'T2````. Dependent types support the same equality and comparison traits as their base type
+(````'T```` or ````'T2````). [Extension methods are not yet supported](https://github.com/jackfoxy/DependentTypes/issues/1).
 
 The core dependent type 
 ````
@@ -65,16 +64,16 @@ type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
 type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
 
-let myDigits = Digits.Create "0938"
-let myDigitsofLength3 = Digits.Create "007"
+let digits = Digits.Create "093884765"
+let digitsofLength3 = Digits3.Create "007"
 (**
 ### Notes: 
 
 1. The full validation function ````regExStringVerify```` is not shown.
 
-2. The presence of ````module DigitsDef```` is strictly for readability purposes, segregating all the "helper" functions and types.
+2. The presence of ````module DigitsDef```` is strictly for readability purposes, segregating the "helper" functions and types.
 
-3. All the helpers types must have the same access level as the dependent type.
+3. All the helper types must have the same access level as the dependent type.
 
 4. Aliasing is optional, but obviously provides better readability.
 
@@ -84,9 +83,9 @@ let myDigitsofLength3 = Digits.Create "007"
 
 ### Alternate form of dependent types
 
-Alternately, a dependent type that restricts the underlying base type to the input element type is less complex insofar as it takes one less type parameter.
+Alternately, a dependent type that restricts the underlying base type to the input element type requires one less type parameter.
 
-See the [Tutorial](tutorial.html) and [sampple library of dependent types](https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib) for an
+See the [Tutorial](tutorial.html) and [sample library of dependent types](https://github.com/jackfoxy/DependentTypes/blob/9281602a7d119920735e1c786df462ca000d4ab2/src/DomainLib/Domain.fs#L32) for an
 example of a generic collection type, ````Set<'T>````.
 *)
 module NonEmptySetDef =
@@ -111,11 +110,10 @@ Samples & documentation
 
  * [Tutorial](tutorial.html) contains a further explanation of this dependent types library.
 
- * [API Reference](reference/index.html) contains automatically generated documentation for all types, modules
-   and functions in the library. This includes additional brief samples on using most of the
-   functions.
+ * [API Reference](reference/index.html) contains automatically generated documentation for all types, modules,
+   and functions in the library.
 
- * The [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib) project is a sample library of useful dependent types:
+ * The [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib/Domain.fs) project is a sample library of useful dependent types:
 
  **trimmed, non-empty, non-null string**
 
@@ -127,10 +125,12 @@ Samples & documentation
 
  **digit string of undetermined or static length**
 
+ **integer restricted to a range**
+
  * The [DependentTypesConsole](https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypesConsole) project runs demos on both the ````'T1 -> 'T2```` and ````'T -> 'T```` style
    dependent types.
 
- * [Expecto](https://github.com/haf/expecto) test projects for both [DependentTypes](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DependentTypes.Tests) library and the [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DomainLib.Tests) sample dependent types.
+ * [Expecto](https://github.com/haf/expecto) test projects for both the [DependentTypes](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DependentTypes.Tests) library and the [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DomainLib.Tests) sample dependent types.
 
 Issues
 ------
@@ -139,7 +139,7 @@ Several issues are available for discussion. Among the most interesting
 
  * [Dependent types do not support extension methods](https://github.com/jackfoxy/DependentTypes/issues/1).
  
- * [What is the best verb to describe the create / try create method?](https://github.com/jackfoxy/DependentTypes/issues/2)
+ * [Add Expecto BenchmarkDotNet performance tests](https://github.com/jackfoxy/DependentTypes/issues/5)
 
  * [Future direction: literal type parameters](https://github.com/jackfoxy/DependentTypes/issues/3).
  
@@ -152,7 +152,7 @@ Further discussion [here](https://github.com/robkuz/robkuz.github.io/issues/6)
 
 You can [report issues][issues], fork 
 the project, and submit pull requests. Please also 
-add tests and samples that can be turned into a [documentation](https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content).
+add tests and samples that can be turned into [documentation](https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content).
 
 The library is available under Public Domain license, which allows modification and 
 redistribution for both commercial and non-commercial purposes. For more information see the 
