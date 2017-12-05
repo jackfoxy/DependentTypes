@@ -162,7 +162,7 @@ type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100, int * int, int>
 type GT100 = LimitedValue<IntRange.Min101, int, int>
 type LTminus100 = LimitedValue<IntRange.MaxMinus101, int, int>
 (**
-### Create and TryCreate overrides
+### Create and TryCreate overloads
 
 If ````DependentType```` and ````LimitedValue```` supported method extensions, only a single ````TryCreate```` static member would be required, and users
 could overload ````TryCreate```` and ````Create```` to meet their needs. For now we must provide all necessary overloads in

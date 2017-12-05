@@ -42,7 +42,7 @@ type Cctor<'Config, 'T, 'T2> (config: 'Config, vfn: 'Config -> 'T -> Option<'T2>
 ````
 which in turn requires a function ````'Config -> 'T1 -> 'T2 option```` that validates the input element. Another type handles consuming the ````'Config```` parameter.
 
-In practice the whole construction looks like this:
+In practice the construction of a family of dependent types looks like this:
 *)
 open DependentTypes
 
