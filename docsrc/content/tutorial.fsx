@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/DependentTypes"
+#I "../../bin/DependentTypes/net47"
 #r "DependentTypes.dll"
 (**
 Dependent types tutorial
@@ -15,7 +15,6 @@ dependent types.
 The ````module```` is for code formatting purposes. Otherwise it serves no functional purpose. This is an example of passing ````unit````
 as the ````config````.
 *)
-open DependentTypes
 open DependentTypes
 open System
 

@@ -82,11 +82,18 @@ let binaries =
     let manuallyAdded = 
         referenceBinaries 
         |> List.map (fun b -> bin @@ b)
-    
+   
     let conventionBased = 
         directoryInfo bin 
         |> subDirectories
-        |> Array.map (fun d -> d.FullName @@ (sprintf "%s.dll" d.Name))
+        |> Array.map (fun d -> d.Name, (subDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47")) ).[0] )
+        |> Array.map (fun (name, d) -> 
+            d.GetFiles()
+            |> Array.filter (fun x -> 
+                x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
+            |> Array.map (fun x -> x.FullName) 
+            )
+        |> Array.concat
         |> List.ofArray
 
     conventionBased @ manuallyAdded
