@@ -153,7 +153,8 @@ Target "RunTests" (fun _ ->
 
 Target "NuGet" (fun _ ->
     Paket.Pack(fun p ->
-        { p with
+        { p with 
+            Symbols = true
             OutputPath = "bin"
             Version = release.NugetVersion
             ReleaseNotes = toLines release.Notes})

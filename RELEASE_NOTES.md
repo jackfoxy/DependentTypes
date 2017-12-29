@@ -1,3 +1,8 @@
+#### 0.0.4 - December 29, 2017
+* release to net45, net47, netcoreapp2.0, netstandard2.0
+* releases include pdb files
+* DomainLib renamed
+
 #### 0.0.3 - November 15, 2017
 * change namespace to DependentTypes
 
