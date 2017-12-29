@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>ValidUtcDateTime - DependentTypes</title>
+    <title>Validator<'Config, 'T> - DependentTypes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Robert Kuzelj"/>
@@ -35,12 +35,13 @@
 
 
 
-<h1>ValidUtcDateTime</h1>
+<h1>Validator<'Config, 'T></h1>
 <p>
-  <span>Namespace: Jackfoxy.DomainLib</span><br />
-  <span>Parent Module: <a href="jackfoxy-domainlib-utcdatetimedef.html">UtcDateTimeDef</a></span>
+  <span>Namespace: DependentTypes</span><br />
 </p>
 <div class="xmldoc">
+<p>Constructor / validator type for LimitedValue 'T1 -&gt; 'T1 style dependent types</p>
+
 </div>
   <h3>Constructors</h3>
   <table class="table table-bordered member-list">
@@ -51,20 +52,46 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '14', 14)" onmouseover="showTip(event, '14', 14)">
-            new()
+          <code onmouseout="hideTip(event, '23', 23)" onmouseover="showTip(event, '23', 23)">
+            new(config, vfn)
           </code>
-          <div class="tip" id="14">
-            <strong>Signature:</strong> unit -&gt; ValidUtcDateTime<br />
+          <div class="tip" id="23">
+            <strong>Signature:</strong> (config:&#39;Config * vfn:(&#39;Config -&gt; &#39;T -&gt; Option&lt;&#39;T&gt;)) -&gt; Validator&lt;&#39;Config,&#39;T&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib/Domain.fs#L28-28" class="github-link">
+            <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L56-56" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
           
               <p>CompiledName: <code>.ctor</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Instance members</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Instance member</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '24', 24)" onmouseover="showTip(event, '24', 24)">
+            Validate(x)
+          </code>
+          <div class="tip" id="24">
+            <strong>Signature:</strong> x:&#39;T -&gt; Option&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L57-57" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
         </td>
       </tr>
     </tbody>

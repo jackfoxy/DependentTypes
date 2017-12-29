@@ -13,6 +13,7 @@ module TrimNonEmptyStringDef =
         inherit NonEmptyValidator
         new : unit -> NonEmpty
 
+/// Trimmed, non-empty, non-null string
 type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string>
 
 module UtcDateTimeDef =
@@ -24,6 +25,7 @@ module UtcDateTimeDef =
         inherit UtcDateTimeValidator
         new : unit -> ValidUtcDateTime
 
+/// DateTime set to UTC.
 type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime, DateTime> 
 
 module NonEmptySetDef =
@@ -35,7 +37,7 @@ module NonEmptySetDef =
         inherit NonEmptySetValidator<'T>
         new : unit -> ValidNonEmptySet<'T>
 
-/// note using LimitedValue<'Validator, 'Config, 'T> type, not DependentType<'Cctor, 'Config, 'T, 'T2>
+/// Generic non-empty Set<'T>
 type NonEmptySet<'T when 'T : comparison> = LimitedValue<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>>
 
 module UpperLatinDef =
@@ -51,7 +53,9 @@ module UpperLatinDef =
         inherit UpperLatinValidator
         new : unit -> ValidUpperLatin3
 
+/// Uppercase latin string of length 2.
 type UpperLatin2 = DependentType<UpperLatinDef.ValidUpperLatin2, int, string, string>
+/// Uppercase latin string of length 3.
 type UpperLatin3 = DependentType<UpperLatinDef.ValidUpperLatin3, int, string, string>
 
 module DigitsDef =
@@ -71,10 +75,14 @@ module DigitsDef =
     type ValidDigits4 = 
         inherit DigitsValidator
         new : unit -> ValidDigits4
-    
+  
+/// String of digit characters [0-9].
 type Digits = DependentType<DigitsDef.ValidDigits, int, string, string>
+/// String of digit characters [0-9] and length 2.
 type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
+/// String of digit characters [0-9] and length 3.
 type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
+/// String of digit characters [0-9] and length 4.
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
 
 module IntRange =
@@ -104,8 +112,13 @@ module IntRange =
         inherit MaxNumRangeValidator
         new : unit -> MaxMinus101
 
+/// Integer in range 0 to 100.
 type PositiveInt100 = LimitedValue<IntRange.MaxPos100,(int * int),int>
+/// Integer in range 0 to 20000.
 type PositiveInt20000 = LimitedValue<IntRange.MaxPos20000,(int * int),int>
+/// Integer in range -100 to 100.
 type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100,(int * int),int>
+/// Integer greater than 100.
 type GT100 = LimitedValue<IntRange.Min101,int,int>
+/// Integer less than -100.
 type LTminus100 = LimitedValue<IntRange.MaxMinus101,int,int>

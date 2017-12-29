@@ -36,46 +36,223 @@
 <h1>DependentTypes</h1>
 
 
-  <h2>Jackfoxy.DomainLib Namespace</h2>
+  <h2>DependentTypes Namespace</h2>
     <div>
-      <table class="table table-bordered module-list">
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="dependenttypes-cctor-3.html">Cctor<'Config, 'T, 'T2></a>
+          </td>
+          <td class="xmldoc"><p>Constructor / validator type for DependentType 'T1 -&gt; 'T2 style dependent types</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="dependenttypes-dependenttype-4.html">DependentType<'Cctor, 'Config, 'T, 'T2></a>
+          </td>
+          <td class="xmldoc"><p>'T1 -&gt; 'T2 style dependent type</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="dependenttypes-limitedvalue-3.html">LimitedValue<'Validator, 'Config, 'T></a>
+          </td>
+          <td class="xmldoc"><p>'T1 -&gt; 'T1 style dependent type</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="dependenttypes-validator-2.html">Validator<'Config, 'T></a>
+          </td>
+          <td class="xmldoc"><p>Constructor / validator type for LimitedValue 'T1 -&gt; 'T1 style dependent types</p>
+
+</td>
+        </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered module-list">
     <thead>
       <tr><td>Module</td><td>Description</td></tr>
     </thead>
     <tbody>
         <tr>
           <td class="module-name">
-            <a href="jackfoxy-domainlib-digitsdef.html">DigitsDef</a>
+            <a href="dependenttypes-dependenttypes.html">DependentTypes</a>
+          </td>
+          <td class="xmldoc"><p>Inline helper functions.</p>
+
+</td>
+        </tr>
+    </tbody>
+  </table>
+
+    </div>
+  <h2>DomainLib Namespace</h2>
+    <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-digits.html">Digits</a>
+          </td>
+          <td class="xmldoc"><p>String of digit characters [0-9].</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-digits2.html">Digits2</a>
+          </td>
+          <td class="xmldoc"><p>String of digit characters [0-9] and length 2.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-digits3.html">Digits3</a>
+          </td>
+          <td class="xmldoc"><p>String of digit characters [0-9] and length 3.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-digits4.html">Digits4</a>
+          </td>
+          <td class="xmldoc"><p>String of digit characters [0-9] and length 4.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-gt100.html">GT100</a>
+          </td>
+          <td class="xmldoc"><p>Integer greater than 100.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-ltminus100.html">LTminus100</a>
+          </td>
+          <td class="xmldoc"><p>Integer less than -100.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-minus100to100.html">Minus100To100</a>
+          </td>
+          <td class="xmldoc"><p>Integer in range -100 to 100.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-nonemptyset-1.html">NonEmptySet<'T></a>
+          </td>
+          <td class="xmldoc"><p>Generic non-empty Set<'T></p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-positiveint100.html">PositiveInt100</a>
+          </td>
+          <td class="xmldoc"><p>Integer in range 0 to 100.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-positiveint20000.html">PositiveInt20000</a>
+          </td>
+          <td class="xmldoc"><p>Integer in range 0 to 20000.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-trimnonemptystring.html">TrimNonEmptyString</a>
+          </td>
+          <td class="xmldoc"><p>Trimmed, non-empty, non-null string</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-upperlatin2.html">UpperLatin2</a>
+          </td>
+          <td class="xmldoc"><p>Uppercase latin string of length 2.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-upperlatin3.html">UpperLatin3</a>
+          </td>
+          <td class="xmldoc"><p>Uppercase latin string of length 3.</p>
+
+</td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="domainlib-utcdatetime.html">UtcDateTime</a>
+          </td>
+          <td class="xmldoc"><p>DateTime set to UTC.</p>
+
+</td>
+        </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered module-list">
+    <thead>
+      <tr><td>Module</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="module-name">
+            <a href="domainlib-digitsdef.html">DigitsDef</a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="module-name">
-            <a href="jackfoxy-domainlib-intrange.html">IntRange</a>
+            <a href="domainlib-intrange.html">IntRange</a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="module-name">
-            <a href="jackfoxy-domainlib-nonemptysetdef.html">NonEmptySetDef</a>
+            <a href="domainlib-nonemptysetdef.html">NonEmptySetDef</a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="module-name">
-            <a href="jackfoxy-domainlib-trimnonemptystringdef.html">TrimNonEmptyStringDef</a>
+            <a href="domainlib-trimnonemptystringdef.html">TrimNonEmptyStringDef</a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="module-name">
-            <a href="jackfoxy-domainlib-upperlatindef.html">UpperLatinDef</a>
+            <a href="domainlib-upperlatindef.html">UpperLatinDef</a>
           </td>
           <td class="xmldoc"></td>
         </tr>
         <tr>
           <td class="module-name">
-            <a href="jackfoxy-domainlib-utcdatetimedef.html">UtcDateTimeDef</a>
+            <a href="domainlib-utcdatetimedef.html">UtcDateTimeDef</a>
           </td>
           <td class="xmldoc"></td>
         </tr>

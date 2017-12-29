@@ -1,5 +1,6 @@
 ﻿namespace DependentTypes
 
+/// Inline helper functions.
 module DependentTypes =
     let inline mkDependentType (x: ^S) : Option< ^T> = 
         (^T: (static member TryCreate: ^S -> Option< ^T>) x)
@@ -14,9 +15,11 @@ open DependentTypes
 open System
 
 [<Class>]
+/// Constructor / validator type for DependentType 'T1 -> 'T2 style dependent types
 type Cctor<'Config, 'T, 'T2> (config: 'Config, vfn: 'Config -> 'T -> Option<'T2>) =
     member __.TryCreate(x:'T) : Option<'T2> = vfn config x
 
+///'T1 -> 'T2 style dependent type
 type DependentType<'Cctor, 'Config, 'T, 'T2 when 'Cctor :> Cctor<'Config, 'T, 'T2>
                                             and  'Cctor : (new: unit -> 'Cctor)> =
     DependentType of 'T2 
@@ -49,9 +52,11 @@ type DependentType<'Cctor, 'Config, 'T, 'T2 when 'Cctor :> Cctor<'Config, 'T, 'T
             mkDependentType v   
 
 [<Class>]
+/// Constructor / validator type for LimitedValue 'T1 -> 'T1 style dependent types
 type Validator<'Config, 'T> (config: 'Config, vfn: 'Config -> 'T -> Option<'T>) =
     member __.Validate(x:'T) : Option<'T> = vfn config x
 
+/// 'T1 -> 'T1 style dependent type
 type LimitedValue<'Validator, 'Config, 'T when 'Validator :> Validator<'Config, 'T>
                                            and  'Validator : (new: unit -> 'Validator)> =
     DependentType of 'T 
