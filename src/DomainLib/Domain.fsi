@@ -1,4 +1,4 @@
-﻿namespace Jackfoxy.DomainLib
+﻿namespace DomainLib
 
 open DependentTypes
 open System 

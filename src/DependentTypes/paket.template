@@ -1,8 +1,9 @@
-type project
+type file
+id DependentTypes
 title
     DependentTypes
 owners
-    Robert Kuzelj, Jack Fox
+    Jack Fox
 authors 
     Robert Kuzelj, Jack Fox
 projectUrl
@@ -24,4 +25,5 @@ summary
 description
     F# DependentTypes
 
-
+files
+	../../bin/DependentTypes ==> lib

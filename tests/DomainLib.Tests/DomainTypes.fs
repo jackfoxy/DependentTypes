@@ -1,7 +1,7 @@
 ﻿namespace DomainLib.Tests
 
 open DependentTypes
-open Jackfoxy.DomainLib
+open DomainLib
 open DomainGeneratorsCode
 open Expecto
 open FsCheck
