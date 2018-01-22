@@ -58,7 +58,7 @@ type Validator<'Config, 'T> (config: 'Config, vfn: 'Config -> 'T -> Option<'T>) 
 
 /// 'T1 -> 'T1 style dependent type
 type LimitedValue<'Validator, 'Config, 'T when 'Validator :> Validator<'Config, 'T>
-                                           and  'Validator : (new: unit -> 'Validator)> =
+                                           and 'Validator : (new: unit -> 'Validator)> =
     DependentType of 'T 
     
     with
@@ -82,5 +82,3 @@ type LimitedValue<'Validator, 'Config, 'T when 'Validator :> Validator<'Config, 
         static member inline ConvertTo(x : LimitedValue<'x, 'y, 'q> ) : Option<LimitedValue<'a, 'b, 'q>> = 
             let (DependentType v) = x
             mkDependentType v
-
-

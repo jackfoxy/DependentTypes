@@ -1,7 +1,7 @@
 ﻿module DemoDependentType
 
 open DependentTypes
-open DependentTypes
+open DependentTypes.DependentTypes
 open System
 
 (* 'T -> 'T2 tests existing LimitValue tests where 'T = 'T2 *)

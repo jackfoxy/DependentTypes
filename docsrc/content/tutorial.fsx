@@ -16,6 +16,7 @@ The ````module```` is for code formatting purposes. Otherwise it serves no funct
 as the ````config````.
 *)
 open DependentTypes
+open DependentTypes.DependentTypes
 open System
 
 module TrimNonEmptyStringDef =
