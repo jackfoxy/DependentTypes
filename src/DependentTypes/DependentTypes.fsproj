@@ -11,7 +11,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="..\..\packages\build\System.Runtime\lib\net462\System.Runtime.dll" Framework="net47" />
+    <Reference Include="..\..\packages\System.Runtime\lib\net462\System.Runtime.dll" Framework="net47" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependentTypes.fs" />

@@ -1,10 +1,5 @@
 module DemoDependentFunction
 
-#if INTERACTIVE
-#I __SOURCE_DIRECTORY__
-#load "../DependentTypes/Scripts/load-project-debug.fsx"
-#endif
-
 open DependentTypes
 
 module SetUp =
