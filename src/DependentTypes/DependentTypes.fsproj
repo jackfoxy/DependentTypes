@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net45;net47;netstandard2.0;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net45;net47;netstandard2.0</TargetFrameworks>
     <RootNamespace>DependentTypes</RootNamespace>
     <AssemblyName>DependentTypes</AssemblyName>
     <Name>DependentTypes</Name>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

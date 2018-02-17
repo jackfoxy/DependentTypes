@@ -1,43 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
-    <Configurations>Debug;Release;Debug-NoEmit;Release-NoEmit</Configurations>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="GenericTester.fs" />
-    <None Include="paket.references" />
-  </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug-NoEmit'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DefineConstants>TRACE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release-NoEmit'">
-    <DefineConstants>TRACE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup>
+    <TargetFramework>net47</TargetFramework>
+    <RootNamespace>TypeShape.Tests</RootNamespace>
+    <AssemblyName>TypeShape.Tests</AssemblyName>
+    <Name>TypeShape.Tests</Name>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-NoEmit|AnyCPU'">
-    <OutputPath>bin\Debug-NoEmit\</OutputPath>
-    <DocumentationFile />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-NoEmit|AnyCPU'">
-    <OutputPath>bin\Release-NoEmit\</OutputPath>
-    <DocumentationFile />
-  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Clone.fs" />
+    <Compile Include="GenericTester.fs" />
+    <Compile Include="RunTests.fs" />
+    <None Include="paket.references" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

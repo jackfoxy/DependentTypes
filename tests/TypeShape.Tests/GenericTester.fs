@@ -1,9 +1,39 @@
 module TypeShape.Tests.GenericTests
+//https://github.com/eiriktsarpalis/TypeShape
+(*
+The MIT License (MIT)
 
+Copyright (c) 2016 Eirik George Tsarpalis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*)
+
+#if INTERACTIVE
+#r @"..\..\packages\FsCheck\lib\net452\FsCheck.dll"
+#r @"..\..\packages\TypeShape\lib\net40\TypeShape.dll"
+#load "Clone.fs"
+#endif
 open System
 open FSharp.Reflection
 open FsCheck
 open TypeShape.Core
+open TypeShape.Tests.Clone
+open Expecto
 
 // Type algebra defining the universe of testable types
 
@@ -352,3 +382,10 @@ type Check with
                     Check.One<'T * 'T * 'T -> bool>(vconf, fun (t1,t2,t3) -> predicate3.Invoke t1 t2 t3) ; true }
 
         Check.Generic(checker, tconf, verbose = verbose)
+
+[<Tests>]
+let reflexivity =
+    testList "Generic" [
+
+        testCase "Generic reflexivity" <| fun () -> { new Predicate with member __.Invoke (t : 'T) = t = clone(t) } |> Check.GenericPredicate false false 100 10
+    ]
