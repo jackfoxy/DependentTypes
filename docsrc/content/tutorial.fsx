@@ -27,7 +27,7 @@ module TrimNonEmptyStringDef =
             Some <| value.Trim()
 
     type NonEmptyValidator() = 
-        inherit Cctor<unit, string, string>((), verifyTrimNonEmptyString)
+        inherit PiType<unit, string, string>((), verifyTrimNonEmptyString)
 
     type NonEmpty () = inherit NonEmptyValidator()
 
@@ -57,7 +57,7 @@ module UtcDateTimeDef =
         Some <| value.ToUniversalTime()     
 
     type UtcDateTimeValidator() = 
-        inherit Cctor<unit, DateTime, DateTime>((), verifyUtcDateTime)
+        inherit PiType<unit, DateTime, DateTime>((), verifyUtcDateTime)
 
     type ValidUtcDateTime () = inherit UtcDateTimeValidator()
     
@@ -76,7 +76,7 @@ let validate normalize fn v =
 
 let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
 
-type NumRangeValidator(config) = inherit Cctor<int * int, int, int>(config, validateRange)
+type NumRangeValidator(config) = inherit PiType<int * int, int, int>(config, validateRange)
 
 type MaxPos100 () = inherit NumRangeValidator(0, 100)
 
@@ -125,7 +125,7 @@ module NonEmptySetDef =
             None
 
     type NonEmptySetValidator<'T when 'T : comparison>() = 
-        inherit Cctor<unit, Set<'T>, Set<'T>>((), verifyNonEmptySet)
+        inherit PiType<unit, Set<'T>, Set<'T>>((), verifyNonEmptySet)
 
     type ValidNonEmptySet<'T when 'T : comparison>() = inherit NonEmptySetValidator<'T>()
     
@@ -199,10 +199,10 @@ module TrivialT1toT2 =
 
     let tryIndexToString _ v = tryConstruct id tryConstructIndexToString v
 
-    type IndexToStringCctor() = 
-        inherit Cctor<unit, int, string>((), tryIndexToString)
+    type IndexToStringPiType() = 
+        inherit PiType<unit, int, string>((), tryIndexToString)
 
-type IndexToString = DependentType<TrivialT1toT2.IndexToStringCctor, unit, int, string>
+type IndexToString = DependentType<TrivialT1toT2.IndexToStringPiType, unit, int, string>
 
 let neg =  (IndexToString.TryCreate -100).Value
 

@@ -5,7 +5,7 @@
     <RootNamespace>DependentTypes</RootNamespace>
     <AssemblyName>DependentTypes</AssemblyName>
     <Name>DependentTypes</Name>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

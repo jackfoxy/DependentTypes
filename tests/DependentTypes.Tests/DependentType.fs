@@ -16,7 +16,7 @@ module DependentType =
         validate id (fun (s:string) -> s.Length <= len) s
 
     type LenValidator(config) = 
-        inherit Cctor<int, string, string>(config, validateLen)
+        inherit PiType<int, string, string>(config, validateLen)
 
     type Size5 () = inherit LenValidator(5) 
 

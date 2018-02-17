@@ -12,7 +12,7 @@ module TrimNonEmptyStringDef =
             Some <| value.Trim()
 
     type NonEmptyValidator() = 
-        inherit Cctor<unit, string, string>((), verifyTrimNonEmptyString)
+        inherit PiType<unit, string, string>((), verifyTrimNonEmptyString)
 
     type NonEmpty () = inherit NonEmptyValidator()
 
@@ -23,7 +23,7 @@ module UtcDateTimeDef =
         Some <| value.ToUniversalTime()     
 
     type UtcDateTimeValidator() = 
-        inherit Cctor<unit, DateTime, DateTime>((), verifyUtcDateTime)
+        inherit PiType<unit, DateTime, DateTime>((), verifyUtcDateTime)
 
     type ValidUtcDateTime () = inherit UtcDateTimeValidator()
     
@@ -66,7 +66,7 @@ module UpperLatinDef =
         RegExStringVerify.regExStringVerify regex config value
 
     type UpperLatinValidator(config) = 
-        inherit Cctor<int, string, string>(config, verifyUpperLatin)
+        inherit PiType<int, string, string>(config, verifyUpperLatin)
 
     type ValidUpperLatin2 () = inherit UpperLatinValidator(2)
     type ValidUpperLatin3 () = inherit UpperLatinValidator(3)
@@ -80,7 +80,7 @@ module DigitsDef =
         RegExStringVerify.regExStringVerify regex config value
 
     type DigitsValidator(config) = 
-        inherit Cctor<int, string, string>(config, verifyDigits)
+        inherit PiType<int, string, string>(config, verifyDigits)
 
     type ValidDigits () = inherit DigitsValidator(0)
     type ValidDigits2 () = inherit DigitsValidator(2)

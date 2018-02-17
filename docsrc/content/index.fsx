@@ -33,12 +33,12 @@ taking the input type to a new base type ````'T1 -> 'T2````. Dependent types sup
 
 The core dependent type 
 ````
-type DependentType<'Cctor, 'Config, 'T, 'T2 when 'Cctor :> Cctor<'Config, 'T, 'T2>
-                                            and  'Cctor : (new: unit -> 'Cctor)>
+type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>
+                                            and  'PiType : (new: unit -> 'PiType)>
 ````
 relies on a "constructor" type 
 ````
-type Cctor<'Config, 'T, 'T2> (config: 'Config, vfn: 'Config -> 'T -> Option<'T2>)
+type PiType<'Config, 'T, 'T2> (config: 'Config, vfn: 'Config -> 'T -> Option<'T2>)
 ````
 which in turn requires a function ````'Config -> 'T1 -> 'T2 option```` that validates the input element. Another type handles consuming the ````'Config```` parameter.
 
@@ -52,7 +52,7 @@ module DigitsDef =
         regExStringVerify regex config value
 
     type DigitsValidator(config) = 
-        inherit Cctor<int, string, string>(config, verifyDigits)
+        inherit PiType<int, string, string>(config, verifyDigits)
 
     type ValidDigits () = inherit DigitsValidator(0)
     type ValidDigits2 () = inherit DigitsValidator(2)
@@ -77,7 +77,7 @@ let digitsofLength3 = Digits3.Create "007"
 
 4. Aliasing is optional, but obviously provides better readability.
 
-5. Yes, ````Cctor```` is not really a constructor.
+5. Yes, ````PiType```` is not really a constructor.
 
 6. With [possible changes to the F# language](https://github.com/jackfoxy/DependentTypes/issues/3), the intervening ````'Config```` consuming helper type may be superfluous.
 
