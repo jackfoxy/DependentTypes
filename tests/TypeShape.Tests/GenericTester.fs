@@ -34,6 +34,7 @@ open FsCheck
 open TypeShape.Core
 open TypeShape.Tests.Clone
 open Expecto
+open DependentTypes
 
 // Type algebra defining the universe of testable types
 
@@ -50,6 +51,7 @@ type TypeAlg =
     | Tuple of NonEmptyArray<TypeAlg>
     | Record of NonEmptyArray<TypeAlg>
     | Union of NonEmptyArray<TypeAlg>
+  //  | PiType of TypeAlg * TypeAlg * TypeAlg
 
 and Primitive =
     | Bool
@@ -78,6 +80,9 @@ and GroundType =
     | CharEnum
     | ByteEnum
     | Peano
+
+and PiType = 
+    | PiType of TypeAlg * TypeAlg * TypeAlg
 
 module Implementation =
 
@@ -201,6 +206,7 @@ module Implementation =
                 |> sprintf "{ %s }"
 
             | BinTree t -> typeAlg t |> sprintf "BinTree<%s>"
+           // | PiType (t1, t2, t3) -> sprintf "PiType %s %s %s" (typeAlg t1) (typeAlg t2) (typeAlg t3)
 
         and primitive prim =
             match prim with
@@ -230,6 +236,10 @@ module Implementation =
             | CharEnum -> "CharEnum"
             | Peano -> "Peano"
 
+        and piType pi =
+            match pi with
+            | PiType (t1, t2, t3) -> sprintf "PiType %s %s %s" (typeAlg t1) (typeAlg t2) (typeAlg t3)
+
     module Mapper =
 
         let rec typeAlg tAlg =
@@ -246,6 +256,8 @@ module Implementation =
             | Tuple (NonEmptyArray ts) -> ts |> Array.map typeAlg |> FSharpType.MakeTupleType
             | Union (NonEmptyArray ts) -> ts |> Array.map typeAlg |> FSharpType.MakeUnionType
             | Record (NonEmptyArray ts) -> ts |> Array.map typeAlg |> FSharpType.MakeRecordType
+            //<'Config, 'T, 'T2> (config: 'Config, vfn: 'Config -> 'T -> Option<'T2>)
+            //| PiType (ta1, ta2, ta3) -> typedefof<PiType<_,_,_>>.MakeGenericType [|typeAlg ta1; typeAlg ta2; typeAlg ta3|]
 
         and primitive t =
             match t with
@@ -275,10 +287,27 @@ module Implementation =
             | IntEnum -> typeof<IntEnum>
             | Peano -> typeof<Peano>
 
+        and piType t =
+            match t with
+            | PiType (ta1, ta2, ta3) -> typedefof<PiType<_,_,_>>.MakeGenericType [|typeAlg ta1; typeAlg ta2; typeAlg ta3|]
+
 
     type TypeAlg with
         member tAlg.TypeShape : TypeShape =
             let sysType = Mapper.typeAlg tAlg
+            TypeShape.Create sysType
+
+        member tAlg.Accept (v:ITypeShapeVisitor<'R>) : 'R =
+            tAlg.TypeShape.Accept v
+
+        member tAlg.Accept (v:IComparisonVisitor<'R>) : 'R =
+            match tAlg.TypeShape with
+            | Shape.Comparison s -> s.Accept v
+            | s -> failwithf "internal error: type %O does not support comparison" s.Type
+
+    type PiType with
+        member tAlg.TypeShape : TypeShape =
+            let sysType = Mapper.piType tAlg
             TypeShape.Create sysType
 
         member tAlg.Accept (v:ITypeShapeVisitor<'R>) : 'R =
@@ -299,6 +328,9 @@ open Implementation
 type Checker =
     abstract Invoke<'T when 'T : comparison> : TypeAlg -> bool
 
+type Checker2 =
+    abstract Invoke<'T when 'T : comparison> : PiType -> bool
+
 type Predicate =
     abstract Invoke<'T when 'T : comparison> : 'T -> bool
 
@@ -315,16 +347,17 @@ type Check with
     /// <param name="checker">Generic checker interface.</param>
     /// <param name="config">FsCheck configuration for type-level random generation.</param>
     /// <param name="verbose">Output every random type that is being tested. Defaults to false.</param>
-    static member Generic (checker : Checker, ?config : Config, ?verbose : bool) =
+    static member Generic (checker : Checker2, ?config : Config, ?verbose : bool) =
         let config = defaultArg config Config.QuickThrowOnFailure
         let verbose = defaultArg verbose false
-        let runOnType (tAlg : TypeAlg) =
-            tAlg.Accept {  new IComparisonVisitor<bool> with
+        //let runOnType (tAlg : TypeAlg) =
+        let runOnType (piType : PiType) =
+            piType.Accept {  new IComparisonVisitor<bool> with
                 member __.Visit<'T when 'T : comparison>() =
-                    if verbose then printfn "Testing type %s" (PrettyPrint.typeAlg tAlg)
-                    checker.Invoke<'T> tAlg }
+                    if verbose then printfn "Testing type %s" (PrettyPrint.piType piType)
+                    checker.Invoke<'T> piType }
     
-        Check.One<TypeAlg -> bool>(config, runOnType)
+        Check.One<PiType -> bool>(config, runOnType)
 
     /// <summary>
     ///     Runs a property test given provided generic predicate.
@@ -339,47 +372,9 @@ type Check with
         let vconf = Config.CreateValueConfig(useNaN, maxTestsPerType)
 
         let checker =
-            { new Checker with
+            { new Checker2 with
                 member __.Invoke<'T when 'T : comparison> tAlg =
                     Check.One<'T -> bool>(vconf, predicate.Invoke) ; true }
-
-        Check.Generic(checker, tconf, verbose = verbose)
-
-    /// <summary>
-    ///     Runs a property test given provided generic predicate.
-    /// </summary>
-    /// <param name="verbose">Print tested type information to console.</param>
-    /// <param name="useNaN">Generate NaNs when the random information contains floats.</param>
-    /// <param name="maxTypes">Maximum number of randomly generated types.</param>
-    /// <param name="maxTestsPerType">Maximum number of randomly generated values per type.</param>
-    /// <param name="predicate">Predicate to check.</param>
-    static member GenericPredicate2 verbose useNaN maxTypes maxTestsPerType (predicate2 : Predicate2) =
-        let tconf = Config.CreateTypeConfig(maxTypes)
-        let vconf = Config.CreateValueConfig(useNaN, maxTestsPerType)
-
-        let checker =
-            { new Checker with
-                member __.Invoke<'T when 'T : comparison> tAlg =
-                    Check.One<'T * 'T -> bool>(vconf, fun (t1,t2) -> predicate2.Invoke t1 t2) ; true }
-
-        Check.Generic(checker, tconf, verbose = verbose)
-
-    /// <summary>
-    ///     Runs a property test given provided generic predicate.
-    /// </summary>
-    /// <param name="verbose">Print tested type information to console.</param>
-    /// <param name="useNaN">Generate NaNs when the random information contains floats.</param>
-    /// <param name="maxTypes">Maximum number of randomly generated types.</param>
-    /// <param name="maxTestsPerType">Maximum number of randomly generated values per type.</param>
-    /// <param name="predicate">Predicate to check.</param>
-    static member GenericPredicate3 verbose useNaN maxTypes maxTestsPerType (predicate3 : Predicate3) =
-        let tconf = Config.CreateTypeConfig(maxTypes)
-        let vconf = Config.CreateValueConfig(useNaN, maxTestsPerType)
-
-        let checker =
-            { new Checker with
-                member __.Invoke<'T when 'T : comparison> tAlg =
-                    Check.One<'T * 'T * 'T -> bool>(vconf, fun (t1,t2,t3) -> predicate3.Invoke t1 t2 t3) ; true }
 
         Check.Generic(checker, tconf, verbose = verbose)
 
@@ -387,5 +382,7 @@ type Check with
 let reflexivity =
     testList "Generic" [
 
-        testCase "Generic reflexivity" <| fun () -> { new Predicate with member __.Invoke (t : 'T) = t = clone(t) } |> Check.GenericPredicate false false 100 10
+        testCase "Generic reflexivity" <| fun () -> 
+            { new Predicate with member __.Invoke (t : 'T) = t = clone(t) } 
+            |> Check.GenericPredicate false false 100 10
     ]
