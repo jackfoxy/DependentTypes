@@ -6,7 +6,7 @@ open System.Collections.Generic
 
 module TrimNonEmptyStringDef =
     type NonEmptyValidator =
-        inherit Cctor<unit, string, string>
+        inherit PiType<unit, string, string>
         new : config : unit -> NonEmptyValidator
 
     type NonEmpty =
@@ -18,7 +18,7 @@ type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, st
 
 module UtcDateTimeDef =
     type UtcDateTimeValidator =
-        inherit Cctor<unit, DateTime, DateTime>
+        inherit PiType<unit, DateTime, DateTime>
         new : config : unit -> UtcDateTimeValidator
 
     type ValidUtcDateTime =
@@ -42,7 +42,7 @@ type NonEmptySet<'T when 'T : comparison> = LimitedValue<NonEmptySetDef.ValidNon
 
 module UpperLatinDef =
     type UpperLatinValidator =
-        inherit Cctor<int, string, string>
+        inherit PiType<int, string, string>
         new : config : int -> UpperLatinValidator
 
     type ValidUpperLatin2 =
@@ -60,7 +60,7 @@ type UpperLatin3 = DependentType<UpperLatinDef.ValidUpperLatin3, int, string, st
 
 module DigitsDef =
     type DigitsValidator = 
-        inherit Cctor<int, string, string>
+        inherit PiType<int, string, string>
         new : config : int ->  DigitsValidator
 
     type ValidDigits = 

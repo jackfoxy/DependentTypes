@@ -4,11 +4,13 @@ source https://ci.appveyor.com/nuget/fsharp-formatting
 
 nuget FSharp.Core
 
-  
 nuget FAKE
 nuget FSharp.Formatting 3.0.0-beta09 beta
 
 github fsharp/FAKE modules/Octokit/Octokit.fsx
+
+nuget TypeShape
+nuget FsCheck
 
 nuget Expecto
 nuget Expecto.BenchmarkDotNet

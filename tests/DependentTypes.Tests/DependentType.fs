@@ -16,11 +16,14 @@ module DependentType =
         validate id (fun (s:string) -> s.Length <= len) s
 
     type LenValidator(config) = 
-        inherit Cctor<int, string, string>(config, validateLen)
+        inherit PiType<int, string, string>(config, validateLen)
 
     type Size5 () = inherit LenValidator(5) 
 
     type String5 = DependentType<Size5, int, string, string>
+
+    let reflexivity x =
+        Expect.equal x x "reflexivity"
 
     [<Tests>]
     let dependentTypes =
@@ -31,12 +34,16 @@ module DependentType =
                 let s100_2 =  (String5.TryCreate "100").Value
 
                 Expect.equal s100_1 s100_2 "Expected equal"
+                reflexivity s100_1
+                reflexivity s100_2
 
             testCase "Inequality" <| fun () ->
                 let s100 =  (String5.TryCreate "100").Value
                 let s200 =  (String5.TryCreate "200").Value
 
                 Expect.notEqual s100 s200 "Expected not equal"
+                reflexivity s100
+                reflexivity s200
 
             testCase "Comparison" <| fun () ->
                 let n1 =  (String5.TryCreate "100").Value
@@ -49,4 +56,9 @@ module DependentType =
                 let l2 = [n5; n4; n1; n2; n3]
 
                 Expect.equal l1 (l2 |> List.sort) "Expected equal"
+                reflexivity n1
+                reflexivity n2
+                reflexivity n3
+                reflexivity n4
+                reflexivity n5
         ]

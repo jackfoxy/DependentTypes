@@ -18,4 +18,5 @@
   <ItemGroup>
     <ProjectReference Include="..\DependentTypes\DependentTypes.fsproj"></ProjectReference>
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

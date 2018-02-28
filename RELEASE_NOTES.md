@@ -1,3 +1,7 @@
+#### 0.0.5 - February 28, 2018
+* rename Cctor PiType
+* add reflexivity tests
+
 #### 0.0.4 - December 29, 2017
 * release to net45, net47, netcoreapp2.0, netstandard2.0
 * releases include pdb files
