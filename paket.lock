@@ -44,7 +44,7 @@ NUGET
       Microsoft.TestPlatform.ObjectModel (>= 15.5) - restriction: || (&& (== net45) (>= net461)) (== net47) (&& (== netcoreapp2.0) (>= net461)) (&& (== netstandard2.0) (>= net461))
       Mono.Cecil (>= 0.10.0-beta7) - restriction: || (&& (== net45) (>= net461)) (== net47) (&& (== netcoreapp2.0) (>= net461)) (&& (== netstandard2.0) (>= net461))
       Newtonsoft.Json (>= 10.0.3) - restriction: || (&& (== net45) (>= net461)) (== net47) (&& (== netcoreapp2.0) (>= net461)) (&& (== netstandard2.0) (>= net461))
-    FAKE (4.64.4)
+    FAKE (4.64.6)
     FsCheck (2.10.7)
       FSharp.Core (>= 4.0.0.1) - restriction: || (== net45) (== net47) (&& (== netcoreapp2.0) (>= net452)) (&& (== netcoreapp2.0) (< netstandard1.6)) (&& (== netcoreapp2.0) (< portable-net45+win8)) (&& (== netcoreapp2.0) (< portable-net45+win8+wp8)) (&& (== netstandard2.0) (>= net452)) (&& (== netstandard2.0) (< netstandard1.6)) (&& (== netstandard2.0) (< portable-net45+win8)) (&& (== netstandard2.0) (< portable-net45+win8+wp8))
       FSharp.Core (>= 4.2.3) - restriction: || (&& (== net45) (>= netstandard1.6)) (&& (== net47) (< net452) (>= netstandard1.6)) (== netcoreapp2.0) (== netstandard2.0)
@@ -129,7 +129,7 @@ NUGET
       System.Runtime.InteropServices.RuntimeInformation (>= 4.0) - restriction: || (&& (== net47) (< net45)) (== netcoreapp2.0) (== netstandard2.0)
     Microsoft.NETCore.Platforms (2.0.1) - restriction: || (&& (== net45) (== net47) (>= wpa81)) (&& (== net47) (>= monoandroid)) (&& (== net47) (>= monotouch)) (&& (== net47) (< net45)) (&& (== net47) (>= netcoreapp2.0)) (&& (== net47) (< netstandard1.0)) (&& (== net47) (< netstandard1.3) (>= wpa81)) (&& (== net47) (< portable-net45+win8+wpa81)) (&& (== net47) (>= uap10.0)) (&& (== net47) (>= xamarinios)) (&& (== net47) (>= xamarinmac)) (&& (== net47) (>= xamarintvos)) (&& (== net47) (>= xamarinwatchos)) (== netcoreapp2.0) (== netstandard2.0)
     Microsoft.NETCore.Targets (2.0) - restriction: || (&& (== net45) (>= netstandard1.6) (< portable-net45+win8+wp8+wpa81)) (&& (== net45) (>= netstandard2.0) (< portable-net45+win8+wp8+wpa81)) (&& (== net47) (< net45) (>= netstandard1.6)) (&& (== net47) (< net45) (>= netstandard2.0)) (&& (== net47) (>= netstandard1.6) (< portable-net45+win8+wp8+wpa81)) (&& (== net47) (>= netstandard2.0) (< portable-net45+win8+wp8+wpa81)) (== netcoreapp2.0) (== netstandard2.0)
-    Microsoft.TestPlatform.ObjectModel (15.5.0) - version_in_path: true, restriction: || (&& (== net45) (>= net461)) (== net47) (&& (== netcoreapp2.0) (>= net461)) (&& (== netstandard2.0) (>= net461))
+    Microsoft.TestPlatform.ObjectModel (15.6.0) - version_in_path: true, restriction: || (&& (== net45) (>= net461)) (== net47) (&& (== netcoreapp2.0) (>= net461)) (&& (== netstandard2.0) (>= net461))
       System.Reflection.Metadata (>= 1.3) - restriction: || (&& (== net45) (>= net451)) (&& (== net45) (>= netstandard1.5)) (== net47) (== netcoreapp2.0) (== netstandard2.0)
       System.Runtime.InteropServices.RuntimeInformation (>= 4.3) - restriction: || (&& (== net45) (>= net451)) (== net47) (&& (== netcoreapp2.0) (>= net451)) (&& (== netstandard2.0) (>= net451))
     Microsoft.Win32.Primitives (4.3) - restriction: || (&& (== net47) (< net45) (>= netstandard1.6)) (== netcoreapp2.0) (== netstandard2.0)
@@ -523,5 +523,5 @@ NUGET
       System.ValueTuple (>= 4.4 < 5.0)
 GITHUB
   remote: fsharp/FAKE
-    modules/Octokit/Octokit.fsx (a50a9b0833619c296d0f968af1964f6590b06995)
+    modules/Octokit/Octokit.fsx (8f21aabb0974b0f4c7b7dab674b2ea2691a9db8c)
       Octokit (>= 0.20)

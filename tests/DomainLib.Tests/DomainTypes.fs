@@ -12,6 +12,9 @@ module DomainTypes =
     let config10k = { FsCheckConfig.defaultConfig with maxTest = 10000 }
     let configReplay = { FsCheckConfig.defaultConfig with maxTest = 10000 ; replay = Some <| (1940624926, 296296394) } // ; arbitrary = [typeof<DomainGenerators>] }  //see Tips & Tricks for FsCheck
 
+    let reflexivity x =
+        Expect.equal x x "reflexivity"
+
     [<Tests>]
     let trimNonEmptyString =
         testList "DomainTypes.TrimNonEmptyString" [
@@ -34,7 +37,8 @@ module DomainTypes =
                     Prop.forAll (Arb.fromGen <| nonEmptyNonAllWhitespaceString())
                         (fun (x : string) -> 
                             let t = TrimNonEmptyString.TryCreate x
-                            x.Trim() = t.Value.Value)
+                            reflexivity t.Value
+                            x.Trim() = t.Value.Value )
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (x : NonEmptyString) ->
@@ -42,8 +46,10 @@ module DomainTypes =
                     let t = 
                         x.ToString()
                         |> TrimNonEmptyString.TryCreate 
+
                     match t with
                     | Some s ->
+                        reflexivity t.Value
                         t = TrimNonEmptyString.TryCreate s.Value
                     | None ->
                         let t2 = 
@@ -57,8 +63,10 @@ module DomainTypes =
                     let t = 
                         x.ToString()
                         |> TrimNonEmptyString.TryCreate
+
                     match t with
                     | Some s ->
+                        reflexivity t.Value
                         x.ToString().Trim() = s.Value
                     | None ->
                         t = t
@@ -71,6 +79,7 @@ module DomainTypes =
                     Prop.forAll (Arb.fromGen <| nonEmptyNonAllWhitespaceString())
                         (fun (x : string) -> 
                             let t = TrimNonEmptyString.TryCreate (Some x)
+                            reflexivity t.Value
                             x.Trim() = t.Value.Value)
 
             testPropertyWithConfig config10k "Create on string list" <|
@@ -124,6 +133,7 @@ module DomainTypes =
             testPropertyWithConfig config10k "TryCreate" <|
                 fun  (digits : NonNegativeInt) ->
                     let t = digits.ToString() |> Digits.TryCreate
+                    reflexivity t.Value
                     (digits.ToString()) = t.Value.Value
 
                     //to do: digit strings wrapped in whitespace
@@ -132,12 +142,15 @@ module DomainTypes =
                     Prop.forAll (Arb.fromGen <| genDigitsInWhiteSpace())
                         (fun (x : string) -> 
                            let t = Digits.TryCreate x
+                           reflexivity t.Value
                            x.Trim() = t.Value.Value)
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (digits : NonNegativeInt) ->
                     let t = digits.ToString() |> Digits.TryCreate
                     let t2 = Digits.TryCreate t.Value.Value
+                    reflexivity t.Value
+                    reflexivity t2.Value
                     t2 = t
 
             testCase "ordered" <| fun () ->
@@ -174,6 +187,7 @@ module DomainTypes =
                 fun  (digits : NonNegativeInt) ->
                     let validDigit = validDigits digits 2
                     let t = Digits2.TryCreate validDigit
+                    reflexivity t.Value
                     validDigit = t.Value.Value
 
             testPropertyWithConfig config10k "TryCreate trims" <|
@@ -181,6 +195,7 @@ module DomainTypes =
                     Prop.forAll (Arb.fromGen <| genDigitsOfLengthInWhiteSpace 2)
                         (fun (x : string) -> 
                            let t = Digits2.TryCreate x
+                           reflexivity t.Value
                            x.Trim() = t.Value.Value)
 
             testPropertyWithConfig config10k "equality" <|
@@ -188,6 +203,8 @@ module DomainTypes =
                     let validDigit = validDigits digits 2
                     let t = Digits2.TryCreate validDigit
                     let t2 = Digits2.TryCreate t.Value.Value
+                    reflexivity t.Value
+                    reflexivity t2.Value
                     t2 = t
 
             testCase "ordered" <| fun () ->
