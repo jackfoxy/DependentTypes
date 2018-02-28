@@ -2,12 +2,15 @@
 
 /// Inline helper functions.
 module DependentTypes =
+    /// Try create dependent type
     let inline mkDependentType (x: ^S) : Option< ^T> = 
         (^T: (static member TryCreate: ^S -> Option< ^T>) x)
 
+    /// Retrieves base type value
     let inline extract (x:^S) = 
         (^S: (static member Extract: ^S -> ^T) x)
 
+    /// Try conversion of base type value to compatible dependent type
     let inline convertTo (x: ^S) : Option< ^T> = 
         (^T: (static member ConvertTo: ^S -> Option< ^T>) x)
 
