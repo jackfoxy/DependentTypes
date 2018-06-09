@@ -1,5 +1,5 @@
 #### 0.0.6 - June 8, 2018
-* support SourceLinke
+* support SourceLink
 
 #### 0.0.5 - February 28, 2018
 * rename Cctor PiType
