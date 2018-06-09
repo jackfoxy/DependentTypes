@@ -1,5 +1,6 @@
 #### 0.0.6 - June 8, 2018
 * support SourceLink
+* FSharp.Core 4.5
 
 #### 0.0.5 - February 28, 2018
 * rename Cctor PiType

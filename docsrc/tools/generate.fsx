@@ -86,7 +86,15 @@ let binaries =
     let conventionBased = 
         directoryInfo bin 
         |> subDirectories
-        |> Array.map (fun d -> d.Name, (subDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47")) ).[0] )
+        |> Array.map (fun d -> 
+            let net45Bin = 
+                subDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
+            let net47Bin =
+                subDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
+            if net45Bin.Length > 0 then
+                d.Name, net45Bin.[0] 
+            else
+                d.Name, net47Bin.[0] )
         |> Array.map (fun (name, d) -> 
             d.GetFiles()
             |> Array.filter (fun x -> 
