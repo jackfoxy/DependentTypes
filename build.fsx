@@ -169,7 +169,6 @@ Target.create "PublishNuget" (fun _ ->
             WorkingDir = "bin" })
 )
 
-
 // --------------------------------------------------------------------------------------
 // Generate the documentation
 
@@ -211,22 +210,19 @@ Target.create "ReferenceDocs" (fun _ ->
    
         let conventionBased = 
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
-            |> Array.map (fun d -> 
-                let net45Bin = 
-                    DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
-                let net47Bin =
-                    DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
-                if net45Bin.Length > 0 then  
-                    d.Name, net45Bin.[0]
-                else   
-                    d.Name, net47Bin.[0]  ) 
-            |> Array.map (fun (name, d) -> 
-                d.GetFiles()
+            |> Array.collect (fun d ->
+                let name, dInfo =
+                    let net45Bin =
+                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
+                    if net45Bin.Length > 0 then  
+                        d.Name, net45Bin.[0]
+                    else   
+                        d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))).[0]
+                dInfo.GetFiles()
                 |> Array.filter (fun x -> 
                     x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
                 |> Array.map (fun x -> x.FullName) 
                 )
-            |> Array.concat
             |> List.ofArray
 
         conventionBased @ manuallyAdded
@@ -257,7 +253,6 @@ Target.create "Docs" (fun _ ->
     Shell.copyFile "docsrc/content/" "LICENSE.txt"
     Shell.rename "docsrc/content/license.md" "docsrc/content/LICENSE.txt"
 
-    
     DirectoryInfo.getSubDirectories (DirectoryInfo.ofPath templates)
     |> Seq.iter (fun d ->
                     let name = d.Name
