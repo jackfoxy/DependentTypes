@@ -211,13 +211,8 @@ Target.create "ReferenceDocs" (fun _ ->
         let conventionBased = 
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
             |> Array.collect (fun d ->
-                let name, dInfo =
-                    let net45Bin =
-                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
-                    if net45Bin.Length > 0 then  
-                        d.Name, net45Bin.[0]
-                    else   
-                        d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))).[0]
+                let name, dInfo = 
+                        d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net472"))).[0]
                 dInfo.GetFiles()
                 |> Array.filter (fun x -> 
                     x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
