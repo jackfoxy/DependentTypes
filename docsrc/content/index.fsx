@@ -100,7 +100,7 @@ module NonEmptySetDef =
 
     type ValidNonEmptySet() = inherit NonEmptySetValidator()
     
-type NonEmptyIntSet = LimitedValue<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>
+type NonEmptyIntSet = DependentType<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>
 
 let myNonEmptyIntSetOpt = [1;2;3] |> Set.ofList |> NonEmptyIntSet.TryCreate
 (**

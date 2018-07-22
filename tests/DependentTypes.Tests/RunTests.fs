@@ -7,7 +7,4 @@ module RunTests =
     [<EntryPoint>]
     let main args =
 
-        Tests.runTestsWithArgs defaultConfig args DependentType.dependentTypes |> ignore
-        
-
-        0
+        Tests.runTestsWithArgs defaultConfig args DependentType.dependentTypes 

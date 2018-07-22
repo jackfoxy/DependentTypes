@@ -155,12 +155,12 @@ module IntRange =
     type Min101 () = inherit MinNumRangeValidator(101)
     type MaxMinus101 () = inherit MaxNumRangeValidator(-101)
 
-type PositiveInt150 = LimitedValue<IntRange.MaxPos150, int * int, int>
-type PositiveInt20000 = LimitedValue<IntRange.MaxPos20000, int * int, int>
-type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100, int * int, int>
+type PositiveInt150 = DependentType<IntRange.MaxPos150, int * int, int>
+type PositiveInt20000 = DependentType<IntRange.MaxPos20000, int * int, int>
+type Minus100To100 = DependentType<IntRange.RangeMinus100To100, int * int, int>
 
-type GT100 = LimitedValue<IntRange.Min101, int, int>
-type LTminus100 = LimitedValue<IntRange.MaxMinus101, int, int>
+type GT100 = DependentType<IntRange.Min101, int, int>
+type LTminus100 = DependentType<IntRange.MaxMinus101, int, int>
 (**
 ### Create and TryCreate overloads
 

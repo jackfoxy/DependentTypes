@@ -16,11 +16,11 @@ module DependentType =
         validate id (fun (s:string) -> s.Length <= len) s
 
     type LenValidator(config) = 
-        inherit PiType<int, string, string>(config, validateLen)
+        inherit PiType<int, string, string option>(config, validateLen)
 
     type Size5 () = inherit LenValidator(5) 
 
-    type String5 = DependentType<Size5, int, string, string>
+    type String5 = DependentType<Size5, int, string, string option>
 
     let reflexivity x =
         Expect.equal x x "reflexivity"
@@ -30,27 +30,27 @@ module DependentType =
         testList "DependentTypes.Equality and Comparison" [
 
             testCase "Equality" <| fun () ->
-                let s100_1 =  (String5.TryCreate "100").Value
-                let s100_2 =  (String5.TryCreate "100").Value
+                let s100_1 =  (String5.Create "100").Value
+                let s100_2 =  (String5.Create "100").Value
 
                 Expect.equal s100_1 s100_2 "Expected equal"
                 reflexivity s100_1
                 reflexivity s100_2
 
             testCase "Inequality" <| fun () ->
-                let s100 =  (String5.TryCreate "100").Value
-                let s200 =  (String5.TryCreate "200").Value
+                let s100 =  (String5.Create "100").Value
+                let s200 =  (String5.Create "200").Value
 
                 Expect.notEqual s100 s200 "Expected not equal"
                 reflexivity s100
                 reflexivity s200
 
             testCase "Comparison" <| fun () ->
-                let n1 =  (String5.TryCreate "100").Value
-                let n2 =  (String5.TryCreate "200").Value
-                let n3 =  (String5.TryCreate "300").Value
-                let n4 =  (String5.TryCreate "400").Value
-                let n5 =  (String5.TryCreate "500").Value
+                let n1 =  (String5.Create "100").Value
+                let n2 =  (String5.Create "200").Value
+                let n3 =  (String5.Create "300").Value
+                let n4 =  (String5.Create "400").Value
+                let n5 =  (String5.Create "500").Value
 
                 let l1 = [n1; n2; n3; n4; n5]
                 let l2 = [n5; n4; n1; n2; n3]

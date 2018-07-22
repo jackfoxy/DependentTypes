@@ -19,24 +19,21 @@ module DomainTypes =
     let trimNonEmptyString =
         testList "DomainTypes.TrimNonEmptyString" [
 
-            testCase "TryCreate None on empty string" <| fun () ->
-                Expect.isNone (TrimNonEmptyString.TryCreate System.String.Empty) "Expected None"
-
-            testCase "TryCreate None on null string" <| fun () ->
-                Expect.isNone (TrimNonEmptyString.TryCreate null) "Expected None"
+            testCase "Create None on empty string" <| fun () ->
+                Expect.isNone (TrimNonEmptyString.Create System.String.Empty).Value "Expected None"
 
             testPropertyWithConfig config10k "TryCreate None on all white space string" <|
                 fun  () ->
                     Prop.forAll (Arb.fromGen <| whitespaceString())
                         (fun (x : string) -> 
-                            let t = TrimNonEmptyString.TryCreate x
-                            t.IsNone)
+                            let t = TrimNonEmptyString.Create x
+                            t.Value.IsNone)
 
             testPropertyWithConfig config10k "TryCreate" <|
                 fun  () ->
                     Prop.forAll (Arb.fromGen <| nonEmptyNonAllWhitespaceString())
                         (fun (x : string) -> 
-                            let t = TrimNonEmptyString.TryCreate x
+                            let t = TrimNonEmptyString.Create x
                             reflexivity t.Value
                             x.Trim() = t.Value.Value )
 
@@ -45,16 +42,16 @@ module DomainTypes =
 
                     let t = 
                         x.ToString()
-                        |> TrimNonEmptyString.TryCreate 
+                        |> TrimNonEmptyString.Create 
 
-                    match t with
+                    match t.Value with
                     | Some s ->
                         reflexivity t.Value
-                        t = TrimNonEmptyString.TryCreate s.Value
+                        t = TrimNonEmptyString.Create s
                     | None ->
                         let t2 = 
                             x.ToString()
-                            |> TrimNonEmptyString.TryCreate
+                            |> TrimNonEmptyString.Create
                         t = t2
 
             testPropertyWithConfig config10k "is trim" <|
@@ -62,33 +59,22 @@ module DomainTypes =
 
                     let t = 
                         x.ToString()
-                        |> TrimNonEmptyString.TryCreate
+                        |> TrimNonEmptyString.Create
 
-                    match t with
+                    match t.Value with
                     | Some s ->
-                        reflexivity t.Value
-                        x.ToString().Trim() = s.Value
+                        reflexivity s
+                        x.ToString().Trim() = s
                     | None ->
                         t = t
-
-            testCase "TryCreate None on None" <| fun () ->
-                Expect.isNone (TrimNonEmptyString.TryCreate None) "Expected None"
-
-            testPropertyWithConfig config10k "TryCreate on Some x" <|
-                fun  () ->
-                    Prop.forAll (Arb.fromGen <| nonEmptyNonAllWhitespaceString())
-                        (fun (x : string) -> 
-                            let t = TrimNonEmptyString.TryCreate (Some x)
-                            reflexivity t.Value
-                            x.Trim() = t.Value.Value)
 
             testPropertyWithConfig config10k "Create on string list" <|
                 fun  (xs : list<string>) ->
 
                     let listNonEmptyStringSorted = 
                         TrimNonEmptyString.Create xs
-                        |> List.sort
-                        |> List.map (fun x -> x.Value)
+                        |> Seq.sort
+                        |> Seq.map (fun x -> x.Value)
 
                     let filteredListSorted =
                         xs
@@ -96,6 +82,8 @@ module DomainTypes =
                         |> List.map (fun x -> x.Trim())
                         |> List.filter (System.String.IsNullOrWhiteSpace >> not)
                         |> List.sort
+                        |> Seq.ofList
+                        |> Seq.map (fun x -> Some x)
                    
                     filteredListSorted = listNonEmptyStringSorted
 
@@ -103,11 +91,11 @@ module DomainTypes =
                 fun  (xs : list<string>) ->
 
                     let listTrimNonEmptyStringSorted = 
-                        TrimNonEmptyString.Create xs
+                        TrimNonEmptyString.Create (xs |> List.filter (fun x -> System.String.IsNullOrEmpty x |> not) )
 
                     let list2 =
                         listTrimNonEmptyStringSorted
-                        |> List.map (fun x -> x.Value)
+                        |> Seq.choose (fun x -> x.Value)
                         |> TrimNonEmptyString.Create 
 
                     list2 = listTrimNonEmptyStringSorted
@@ -117,22 +105,17 @@ module DomainTypes =
     let digits =
         testList "DomainTypes.Digits" [
 
-            testCase "TryCreate None on empty string" <| fun () ->
-                Expect.isNone (Digits.TryCreate System.String.Empty) "Expected None"
-
-            testCase "TryCreate None on null string" <| fun () ->
-                Expect.isNone (Digits.TryCreate null) "Expected None"
 
             testPropertyWithConfig config10k "TryCreate None on non-digital string" <|
                 fun  () ->
                     Prop.forAll (Arb.fromGen <| nonDigitalString())
                         (fun (x : string) -> 
-                           let t = Digits.TryCreate x
-                           t.IsNone)
+                           let t = Digits.Create x
+                           t.Value.IsNone)
 
             testPropertyWithConfig config10k "TryCreate" <|
                 fun  (digits : NonNegativeInt) ->
-                    let t = digits.ToString() |> Digits.TryCreate
+                    let t = digits.ToString() |> Digits.Create
                     reflexivity t.Value
                     (digits.ToString()) = t.Value.Value
 
@@ -141,23 +124,23 @@ module DomainTypes =
                 fun  () ->
                     Prop.forAll (Arb.fromGen <| genDigitsInWhiteSpace())
                         (fun (x : string) -> 
-                           let t = Digits.TryCreate x
+                           let t = Digits.Create x
                            reflexivity t.Value
                            x.Trim() = t.Value.Value)
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (digits : NonNegativeInt) ->
-                    let t = digits.ToString() |> Digits.TryCreate
-                    let t2 = Digits.TryCreate t.Value.Value
+                    let t = digits.ToString() |> Digits.Create
+                    let t2 = Digits.Create t.Value.Value
                     reflexivity t.Value
                     reflexivity t2.Value
                     t2 = t
 
             testCase "ordered" <| fun () ->
                 let ordered =
-                    [Digits.TryCreate "555"; Digits.TryCreate "111"; Digits.TryCreate "33"; Digits.TryCreate "2"; ]
+                    [Digits.Create "555"; Digits.Create "111"; Digits.Create "33"; Digits.Create "2"; ]
                     |> List.sort
-                Expect.equal ordered [Digits.TryCreate "111"; Digits.TryCreate "2"; Digits.TryCreate "33"; Digits.TryCreate "555"; ]
+                Expect.equal ordered [Digits.Create "111"; Digits.Create "2"; Digits.Create "33"; Digits.Create "555"; ]
                     "expected equality"
         ]
 
@@ -166,27 +149,24 @@ module DomainTypes =
         testList "DomainTypes.Digits2" [
 
             testCase "TryCreate None on empty string" <| fun () ->
-                Expect.isNone (Digits2.TryCreate System.String.Empty) "Expected None"
-
-            testCase "TryCreate None on null string" <| fun () ->
-                Expect.isNone (Digits2.TryCreate null) "Expected None"
+                Expect.isNone (Digits2.Create System.String.Empty).Value "Expected None"
 
             testPropertyWithConfig config10k "TryCreate None on non-digital string" <|
                 fun  () ->
                     Prop.forAll (Arb.fromGen <| nonDigitalString())
                         (fun (x : string) -> 
-                           let t = Digits2.TryCreate x
-                           t.IsNone)
+                           let t = Digits2.Create x
+                           t.Value.IsNone)
 
             testPropertyWithConfig config10k "TryCreate None on wrong length digital string" <|
                 fun  (digits : NonNegativeInt) ->
-                    let t = invalidDigits digits 2 |> Digits2.TryCreate
-                    t.IsNone
+                    let t = invalidDigits digits 2 |> Digits2.Create
+                    t.Value.IsNone
 
             testPropertyWithConfig config10k "TryCreate" <|
                 fun  (digits : NonNegativeInt) ->
                     let validDigit = validDigits digits 2
-                    let t = Digits2.TryCreate validDigit
+                    let t = Digits2.Create validDigit
                     reflexivity t.Value
                     validDigit = t.Value.Value
 
@@ -194,24 +174,24 @@ module DomainTypes =
                 fun  () ->
                     Prop.forAll (Arb.fromGen <| genDigitsOfLengthInWhiteSpace 2)
                         (fun (x : string) -> 
-                           let t = Digits2.TryCreate x
+                           let t = Digits2.Create x
                            reflexivity t.Value
                            x.Trim() = t.Value.Value)
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (digits : NonNegativeInt) ->
                     let validDigit = validDigits digits 2
-                    let t = Digits2.TryCreate validDigit
-                    let t2 = Digits2.TryCreate t.Value.Value
+                    let t = Digits2.Create validDigit
+                    let t2 = Digits2.Create t.Value.Value
                     reflexivity t.Value
                     reflexivity t2.Value
                     t2 = t
 
             testCase "ordered" <| fun () ->
                 let ordered =
-                    [Digits2.TryCreate "55"; Digits2.TryCreate "11"; Digits2.TryCreate "33"; Digits2.TryCreate "22"; ]
+                    [Digits2.Create "55"; Digits2.Create "11"; Digits2.Create "33"; Digits2.Create "22"; ]
                     |> List.sort
-                Expect.equal ordered [Digits2.TryCreate "11"; Digits2.TryCreate "22"; Digits2.TryCreate "33"; Digits2.TryCreate "55"; ]
+                Expect.equal ordered [Digits2.Create "11"; Digits2.Create "22"; Digits2.Create "33"; Digits2.Create "55"; ]
                     "expected equality"
         ]
 
@@ -220,11 +200,11 @@ module DomainTypes =
         testList "DomainTypes.GenericSet" [
             testCase "int" <| fun () ->
                 let nonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.Create
-                Expect.equal nonEmptyIntSet.Value ([1;2;3] |> Set.ofList)
+                Expect.equal nonEmptyIntSet.Value.Value ([1;2;3] |> Set.ofList)
                     "expected equality"
 
             testCase "string" <| fun () ->
                 let nonEmptyIntSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.Create
-                Expect.equal nonEmptyIntSet.Value (["Rob";"Jack";"Don"] |> Set.ofList)
+                Expect.equal nonEmptyIntSet.Value.Value (["Rob";"Jack";"Don"] |> Set.ofList)
                     "expected equality"
         ]
