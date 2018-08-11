@@ -10,6 +10,8 @@ nuget Expecto.VisualStudio.TestAdapter version_in_path: true
 
 clitool dotnet-fake
 
+github eiriktsarpalis/TypeShape:2.10 src/TypeShape/TypeShape.fs
+
 group Formatting
 source https://nuget.org/api/v2
 source https://ci.appveyor.com/nuget/fsharp-formatting

@@ -2,7 +2,6 @@
 
 open DependentTypes
 open DependentTypes.DependentTypes
-open System
 
 (* 'T -> 'T2 tests existing LimitValue tests where 'T = 'T2 *)
 
@@ -15,13 +14,13 @@ let validateLen len s =
 type LenValidator(config) = 
     inherit PiType<int, string, string option>(config, validateLen)
 
-type Size5 () = inherit LenValidator(5) 
+type Size4 () = inherit LenValidator(4) 
 
-type String5 = DependentType<Size5, int, string, string option>
+type String4 = DependentType<Size4, int, string, string option>
 
 let demo1() =
-    let okString = String5.Create "short" // Some
-    let failString = String5.Create "much too long" //None
+    let okString = String4.Create "good" // Some
+    let failString = String4.Create "much too long" //None
     let z = okString.Value
     printfn "okString is: %s" z.Value
     printfn "failString is: %A" failString
@@ -67,32 +66,30 @@ let tryConstructIndexToString i =
         (match i' with
         | n when n < 0 -> "negative"
         | n when n > 0 -> "positive"
-        | _ -> "zero" )
-        |> Some ) i
+        | _ -> "zero" ) ) i
 
 let tryIndexToString _ v = tryConstruct id tryConstructIndexToString v
 
 type IndexToStringPiType() = 
-    inherit PiType<unit, int, string option>((), tryIndexToString)
+    inherit PiType<unit, int, string>((), tryIndexToString)
 
-type IndexToString = DependentType<IndexToStringPiType, unit, int, string option>
+type IndexToString = DependentType<IndexToStringPiType, unit, int, string>
 
 let demo4() =
     printfn ""
     printfn "dependent type that indexes to string (int -> string)"
     let neg =  (IndexToString.Create -100).Value
 
-    printfn "%s" neg.Value
+    printfn "%s" neg
 
     let zero : IndexToString = mkDependentType 0
     let zeroExtracted  = zero |> extract
 
-    printfn "zero extracted: %s" zeroExtracted.Value
+    printfn "zero extracted: %s" zeroExtracted
 
-    //let zeroVal = zero.Value
-    //let zeroValToString5 : String5 =  convertTo zero
+    let zeroValToString4 : String4 =  zero |> convertTo 
 
-    //printfn "zero converted to String5: %A of type %A" zeroValToString5.Value <| zeroValToString5.GetType()
+    printfn "zero converted to String5: %A of type %A" zeroValToString4.Value <| zeroValToString4.GetType()
 
 (* 'T -> 'T2 test 2*)
 
@@ -137,11 +134,11 @@ let demo6_1() =
 
 
 let demo7() =
-    let n1 =  (String5.Create "100").Value
-    let n2 =  (String5.Create "200").Value
-    let n3 =  (String5.Create "300").Value
-    let n4 =  (String5.Create "400").Value
-    let n5 =  (String5.Create "500").Value
+    let n1 =  (String4.Create "100").Value
+    let n2 =  (String4.Create "200").Value
+    let n3 =  (String4.Create "300").Value
+    let n4 =  (String4.Create "400").Value
+    let n5 =  (String4.Create "500").Value
 
     let l1 = [n1; n2; n3; n4; n5]
     let l2 = [n5; n4; n1; n2; n3]

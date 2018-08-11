@@ -68,43 +68,48 @@ module DomainTypes =
                     | None ->
                         t = t
 
-            testPropertyWithConfig config10k "Create on string list" <|
-                fun  (xs : list<string>) ->
+            //testPropertyWithConfig config10k "Create on string list" <|
+            //    fun  (xs : list<string>) ->
 
-                    let listNonEmptyStringSorted = 
-                        TrimNonEmptyString.Create xs
-                        |> Seq.sort
-                        |> Seq.map (fun x -> x.Value)
+            //        let listNonEmptyStringSorted = 
+            //            TrimNonEmptyString.Create xs
+            //            |> Seq.sort
+            //            |> Seq.map (fun x -> x.Value)
 
-                    let filteredListSorted =
-                        xs
-                        |> List.filter (System.String.IsNullOrWhiteSpace >> not)
-                        |> List.map (fun x -> x.Trim())
-                        |> List.filter (System.String.IsNullOrWhiteSpace >> not)
-                        |> List.sort
-                        |> Seq.ofList
-                        |> Seq.map (fun x -> Some x)
+            //        let filteredListSorted =
+            //            xs
+            //            |> Seq.map (fun x -> 
+            //                x.Trim()
+            //                |> fun x' -> if x.Length = 0 then None else Some x' ) 
+            //            |> Seq.sort
                    
-                    filteredListSorted = listNonEmptyStringSorted
+            //        filteredListSorted = listNonEmptyStringSorted
 
-            testPropertyWithConfig config10k "list equality" <|
-                fun  (xs : list<string>) ->
+            //testPropertyWithConfig config10k "list equality" <|
+            //    fun  (xs : list<string>) ->
 
-                    let listTrimNonEmptyStringSorted = 
-                        TrimNonEmptyString.Create (xs |> List.filter (fun x -> System.String.IsNullOrEmpty x |> not) )
+            //        let listTrimNonEmptyStringSorted = 
+            //            TrimNonEmptyString.Create (xs |> List.filter (fun x -> System.String.IsNullOrEmpty x |> not) )
 
-                    let list2 =
-                        listTrimNonEmptyStringSorted
-                        |> Seq.choose (fun x -> x.Value)
-                        |> TrimNonEmptyString.Create 
+            //        let list2 =
+            //            listTrimNonEmptyStringSorted
+            //            |> Seq.choose (fun x -> x.Value)
+            //            |> TrimNonEmptyString.Create 
 
-                    list2 = listTrimNonEmptyStringSorted
+            //        list2 = listTrimNonEmptyStringSorted
+
+            testCase "Supports comparison" <| fun () ->
+                let a = TrimNonEmptyString.Create "AAA"
+                let a' = TrimNonEmptyString.Create "AAA"
+                let b = TrimNonEmptyString.Create "BBB"
+                Expect.isTrue (b > a) "Expected true"
+                Expect.isFalse (a > b) "Expected false"
+                Expect.equal a a' "expected equal"
         ]
 
     [<Tests>]
     let digits =
         testList "DomainTypes.Digits" [
-
 
             testPropertyWithConfig config10k "TryCreate None on non-digital string" <|
                 fun  () ->

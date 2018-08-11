@@ -123,7 +123,9 @@ NUGET
       Microsoft.NETCore.Targets (>= 1.1) - restriction: || (&& (== net472) (< net45)) (&& (== net472) (< portable-net45+win8+wp8+wpa81)) (== netcoreapp2.1) (== netstandard2.0)
       System.Runtime (>= 4.3) - restriction: || (&& (== net472) (< net45)) (&& (== net472) (< portable-net45+win8+wp8+wpa81)) (== netcoreapp2.1) (== netstandard2.0)
     System.ValueTuple (4.5) - restriction: || (&& (== net472) (< net452)) (== netcoreapp2.1) (== netstandard2.0)
-
+GITHUB
+  remote: eiriktsarpalis/TypeShape
+    src/TypeShape/TypeShape.fs (49e5fa6952414cd8cffddf7b6e0bb77508493440)
 GROUP FakeBuild
 STORAGE: NONE
 NUGET

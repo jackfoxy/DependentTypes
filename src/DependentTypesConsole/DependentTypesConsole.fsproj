@@ -12,6 +12,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Experimental.fs" />
+    <Compile Include="Experimental2.fs" />
     <Compile Include="DemoDependentType.fs" />
     <Compile Include="DemoDependentFunction.fs" />
     <Compile Include="Program.fs" />

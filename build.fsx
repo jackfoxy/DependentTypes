@@ -50,8 +50,10 @@ let solutionFile  = "DependentTypes.sln"
 // Default target configuration
 let configuration = "Release"
 
+let netFramework = "net472"
+
 // Pattern specifying assemblies to be tested using Expecto
-let testAssemblies = "tests/**/bin/Release/net47/*Tests.exe"
+let testAssemblies = sprintf "tests/**/bin/Release/%s/*Tests.exe" netFramework
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
@@ -212,7 +214,7 @@ Target.create "ReferenceDocs" (fun _ ->
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
             |> Array.collect (fun d ->
                 let name, dInfo = 
-                        d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net472"))).[0]
+                        d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains(netFramework))).[0]
                 dInfo.GetFiles()
                 |> Array.filter (fun x -> 
                     x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())

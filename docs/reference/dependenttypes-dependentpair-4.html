@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>ValidUpperLatin3 - DependentTypes</title>
+    <title>DependentPair<'SigmaType, 'Config, 'T, 'T2> - DependentTypes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Robert Kuzelj, Jack Fox"/>
@@ -35,37 +35,90 @@
 
 
 
-<h1>ValidUpperLatin3</h1>
+<h1>DependentPair<'SigmaType, 'Config, 'T, 'T2></h1>
 <p>
 
-    <span>Namespace: DomainLib</span><br />
-        <span>Parent Module: <a href="domainlib-upperlatindef.html">UpperLatinDef</a></span><br />
+    <span>Namespace: DependentTypes</span><br />
     </p>
 <div class="xmldoc">
+<p>'T -&gt; 'T * 'T2 dependent pair</p>
+
 </div>
-  <h3>Constructors</h3>
+  <h3>Union Cases</h3>
   <table class="table table-bordered member-list">
     <thead>
-      <tr><td>Constructor</td><td>Description</td></tr>
+      <tr><td>Union Case</td><td>Description</td></tr>
     </thead>
     <tbody>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '38', 38)" onmouseover="showTip(event, '38', 38)">
-            new()
+          <code onmouseout="hideTip(event, '4', 4)" onmouseover="showTip(event, '4', 4)">
+            DependentPair(&#39;T,&#39;T2)
           </code>
-          <div class="tip" id="38">
-            <strong>Signature:</strong> unit -&gt; ValidUpperLatin3<br />
+          <div class="tip" id="4">
+            <strong>Signature:</strong> &#39;T * &#39;T2<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib/Domain.fs#L72-72" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L79-79" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
           
-              <p>CompiledName: <code>.ctor</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Instance members</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Instance member</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '5', 5)" onmouseover="showTip(event, '5', 5)">
+            Value
+          </code>
+          <div class="tip" id="5">
+            <strong>Signature:</strong> &#39;T * &#39;T2<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L81-81" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_Value</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Static members</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Static member</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '6', 6)" onmouseover="showTip(event, '6', 6)">
+            Create(x)
+          </code>
+          <div class="tip" id="6">
+            <strong>Signature:</strong> x:&#39;T -&gt; DependentPair&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L85-85" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
         </td>
       </tr>
     </tbody>
