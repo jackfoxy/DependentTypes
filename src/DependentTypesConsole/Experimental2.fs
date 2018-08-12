@@ -25,7 +25,6 @@ open System.Reflection
 open FSharp.Data
     
 open DependentTypes
-//open DependentTypes.DependentTypes
 open System
 
 module TrimNonEmptyStringDef =
@@ -42,6 +41,7 @@ module TrimNonEmptyStringDef =
 
 type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string option> 
 
-
 let t = TrimNonEmptyString.Create "asdf"
-let t2 = TrimNonEmptyString.TryCreate "asdf"
+let t2 = TrimNonEmptyString.TryCreate "  "
+
+let t2Value = t2.Value.Value.Value

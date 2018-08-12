@@ -23,21 +23,13 @@ open TypeShape
     
 [<Class>]
 /// Constructor / validator type for DependentType 'T -> 'T2 
-type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> _) =
+type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
     member __.Create x  = pi config x
-    member __.TryCreate x : _ Option = 
-        let wrap (f : 'a -> 'T2)  = unbox<'T -> _ Option> f
-
-        match shapeof<'T2> with
-        | Shape.FSharpOption _ ->
-            wrap (pi config) x 
-        | _ ->
-            pi config x |> Some
 
 [<Class>]
 /// Constructor / validator type for DependentPair 'T -> 'T * 'T2
-type SigmaType<'Config, 'T, 'T2> (config: 'Config, vfn: 'Config -> 'T -> 'T2) =
-    member __.Create(x:'T) : 'T * 'T2 = x, (vfn config x)
+type SigmaType<'Config, 'T, 'T2> (config: 'Config, sigma: 'Config -> 'T -> 'T2) =
+    member __.Create(x:'T) : 'T * 'T2 = x, (sigma config x)
 
 /// 'T1 -> 'T2 dependent type
 type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>  
@@ -59,11 +51,15 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
             |> DependentType
 
         static member TryCreate(x:'T) : DependentType<'PiType, 'Config, 'T, 'T2> Option =
-            let pi = (new 'PiType()).TryCreate x
+            let piResult = (new 'PiType()).Create x
 
-            match pi with
-            | Some x -> DependentType x |> Some
-            | None -> None
+            match shapeof<'T2> with
+            | Shape.FSharpOption _ ->
+                if isNull (piResult :> obj) then
+                    None
+                else
+                    Some (DependentType piResult)
+            | _ -> Some (DependentType piResult)
             
         static member Create (xs : 'T seq) : DependentType<'PiType, 'Config, 'T, 'T2> seq =
             xs
@@ -82,6 +78,6 @@ type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Co
             let (DependentPair (s, s2)) = __
             s, s2
 
-        static member Create(x:'T) : DependentPair<'PiType, 'Config, 'T, 'T2> =
-            (new 'PiType()).Create x
+        static member Create(x:'T) : DependentPair<'SigmaType, 'Config, 'T, 'T2> =
+            (new 'SigmaType()).Create x
             |> DependentPair

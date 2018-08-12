@@ -22,12 +22,22 @@ module DomainTypes =
             testCase "Create None on empty string" <| fun () ->
                 Expect.isNone (TrimNonEmptyString.Create System.String.Empty).Value "Expected None"
 
-            testPropertyWithConfig config10k "TryCreate None on all white space string" <|
+            testPropertyWithConfig config10k "Create None on all white space string" <|
                 fun  () ->
                     Prop.forAll (Arb.fromGen <| whitespaceString())
                         (fun (x : string) -> 
                             let t = TrimNonEmptyString.Create x
                             t.Value.IsNone)
+
+            testCase "TryCreate None on empty string" <| fun () ->
+                Expect.isNone (TrimNonEmptyString.TryCreate System.String.Empty) "Expected None"
+
+            testPropertyWithConfig config10k "TryCreate None on all white space string" <|
+                fun  () ->
+                    Prop.forAll (Arb.fromGen <| whitespaceString())
+                        (fun (x : string) -> 
+                            let t = TrimNonEmptyString.TryCreate x
+                            t.IsNone)
 
             testPropertyWithConfig config10k "TryCreate" <|
                 fun  () ->
