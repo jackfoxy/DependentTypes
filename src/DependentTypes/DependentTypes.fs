@@ -17,57 +17,76 @@ module DependentTypes =
     /// Conversion of base type value to compatible dependent type
     let inline convertTo (x: ^S) : ^T = 
         (^T: (static member ConvertTo: ^S -> ^T) x)
+
+    /// Retrieves the 'T2 value from an option DependentType
+    let inline someValue (x : ^S Option) =
+        (x |> Option.map (fun x' ->
+            (^S: (static member Extract: ^S -> ^T option ) x') )
+            |> Option.flatten).Value
             
 open DependentTypes
 open TypeShape
-    
-[<Class>]
-/// Constructor / validator type for DependentType 'T -> 'T2 
-type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
-    member __.Create x  = pi config x
 
 [<Class>]
 /// Constructor / validator type for DependentPair 'T -> 'T * 'T2
-type SigmaType<'Config, 'T, 'T2> (config: 'Config, sigma: 'Config -> 'T -> 'T2) =
-    member __.Create(x:'T) : 'T * 'T2 = x, (sigma config x)
+type SigmaType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
+    member __.Create(x:'T) : 'T * 'T2 = x, (pi config x)
 
 /// 'T1 -> 'T2 dependent type
-type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>  
+type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> SigmaType<'Config, 'T, 'T2>  
                                               and  'PiType : (new: unit -> 'PiType)> =
-    DependentType of 'T2 
-    
+    DependentPair of 'T * 'T2
     with 
         member __.Value = 
-            let (DependentType s) = __
-            s
+            let (DependentPair (t, t2)) = __
+            t2
+            //(new 'PiType()).Create x
+            //|> snd
 
         override __.ToString() = __.Value.ToString()     
         
-        static member Extract (x : DependentType<'PiType, 'Config, 'T, 'T2> ) = 
-            let (DependentType s) = x
-            s   
-        static member Create(x:'T) : DependentType<'PiType, 'Config, 'T, 'T2> =
-            (new 'PiType()).Create x
-            |> DependentType
+        static member Extract  (x : DependentType<'PiType, 'Config, 'T, 'T2> ) = 
+            let (DependentPair (t, t2)) = x
+            t2
+            //(new 'PiType()).Create t
+            //|> snd
 
-        static member TryCreate(x:'T) : DependentType<'PiType, 'Config, 'T, 'T2> Option =
+        static member Create x : DependentType<'PiType, 'Config, 'T, 'T2> =
+            (new 'PiType()).Create x
+            |> DependentPair
+
+        static member TryCreate x : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             let piResult = (new 'PiType()).Create x
 
             match shapeof<'T2> with
             | Shape.FSharpOption _ ->
-                if isNull (piResult :> obj) then
+                if isNull ((snd piResult) :> obj) then
                     None
                 else
-                    Some (DependentType piResult)
-            | _ -> Some (DependentType piResult)
-            
-        static member Create (xs : 'T seq) : DependentType<'PiType, 'Config, 'T, 'T2> seq =
-            xs
-            |> Seq.map DependentType.Create 
+                    Some (DependentPair piResult)
+            | _ -> 
+                Some (DependentPair piResult)
+
+        static member TryCreate (x : 'T Option) : DependentType<'PiType, 'Config, 'T, 'T2> Option =
+            match x with
+            | Some t -> 
+                let piResult = (new 'PiType()).Create t
+
+                match shapeof<'T2> with
+                | Shape.FSharpOption _ ->
+                    if isNull ((snd piResult) :> obj) then
+                        None
+                    else
+                        Some (DependentPair piResult)
+                | _ -> 
+                    Some (DependentPair piResult)
+
+            | None -> 
+                None
 
         static member inline ConvertTo(x : DependentType<'x, 'y, 'q, 'r> ) : DependentType<'a, 'b, 'r, 's> = 
-            let (DependentType v) = x
-            mkDependentType v   
+            let (DependentPair (_, t2)) = x
+            mkDependentType t2  
 
 /// 'T -> 'T * 'T2 dependent pair
 type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Config, 'T, 'T2>  

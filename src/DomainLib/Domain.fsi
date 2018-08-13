@@ -6,7 +6,7 @@ open System.Collections.Generic
 
 module TrimNonEmptyStringDef =
     type NonEmptyValidator =
-        inherit PiType<unit, string, string option>
+        inherit SigmaType<unit, string, string option>
         new : config : unit -> NonEmptyValidator
 
     type NonEmpty =
@@ -18,7 +18,7 @@ type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, st
 
 module UtcDateTimeDef =
     type UtcDateTimeValidator =
-        inherit PiType<unit, DateTime, DateTime>
+        inherit SigmaType<unit, DateTime, DateTime>
         new : config : unit -> UtcDateTimeValidator
 
     type ValidUtcDateTime =
@@ -30,7 +30,7 @@ type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime
 
 module NonEmptySetDef =
     type NonEmptySetValidator<'T when 'T : comparison> =
-        inherit PiType<unit, Set<'T>, Set<'T> option>
+        inherit SigmaType<unit, Set<'T>, Set<'T> option>
         new : config : unit -> NonEmptySetValidator<'T>
 
     type ValidNonEmptySet<'T when 'T : comparison> =
@@ -42,7 +42,7 @@ type NonEmptySet<'T when 'T : comparison> = DependentType<NonEmptySetDef.ValidNo
 
 module UpperLatinDef =
     type UpperLatinValidator =
-        inherit PiType<int, string, string option>
+        inherit SigmaType<int, string, string option>
         new : config : int -> UpperLatinValidator
 
     type ValidUpperLatin2 =
@@ -60,7 +60,7 @@ type UpperLatin3 = DependentType<UpperLatinDef.ValidUpperLatin3, int, string, st
 
 module DigitsDef =
     type DigitsValidator = 
-        inherit PiType<int, string, string option>
+        inherit SigmaType<int, string, string option>
         new : config : int ->  DigitsValidator
 
     type ValidDigits = 
@@ -87,13 +87,13 @@ type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string option>
 
 module IntRange =
     type NumRangeValidator =
-        inherit PiType<(int * int), int, int option>
+        inherit SigmaType<(int * int), int, int option>
         new : config:(int * int) -> NumRangeValidator
     type MinNumRangeValidator =
-        inherit PiType<int, int, int option>
+        inherit SigmaType<int, int, int option>
         new : config:int -> MinNumRangeValidator
     type MaxNumRangeValidator =
-        inherit PiType<int, int, int option>
+        inherit SigmaType<int, int, int option>
         new : config:int -> MaxNumRangeValidator
 
     type MaxPos100 =

@@ -21,7 +21,7 @@ let validateLen len s =
     validate id (fun (s:string) -> s.Length <= len) s
 
 type LenValidator(config) = 
-    inherit PiType<int, string, string option>(config, validateLen)
+    inherit SigmaType<int, string, string option>(config, validateLen)
 
 type Size5 () = inherit LenValidator(5) 
 
