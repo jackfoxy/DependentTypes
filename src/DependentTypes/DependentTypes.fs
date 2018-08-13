@@ -38,7 +38,7 @@ type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
 type SigmaType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
     member __.Create(x:'T) : 'T * 'T2 = x, (pi config x)
 
-/// 'T1 -> 'T2 dependent type
+/// 'T -> 'T2 dependent type
 type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>  
                                               and  'PiType : (new: unit -> 'PiType)> =
     DependentType of 'T2
@@ -46,16 +46,12 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
         member __.Value = 
             let (DependentType t2) = __
             t2
-            //(new 'PiType()).Create x
-            //|> snd
 
         override __.ToString() = __.Value.ToString()     
         
         static member Extract  (x : DependentType<'PiType, 'Config, 'T, 'T2> ) = 
             let (DependentType t2) = x
             t2
-            //(new 'PiType()).Create t
-            //|> snd
 
         static member Create x : DependentType<'PiType, 'Config, 'T, 'T2> =
             (new 'PiType()).Create x
