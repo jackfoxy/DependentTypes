@@ -12,7 +12,7 @@ let validateLen len s =
     validate id (fun (s:string) -> s.Length <= len) s
 
 type LenValidator(config) = 
-    inherit SigmaType<int, string, string option>(config, validateLen)
+    inherit PiType<int, string, string option>(config, validateLen)
 
 type Size4 () = inherit LenValidator(4) 
 
@@ -29,9 +29,9 @@ let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
 let validateMin (min) v = validate id (fun v -> v >= min) v
 let validateMax (max) v = validate id (fun v -> v <= max) v
 
-type NumRangeValidator(config) = inherit SigmaType<int * int, int, int option>(config, validateRange)
-type MinNumRangeValidator(config) = inherit SigmaType<int, int, int option>(config, validateMin)
-type MaxNumRangeValidator(config) = inherit SigmaType<int, int, int option>(config, validateMax)
+type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
+type MinNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMin)
+type MaxNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMax)
 
 type MaxPos100 () = inherit NumRangeValidator(0, 100)
 type MaxPos20000 () = inherit NumRangeValidator(0, 20000)
@@ -71,7 +71,7 @@ let tryConstructIndexToString i =
 let tryIndexToString _ v = tryConstruct id tryConstructIndexToString v
 
 type IndexToStringPiType() = 
-    inherit SigmaType<unit, int, string>((), tryIndexToString)
+    inherit PiType<unit, int, string>((), tryIndexToString)
 
 type IndexToString = DependentType<IndexToStringPiType, unit, int, string>
 
@@ -99,7 +99,7 @@ let tryConstructMultiplyToString multiplier i =
         |> Some ) i
 
 type Multiply5ToStringPiType() = 
-    inherit SigmaType<int, int, string option>(5, tryConstructMultiplyToString)
+    inherit PiType<int, int, string option>(5, tryConstructMultiplyToString)
 
 type Multiply5ToString = DependentType<Multiply5ToStringPiType, int, int, string option>
 

@@ -28,17 +28,23 @@ open DependentTypes
 open TypeShape
 
 [<Class>]
+/// Constructor / validator type for DependentType 'T -> 'T2 
+type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
+    member __.Create x  = pi config x
+
+
+[<Class>]
 /// Constructor / validator type for DependentPair 'T -> 'T * 'T2
 type SigmaType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
     member __.Create(x:'T) : 'T * 'T2 = x, (pi config x)
 
 /// 'T1 -> 'T2 dependent type
-type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> SigmaType<'Config, 'T, 'T2>  
+type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>  
                                               and  'PiType : (new: unit -> 'PiType)> =
-    DependentPair of 'T * 'T2
+    DependentType of 'T2
     with 
         member __.Value = 
-            let (DependentPair (t, t2)) = __
+            let (DependentType t2) = __
             t2
             //(new 'PiType()).Create x
             //|> snd
@@ -46,26 +52,26 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> SigmaType<'Config, 
         override __.ToString() = __.Value.ToString()     
         
         static member Extract  (x : DependentType<'PiType, 'Config, 'T, 'T2> ) = 
-            let (DependentPair (t, t2)) = x
+            let (DependentType t2) = x
             t2
             //(new 'PiType()).Create t
             //|> snd
 
         static member Create x : DependentType<'PiType, 'Config, 'T, 'T2> =
             (new 'PiType()).Create x
-            |> DependentPair
+            |> DependentType
 
         static member TryCreate x : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             let piResult = (new 'PiType()).Create x
 
             match shapeof<'T2> with
             | Shape.FSharpOption _ ->
-                if isNull ((snd piResult) :> obj) then
+                if isNull (piResult :> obj) then
                     None
                 else
-                    Some (DependentPair piResult)
+                    Some (DependentType piResult)
             | _ -> 
-                Some (DependentPair piResult)
+                Some (DependentType piResult)
 
         static member TryCreate (x : 'T Option) : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             match x with
@@ -74,18 +80,18 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> SigmaType<'Config, 
 
                 match shapeof<'T2> with
                 | Shape.FSharpOption _ ->
-                    if isNull ((snd piResult) :> obj) then
+                    if isNull (piResult :> obj) then
                         None
                     else
-                        Some (DependentPair piResult)
+                        Some (DependentType piResult)
                 | _ -> 
-                    Some (DependentPair piResult)
+                    Some (DependentType piResult)
 
             | None -> 
                 None
 
         static member inline ConvertTo(x : DependentType<'x, 'y, 'q, 'r> ) : DependentType<'a, 'b, 'r, 's> = 
-            let (DependentPair (_, t2)) = x
+            let (DependentType t2) = x
             mkDependentType t2  
 
 /// 'T -> 'T * 'T2 dependent pair
