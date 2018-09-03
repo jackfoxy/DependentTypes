@@ -72,16 +72,7 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
         static member TryCreate (x : 'T Option) : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             match x with
             | Some t -> 
-                let piResult = (new 'PiType()).Create t
-
-                match shapeof<'T2> with
-                | Shape.FSharpOption _ ->
-                    if isNull (piResult :> obj) then
-                        None
-                    else
-                        Some (DependentType piResult)
-                | _ -> 
-                    Some (DependentType piResult)
+                DependentType.TryCreate t
 
             | None -> 
                 None

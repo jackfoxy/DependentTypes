@@ -20,7 +20,7 @@ type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, st
 let t = TrimNonEmptyString.Create "asdf"
 let t2 = TrimNonEmptyString.TryCreate " "
 
-let t3 = TrimNonEmptyString.TryCreate (Some "asdf")
+let t3 = TrimNonEmptyString.TryCreate (Some "sdfg  ")
 
 let t2Value = DependentTypes.someValue t2
 
