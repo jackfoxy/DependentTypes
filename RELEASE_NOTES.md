@@ -1,3 +1,8 @@
+#### 0.1.0 - September 25, 2018
+* breaking change
+* DependentType supports any 'T2 type (not just option)
+* DependentPair type
+
 #### 0.0.6 - June 8, 2018
 * support SourceLink
 * FSharp.Core 4.5
