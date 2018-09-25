@@ -1,87 +1,95 @@
 ﻿namespace DependentTypes
 
+#if INTERACTIVE
+#load @"..\..\paket-files\eiriktsarpalis\TypeShape\src\TypeShape\TypeShape.fs"
+#endif
+
 /// Inline helper functions.
 module DependentTypes =
-    /// Try create dependent type
-    let inline mkDependentType (x: ^S) : Option< ^T> = 
-        (^T: (static member TryCreate: ^S -> Option< ^T>) x)
+    /// Create dependent type
+    let inline mkDependentType (x: ^S) : ^T = 
+        (^T: (static member Create: ^S -> ^T) x)
 
     /// Retrieves base type value
     let inline extract (x:^S) = 
         (^S: (static member Extract: ^S -> ^T) x)
 
-    /// Try conversion of base type value to compatible dependent type
-    let inline convertTo (x: ^S) : Option< ^T> = 
-        (^T: (static member ConvertTo: ^S -> Option< ^T>) x)
+    /// Conversion of base type value to compatible dependent type
+    let inline convertTo (x: ^S) : ^T = 
+        (^T: (static member ConvertTo: ^S -> ^T) x)
 
+    /// Retrieves the 'T2 value from an option DependentType
+    let inline someValue (x : ^S Option) =
+        (x |> Option.map (fun x' ->
+            (^S: (static member Extract: ^S -> ^T option ) x') )
+            |> Option.flatten).Value
+            
 open DependentTypes
-open System
+open TypeShape
 
 [<Class>]
-/// Constructor / validator type for DependentType 'T1 -> 'T2 style dependent types
-type PiType<'Config, 'T, 'T2> (config: 'Config, vfn: 'Config -> 'T -> Option<'T2>) =
-    member __.TryCreate(x:'T) : Option<'T2> = vfn config x
+/// Constructor / validator type for DependentType 'T -> 'T2 
+type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
+    member __.Create x  = pi config x
 
-///'T1 -> 'T2 style dependent type
-type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>
-                                            and  'PiType : (new: unit -> 'PiType)> =
-    DependentType of 'T2 
-    
+
+[<Class>]
+/// Constructor / validator type for DependentPair 'T -> 'T * 'T2
+type SigmaType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
+    member __.Create(x:'T) : 'T * 'T2 = x, (pi config x)
+
+/// 'T -> 'T2 dependent type
+type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>  
+                                              and  'PiType : (new: unit -> 'PiType)> =
+    DependentType of 'T2
     with 
         member __.Value = 
-            let (DependentType s) = __
-            s
-        override __.ToString() = __.Value.ToString()           
-        static member Extract (x : DependentType<'PiType, 'Config, 'T, 'T2> ) = 
-            let (DependentType s) = x
-            s   
-        static member TryCreate(x:'T) : Option<DependentType<'PiType, 'Config, 'T, 'T2>> =
-            (new 'PiType()).TryCreate x
-            |> Option.map DependentType
-        static member TryCreate(x:'T option) : Option<DependentType<'PiType, 'Config, 'T, 'T2>> =
+            let (DependentType t2) = __
+            t2
+
+        override __.ToString() = __.Value.ToString()     
+        
+        static member Extract  (x : DependentType<'PiType, 'Config, 'T, 'T2> ) = 
+            let (DependentType t2) = x
+            t2
+
+        static member Create x : DependentType<'PiType, 'Config, 'T, 'T2> =
+            (new 'PiType()).Create x
+            |> DependentType
+
+        static member TryCreate x : DependentType<'PiType, 'Config, 'T, 'T2> Option =
+            let piResult = (new 'PiType()).Create x
+
+            match shapeof<'T2> with
+            | Shape.FSharpOption _ ->
+                if isNull (piResult :> obj) then
+                    None
+                else
+                    Some (DependentType piResult)
+            | _ -> 
+                Some (DependentType piResult)
+
+        static member TryCreate (x : 'T Option) : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             match x with
-            | Some x' -> DependentType.TryCreate x'
-            | None -> None
-        static member Create (x : 'T) : DependentType<'PiType, 'Config, 'T, 'T2> =
-                (DependentType.TryCreate x).Value
-        static member Create (xs : 'T seq) : DependentType<'PiType, 'Config, 'T, 'T2> seq =
-            xs
-            |> Seq.choose DependentType.TryCreate 
-        static member Create (xs : 'T list) : DependentType<'PiType, 'Config, 'T, 'T2> list =
-            xs
-            |> List.choose DependentType.TryCreate 
-        static member inline ConvertTo(x : DependentType<'x, 'y, 'q, 'r> ) : Option<DependentType<'a, 'b, 'r, 's>> = 
-            let (DependentType v) = x
-            mkDependentType v   
+            | Some t -> 
+                DependentType.TryCreate t
 
-[<Class>]
-/// Constructor / validator type for LimitedValue 'T1 -> 'T1 style dependent types
-type Validator<'Config, 'T> (config: 'Config, vfn: 'Config -> 'T -> Option<'T>) =
-    member __.Validate(x:'T) : Option<'T> = vfn config x
+            | None -> 
+                None
 
-/// 'T1 -> 'T1 style dependent type
-type LimitedValue<'Validator, 'Config, 'T when 'Validator :> Validator<'Config, 'T>
-                                           and 'Validator : (new: unit -> 'Validator)> =
-    DependentType of 'T 
-    
-    with
+        static member inline ConvertTo(x : DependentType<'x, 'y, 'q, 'r> ) : DependentType<'a, 'b, 'r, 's> = 
+            let (DependentType t2) = x
+            mkDependentType t2  
+
+/// 'T -> 'T * 'T2 dependent pair
+type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Config, 'T, 'T2>  
+                                                 and  'SigmaType : (new: unit -> 'SigmaType)> =
+     DependentPair of 'T * 'T2
+     with 
         member __.Value = 
-            let (DependentType s) = __
-            s
-        static member Extract (x : LimitedValue<'Validator, 'Config, 'T> ) = 
-            let (DependentType s) = x
-            s
-        static member TryCreate(x:'T) : Option<LimitedValue<'Validator, 'Config, 'T>> =
-            (new 'Validator()).Validate x
-            |> Option.map DependentType
-        static member Create (x : 'T) : LimitedValue<'Validator, 'Config, 'T> =
-                (LimitedValue.TryCreate x).Value
-        static member Create (xs : 'T seq) : LimitedValue<'Validator, 'Config, 'T> seq =
-            xs
-            |> Seq.choose LimitedValue.TryCreate 
-        static member Create (xs : 'T list) : LimitedValue<'Validator, 'Config, 'T> list =
-            xs
-            |> List.choose LimitedValue.TryCreate 
-        static member inline ConvertTo(x : LimitedValue<'x, 'y, 'q> ) : Option<LimitedValue<'a, 'b, 'q>> = 
-            let (DependentType v) = x
-            mkDependentType v
+            let (DependentPair (s, s2)) = __
+            s, s2
+
+        static member Create(x:'T) : DependentPair<'SigmaType, 'Config, 'T, 'T2> =
+            (new 'SigmaType()).Create x
+            |> DependentPair

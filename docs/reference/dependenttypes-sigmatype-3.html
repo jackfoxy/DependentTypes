@@ -2,11 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Reflexivity
-</title>
+    <title>SigmaType<'Config, 'T, 'T2> - DependentTypes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="F# DependentTypes"/>
-    <meta name="author" content="Robert Kuzelj"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Robert Kuzelj, Jack Fox"/>
 
     <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
     <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
@@ -33,10 +32,76 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1><a name="Reflexivity" class="anchor" href="#Reflexivity">Reflexivity</a></h1>
-<p><a href="https://eiriktsarpalis.wordpress.com/2018/02/05/property-testing-generic-programs/">Property Testing Generic Programs</a></p>
-<p><a href="https://github.com/eiriktsarpalis/TypeShape/blob/18d2d4a4ff5ffe1c17cfaa420f6a139afa37a16b/tests/TypeShape.Tests/GenericTester.fs">TypeShape</a></p>
 
+
+
+<h1>SigmaType<'Config, 'T, 'T2></h1>
+<p>
+
+    <span>Namespace: DependentTypes</span><br />
+            <span>
+            Attributes: <br />
+[&lt;Class&gt;]<br />
+            
+        </span>
+</p>
+<div class="xmldoc">
+<p>Constructor / validator type for DependentPair 'T -&gt; 'T * 'T2</p>
+
+</div>
+  <h3>Constructors</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Constructor</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '17', 17)" onmouseover="showTip(event, '17', 17)">
+            new(config, pi)
+          </code>
+          <div class="tip" id="17">
+            <strong>Signature:</strong> (config:&#39;Config * pi:(&#39;Config -&gt; &#39;T -&gt; &#39;T2)) -&gt; SigmaType&lt;&#39;Config,&#39;T,&#39;T2&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L38-38" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>.ctor</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Instance members</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Instance member</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '18', 18)" onmouseover="showTip(event, '18', 18)">
+            Create(x)
+          </code>
+          <div class="tip" id="18">
+            <strong>Signature:</strong> x:&#39;T -&gt; &#39;T * &#39;T2<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L39-39" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
         </div>
         <div class="span3">

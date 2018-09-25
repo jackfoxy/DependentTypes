@@ -1,3 +1,8 @@
+#### 0.1.0 - September 25, 2018
+* breaking change
+* DependentType supports any 'T2 type (not just option)
+* DependentPair type
+
 #### 0.0.6 - June 8, 2018
 * support SourceLink
 * FSharp.Core 4.5
@@ -16,7 +21,7 @@
 
 #### 0.0.2 - November 14, 2017
 * standardize on verb "Create" instead of "Parse"
-* Create overrides for LimitedValue
+* Create overrides for DependentType
 
 #### 0.0.1 - October 28, 2017
 * Initial release

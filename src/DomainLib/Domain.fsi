@@ -6,7 +6,7 @@ open System.Collections.Generic
 
 module TrimNonEmptyStringDef =
     type NonEmptyValidator =
-        inherit PiType<unit, string, string>
+        inherit PiType<unit, string, string option>
         new : config : unit -> NonEmptyValidator
 
     type NonEmpty =
@@ -14,7 +14,7 @@ module TrimNonEmptyStringDef =
         new : unit -> NonEmpty
 
 /// Trimmed, non-empty, non-null string
-type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string>
+type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string option>
 
 module UtcDateTimeDef =
     type UtcDateTimeValidator =
@@ -30,7 +30,7 @@ type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime
 
 module NonEmptySetDef =
     type NonEmptySetValidator<'T when 'T : comparison> =
-        inherit Validator<unit,Set<'T>>
+        inherit PiType<unit, Set<'T>, Set<'T> option>
         new : config : unit -> NonEmptySetValidator<'T>
 
     type ValidNonEmptySet<'T when 'T : comparison> =
@@ -38,11 +38,11 @@ module NonEmptySetDef =
         new : unit -> ValidNonEmptySet<'T>
 
 /// Generic non-empty Set<'T>
-type NonEmptySet<'T when 'T : comparison> = LimitedValue<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>>
+type NonEmptySet<'T when 'T : comparison> = DependentType<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>, Set<'T> option>
 
 module UpperLatinDef =
     type UpperLatinValidator =
-        inherit PiType<int, string, string>
+        inherit PiType<int, string, string option>
         new : config : int -> UpperLatinValidator
 
     type ValidUpperLatin2 =
@@ -54,13 +54,13 @@ module UpperLatinDef =
         new : unit -> ValidUpperLatin3
 
 /// Uppercase latin string of length 2.
-type UpperLatin2 = DependentType<UpperLatinDef.ValidUpperLatin2, int, string, string>
+type UpperLatin2 = DependentType<UpperLatinDef.ValidUpperLatin2, int, string, string option>
 /// Uppercase latin string of length 3.
-type UpperLatin3 = DependentType<UpperLatinDef.ValidUpperLatin3, int, string, string>
+type UpperLatin3 = DependentType<UpperLatinDef.ValidUpperLatin3, int, string, string option>
 
 module DigitsDef =
     type DigitsValidator = 
-        inherit PiType<int, string, string>
+        inherit PiType<int, string, string option>
         new : config : int ->  DigitsValidator
 
     type ValidDigits = 
@@ -77,23 +77,23 @@ module DigitsDef =
         new : unit -> ValidDigits4
   
 /// String of digit characters [0-9].
-type Digits = DependentType<DigitsDef.ValidDigits, int, string, string>
+type Digits = DependentType<DigitsDef.ValidDigits, int, string, string option>
 /// String of digit characters [0-9] and length 2.
-type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
+type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string option>
 /// String of digit characters [0-9] and length 3.
-type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
+type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string option>
 /// String of digit characters [0-9] and length 4.
-type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
+type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string option>
 
 module IntRange =
     type NumRangeValidator =
-        inherit Validator<(int * int),int>
+        inherit PiType<(int * int), int, int option>
         new : config:(int * int) -> NumRangeValidator
     type MinNumRangeValidator =
-        inherit Validator<int,int>
+        inherit PiType<int, int, int option>
         new : config:int -> MinNumRangeValidator
     type MaxNumRangeValidator =
-        inherit Validator<int,int>
+        inherit PiType<int, int, int option>
         new : config:int -> MaxNumRangeValidator
 
     type MaxPos100 =
@@ -113,12 +113,12 @@ module IntRange =
         new : unit -> MaxMinus101
 
 /// Integer in range 0 to 100.
-type PositiveInt100 = LimitedValue<IntRange.MaxPos100,(int * int),int>
+type PositiveInt100 = DependentType<IntRange.MaxPos100,(int * int), int, int option>
 /// Integer in range 0 to 20000.
-type PositiveInt20000 = LimitedValue<IntRange.MaxPos20000,(int * int),int>
+type PositiveInt20000 = DependentType<IntRange.MaxPos20000,(int * int), int, int option>
 /// Integer in range -100 to 100.
-type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100,(int * int),int>
+type Minus100To100 = DependentType<IntRange.RangeMinus100To100,(int * int), int, int option>
 /// Integer greater than 100.
-type GT100 = LimitedValue<IntRange.Min101,int,int>
+type GT100 = DependentType<IntRange.Min101, int, int, int option>
 /// Integer less than -100.
-type LTminus100 = LimitedValue<IntRange.MaxMinus101,int,int>
+type LTminus100 = DependentType<IntRange.MaxMinus101, int, int, int option>

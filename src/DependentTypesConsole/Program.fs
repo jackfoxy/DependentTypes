@@ -6,15 +6,9 @@ module console1 =
     let main _ = 
 
         printfn  ""
-        printfn  "LimitedValue"
-        DemoLimitedValue.demo1()
-        printfn  ""
         printfn  "DependentType"
         DemoDependentType.demo1()
 
-        printfn  ""
-        printfn  "LimitedValue"
-        DemoLimitedValue.demo2()
         printfn  ""
         printfn  "DependentType"
         DemoDependentType.demo2()

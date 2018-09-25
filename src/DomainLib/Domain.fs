@@ -12,15 +12,15 @@ module TrimNonEmptyStringDef =
             Some <| value.Trim()
 
     type NonEmptyValidator() = 
-        inherit PiType<unit, string, string>((), verifyTrimNonEmptyString)
+        inherit PiType<unit, string, string option>((), verifyTrimNonEmptyString)
 
     type NonEmpty () = inherit NonEmptyValidator()
 
-type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string> 
+type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string option> 
 
 module UtcDateTimeDef =
     let verifyUtcDateTime _ (value : DateTime) =
-        Some <| value.ToUniversalTime()     
+        value.ToUniversalTime()     
 
     type UtcDateTimeValidator() = 
         inherit PiType<unit, DateTime, DateTime>((), verifyUtcDateTime)
@@ -37,11 +37,11 @@ module NonEmptySetDef =
             None
 
     type NonEmptySetValidator<'T when 'T : comparison>() = 
-        inherit Validator<unit, Set<'T>>((), verifyNonEmptySet)
+        inherit PiType<unit, Set<'T>, Set<'T> option>((), verifyNonEmptySet)
 
     type ValidNonEmptySet<'T when 'T : comparison>() = inherit NonEmptySetValidator<'T>()
     
-type NonEmptySet<'T  when 'T : comparison> = LimitedValue<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>>   
+type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>, Set<'T> option>   
 
 module RegExStringVerify =
     let regExStringVerify (regex : Regex) config (value : string) =
@@ -66,13 +66,13 @@ module UpperLatinDef =
         RegExStringVerify.regExStringVerify regex config value
 
     type UpperLatinValidator(config) = 
-        inherit PiType<int, string, string>(config, verifyUpperLatin)
+        inherit PiType<int, string, string option>(config, verifyUpperLatin)
 
     type ValidUpperLatin2 () = inherit UpperLatinValidator(2)
     type ValidUpperLatin3 () = inherit UpperLatinValidator(3)
     
-type UpperLatin2 = DependentType<UpperLatinDef.ValidUpperLatin2, int, string, string>
-type UpperLatin3 = DependentType<UpperLatinDef.ValidUpperLatin3, int, string, string>
+type UpperLatin2 = DependentType<UpperLatinDef.ValidUpperLatin2, int, string, string option>
+type UpperLatin3 = DependentType<UpperLatinDef.ValidUpperLatin3, int, string, string option>
 
 module DigitsDef =
     let regex = new Regex("^[0-9]+$")
@@ -80,17 +80,17 @@ module DigitsDef =
         RegExStringVerify.regExStringVerify regex config value
 
     type DigitsValidator(config) = 
-        inherit PiType<int, string, string>(config, verifyDigits)
+        inherit PiType<int, string, string option>(config, verifyDigits)
 
     type ValidDigits () = inherit DigitsValidator(0)
     type ValidDigits2 () = inherit DigitsValidator(2)
     type ValidDigits3 () = inherit DigitsValidator(3)
     type ValidDigits4 () = inherit DigitsValidator(4)
     
-type Digits = DependentType<DigitsDef.ValidDigits, int, string, string>
-type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
-type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
-type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
+type Digits = DependentType<DigitsDef.ValidDigits, int, string, string option>
+type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string option>
+type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string option>
+type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string option>
 
 module IntRange =
     let validate fn v =
@@ -99,9 +99,9 @@ module IntRange =
     let validateMin (min) v = validate (fun v -> v >= min) v
     let validateMax (max) v = validate (fun v -> v <= max) v
 
-    type NumRangeValidator(config) = inherit Validator<int * int, int>(config, validateRange)
-    type MinNumRangeValidator(config) = inherit Validator<int, int>(config, validateMin)
-    type MaxNumRangeValidator(config) = inherit Validator<int, int>(config, validateMax)
+    type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
+    type MinNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMin)
+    type MaxNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMax)
 
     type MaxPos100 () = inherit NumRangeValidator(0, 100)
     type MaxPos20000 () = inherit NumRangeValidator(0, 20000)
@@ -109,9 +109,9 @@ module IntRange =
     type Min101 () = inherit MinNumRangeValidator(101)
     type MaxMinus101 () = inherit MaxNumRangeValidator(-101)
 
-type PositiveInt100 = LimitedValue<IntRange.MaxPos100, int * int, int>
-type PositiveInt20000 = LimitedValue<IntRange.MaxPos20000, int * int, int>
-type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100, int * int, int>
+type PositiveInt100 = DependentType<IntRange.MaxPos100, int * int, int, int option>
+type PositiveInt20000 = DependentType<IntRange.MaxPos20000, int * int, int, int option>
+type Minus100To100 = DependentType<IntRange.RangeMinus100To100, int * int, int, int option>
 
-type GT100 = LimitedValue<IntRange.Min101, int, int>
-type LTminus100 = LimitedValue<IntRange.MaxMinus101, int, int>
+type GT100 = DependentType<IntRange.Min101, int, int, int option>
+type LTminus100 = DependentType<IntRange.MaxMinus101, int, int, int option>

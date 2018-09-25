@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/DependentTypes/net47"
+#I "../../bin/DependentTypes/net472"
 #r "DependentTypes.dll"
 open System
 open System.Text.RegularExpressions
@@ -24,69 +24,89 @@ let regExStringVerify (regex : Regex) config (value : string) =
 DependentTypes
 ==============
 
-This project is an experiment in bringing [dependent types](https://en.wikipedia.org/wiki/Dependent_type) to F#.
-Dependent typing makes supporting a finer level of type granularity easier.
+In computer science and logic, a **dependent type** is a type whose definition depends on a value. A "pair of integers" is a type. A "pair of integers where the second 
+is greater than the first" is a dependent type...
 
-This library presents two alternate generic dependent types. One taking an input element to the same base type within the dependent type ````'T -> 'T````, and the other
-taking the input type to a new base type ````'T1 -> 'T2````. Dependent types support the same equality and comparison traits as their base type
-(````'T```` or ````'T2````). [Extension methods are not yet supported](https://github.com/jackfoxy/DependentTypes/issues/1).
+*Wikipedia article, Dependent type*
 
-The core dependent type 
-````
-type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>
-                                            and  'PiType : (new: unit -> 'PiType)>
-````
-relies on a "constructor" type 
-````
-type PiType<'Config, 'T, 'T2> (config: 'Config, vfn: 'Config -> 'T -> Option<'T2>)
-````
-which in turn requires a function ````'Config -> 'T1 -> 'T2 option```` that validates the input element. Another type handles consuming the ````'Config```` parameter.
+This project is an experiment in bringing [dependent types](https://en.wikipedia.org/wiki/Dependent_type) to F# for supporting finer levels of type granularity
+in a consistent manner.
 
-In practice the construction of a family of dependent types looks like this:
+Dependent types in logic and computer science take an element of a specific type and output a typed element in a family of types. F# does not support *a family of types* in a 
+generic sense, but we can still use F# and .NET types as output types that have family-like characteristics. This library presents generic dependent types, taking an element 
+of a specific input type to a new base type through a typed function ````'T1 -> 'T2````. 
+
+* ````'T2```` as any F# or .NET type, a family of one type
+* F# option types, the input element does or does not belong to the output underlying type, mimicking a family of two types
+* F# discriminated union, the input element belongs to some member of the DU, mimicking a family of arbitrarily many types
+
+
+The dependent type 
+````
+type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>  
+                                              and  'PiType : (new: unit -> 'PiType)>
+````
+has a type parameter that includes a *configuration*, and a typed *pi* function, which maps input elements of the specified type to elements of the output type.
+
+The *configuration* is a convenience allowing re-use of the same function code to serve multiple dependent types by passing any desired parameters..
+````
+type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2)
+````
+
+The construction of similar dependent types sharing the same *pi* function looks like this:
 *)
 open DependentTypes
 
 module DigitsDef =
-    let regex = new Regex("^[0-9]+$")
     let verifyDigits config value =
-        regExStringVerify regex config value
+        regExStringVerify (new Regex("^[0-9]+$")) config value
 
     type DigitsValidator(config) = 
-        inherit PiType<int, string, string>(config, verifyDigits)
+        inherit PiType<int, string, string option>(config, verifyDigits)
 
     type ValidDigits () = inherit DigitsValidator(0)
     type ValidDigits2 () = inherit DigitsValidator(2)
     type ValidDigits3 () = inherit DigitsValidator(3)
     type ValidDigits4 () = inherit DigitsValidator(4)
     
-type Digits = DependentType<DigitsDef.ValidDigits, int, string, string>
-type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string>
-type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string>
-type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string>
+type Digits = DependentType<DigitsDef.ValidDigits, int, string, string option>
+type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string option>
+type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string option>
+type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string option>
+
 
 let digits = Digits.Create "093884765"
-let digitsofLength3 = Digits3.Create "007"
+let digitsOfLength3 = Digits3.Create "007"
+let notDigitsOfLength3 = Digits3.TryCreate "0007"
 (**
 ### Notes: 
 
-1. The full validation function ````regExStringVerify```` is not shown.
+1. The full validation function ````regExStringVerify```` is not shown. A config value < 1 accepts digit strings of any length.
 
 2. The presence of ````module DigitsDef```` is strictly for readability purposes, segregating the "helper" functions and types.
 
 3. All the helper types must have the same access level as the dependent type.
 
-4. Aliasing is optional, but obviously provides better readability.
+4. Aliasing is optional, providing better readability.
 
-5. Yes, ````PiType```` is not really a constructor.
+5. ````TryCreate```` lifts the ````option```` of ````'T2```` to the ````DependentType````.
 
-6. With [possible changes to the F# language](https://github.com/jackfoxy/DependentTypes/issues/3), the intervening ````'Config```` consuming helper type may be superfluous.
+Dependent types support the same equality and comparison traits as their base ````'T2```` type. 
 
-### Alternate form of dependent types
-
-Alternately, a dependent type that restricts the underlying base type to the input element type requires one less type parameter.
+[Extension methods are not yet supported](https://github.com/jackfoxy/DependentTypes/issues/1), yet.
 
 See the [Tutorial](tutorial.html) and [sample library of dependent types](https://github.com/jackfoxy/DependentTypes/blob/9281602a7d119920735e1c786df462ca000d4ab2/src/DomainLib/Domain.fs#L32) for an
 example of a generic collection type, ````Set<'T>````.
+
+DependentPairs
+==============
+
+The dependent pair 
+````
+type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Config, 'T, 'T2>  
+                                                 and  'SigmaType : (new: unit -> 'SigmaType)>
+````
+is a pair of the input element and resulting dependent type. Useage is similar to that of dependent types.
 *)
 module NonEmptySetDef =
     let verifyNonEmptySet _ (value : Set<int>) =
@@ -100,7 +120,7 @@ module NonEmptySetDef =
 
     type ValidNonEmptySet() = inherit NonEmptySetValidator()
     
-type NonEmptyIntSet = LimitedValue<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>
+type NonEmptyIntSet = DependentType<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>
 
 let myNonEmptyIntSetOpt = [1;2;3] |> Set.ofList |> NonEmptyIntSet.TryCreate
 (**
@@ -115,20 +135,19 @@ Samples & documentation
 
  * The [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib/Domain.fs) project is a sample library of useful dependent types:
 
- **trimmed, non-empty, non-null string**
+     1. trimmed, non-empty, non-null string
 
- **non-empty generic set**
+     2. non-empty generic set
 
- **utc datetime**
+     3. utc datetime
 
- **uppercase Latin string of undetermined or static length**
+     4. uppercase Latin string of undetermined or static length
 
- **digit string of undetermined or static length**
+     5. digit string of undetermined or static length
 
- **integer restricted to a range**
+     6. *integer restricted to a range
 
- * The [DependentTypesConsole](https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypesConsole) project runs demos on both the ````'T1 -> 'T2```` and ````'T -> 'T```` style
-   dependent types.
+ * The [DependentTypesConsole](https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypesConsole) project runs demos of dependent types.
 
  * [Expecto](https://github.com/haf/expecto) test projects for both the [DependentTypes](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DependentTypes.Tests) library and the [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DomainLib.Tests) sample dependent types.
 
@@ -150,8 +169,7 @@ This library is based on original experiments by @robkuz with the LimitedValue t
 [Creating Generic Wrappers for Validated Values](https://robkuz.github.io/Limited-Values/).
 Further discussion [here](https://github.com/robkuz/robkuz.github.io/issues/6)
 
-You can [report issues][issues], fork 
-the project, and submit pull requests. Please also 
+You can [report issues][issues], fork the project, and submit pull requests. Please also 
 add tests and samples that can be turned into [documentation](https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content).
 
 The library is available under Public Domain license, which allows modification and 

@@ -1,6 +1,6 @@
 # DependentTypes
 
-Experiments with @robkuz's LimitedValue type to create fully functioning F# dependent types.
+Experiments with @robkuz's DependentType type to create fully functioning F# dependent types.
 
 [Documentation and tutorial](https://jackfoxy.github.io/DependentTypes/)
 

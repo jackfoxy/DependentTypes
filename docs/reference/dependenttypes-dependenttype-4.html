@@ -41,7 +41,7 @@
     <span>Namespace: DependentTypes</span><br />
     </p>
 <div class="xmldoc">
-<p>'T1 -&gt; 'T2 style dependent type</p>
+<p>'T -&gt; 'T2 dependent type</p>
 
 </div>
   <h3>Union Cases</h3>
@@ -53,15 +53,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '4', 4)" onmouseover="showTip(event, '4', 4)">
+          <code onmouseout="hideTip(event, '8', 8)" onmouseover="showTip(event, '8', 8)">
             DependentType(&#39;T2)
           </code>
-          <div class="tip" id="4">
+          <div class="tip" id="8">
             <strong>Signature:</strong> &#39;T2<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L28-28" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L44-44" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -79,15 +79,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '5', 5)" onmouseover="showTip(event, '5', 5)">
+          <code onmouseout="hideTip(event, '9', 9)" onmouseover="showTip(event, '9', 9)">
             Value
           </code>
-          <div class="tip" id="5">
+          <div class="tip" id="9">
             <strong>Signature:</strong> &#39;T2<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L31-31" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L46-46" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -106,87 +106,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '6', 6)" onmouseover="showTip(event, '6', 6)">
+          <code onmouseout="hideTip(event, '10', 10)" onmouseover="showTip(event, '10', 10)">
             ConvertTo(x)
           </code>
-          <div class="tip" id="6">
-            <strong>Signature:</strong> x:DependentType&lt;&#39;x,&#39;y,&#39;q,^r&gt; -&gt; Option&lt;DependentType&lt;&#39;a,&#39;b,^r,&#39;s&gt;&gt;<br />
+          <div class="tip" id="10">
+            <strong>Signature:</strong> x:DependentType&lt;&#39;x,&#39;y,&#39;q,^r&gt; -&gt; DependentType&lt;&#39;a,&#39;b,^r,&#39;s&gt;<br />
                           <strong>Type parameters:</strong> 'a, 'b, 's                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L53-53" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '7', 7)" onmouseover="showTip(event, '7', 7)">
-            Create(xs)
-          </code>
-          <div class="tip" id="7">
-            <strong>Signature:</strong> (xs:&#39;T list) -&gt; DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt; list<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L50-50" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '8', 8)" onmouseover="showTip(event, '8', 8)">
-            Create(xs)
-          </code>
-          <div class="tip" id="8">
-            <strong>Signature:</strong> xs:seq&lt;&#39;T&gt; -&gt; seq&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L47-47" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '9', 9)" onmouseover="showTip(event, '9', 9)">
-            Create(x)
-          </code>
-          <div class="tip" id="9">
-            <strong>Signature:</strong> x:&#39;T -&gt; DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L45-45" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '10', 10)" onmouseover="showTip(event, '10', 10)">
-            Extract(x)
-          </code>
-          <div class="tip" id="10">
-            <strong>Signature:</strong> x:DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt; -&gt; &#39;T2<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L35-35" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L80-80" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -197,14 +125,14 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '11', 11)" onmouseover="showTip(event, '11', 11)">
-            TryCreate(x)
+            Create(x)
           </code>
           <div class="tip" id="11">
-            <strong>Signature:</strong> (x:&#39;T option) -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />
+            <strong>Signature:</strong> x:&#39;T -&gt; DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L41-41" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L56-56" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -215,14 +143,50 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '12', 12)" onmouseover="showTip(event, '12', 12)">
-            TryCreate(x)
+            Extract(x)
           </code>
           <div class="tip" id="12">
+            <strong>Signature:</strong> x:DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt; -&gt; &#39;T2<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L52-52" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '13', 13)" onmouseover="showTip(event, '13', 13)">
+            TryCreate(x)
+          </code>
+          <div class="tip" id="13">
+            <strong>Signature:</strong> x:Option&lt;&#39;T&gt; -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L72-72" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '14', 14)" onmouseover="showTip(event, '14', 14)">
+            TryCreate(x)
+          </code>
+          <div class="tip" id="14">
             <strong>Signature:</strong> x:&#39;T -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L38-38" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L60-60" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

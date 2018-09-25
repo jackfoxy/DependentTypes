@@ -1,14 +1,12 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/DependentTypes/net47"
+#I "../../bin/DependentTypes/net472"
 #r "DependentTypes.dll"
+
 (**
 Dependent types tutorial
 ========================
-
-Most of the examples support both the ````'T1 -> 'T2```` (named DependentType) and ````'T -> 'T```` (named LimitedValue) style
-dependent types. 
 
 ### Trimmed, non-empty, non-null strings
 
@@ -27,15 +25,20 @@ module TrimNonEmptyStringDef =
             Some <| value.Trim()
 
     type NonEmptyValidator() = 
-        inherit PiType<unit, string, string>((), verifyTrimNonEmptyString)
+        inherit PiType<unit, string, string option>((), verifyTrimNonEmptyString)
 
     type NonEmpty () = inherit NonEmptyValidator()
 
-type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string> 
+type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string option>  
 (**
-The ````DependentType.Value```` returns the element in its base type.
+### TryCreate method
+
+If the base type is an option type, and it was created with ````TryCreate````, option is lifted to the DependentType itself. If the value is known to be 
+````Some````, the unsafe function ````someValue```` may be used to access the value.
+
+````DependentType.Value```` returns the element in its base type.
 *)
-let myGoodString = (TrimNonEmptyString.TryCreate "good string   ").Value
+let myGoodString = (TrimNonEmptyString.TryCreate "good string   ")
 
 let notTrimNonEmptyString = TrimNonEmptyString.TryCreate "    "
 
@@ -43,18 +46,29 @@ let notTrimNonEmptyString = TrimNonEmptyString.TryCreate "    "
 printfn "%A" myGoodString
 
 // "good string"
-printfn "%s" myGoodString.Value
+printfn "%s" <|
+    match myGoodString with
+    | Some goodString -> goodString.Value.Value
+    | None -> "this won't print"
+
+// "good string"
+printfn "%s" myGoodString.Value.Value.Value
+
+// "good string" (unsafe)
+printfn "%s" <| someValue myGoodString
 
 // true
 printfn "%b" notTrimNonEmptyString.IsNone
 (**
-### TryCreate and Create methods
+### Create method
 
-If the dependent type construction is guaranteed to return ````Some````, you can safely use the ````Create```` method.
+For all ````'T2```` base types the ````Create```` method is safe (but for option types will not lift the option).
+
+Here is an example of a dependent type with a simple ````'T2```` base type.
 *)
 module UtcDateTimeDef =
     let verifyUtcDateTime _ (value : DateTime) =
-        Some <| value.ToUniversalTime()     
+        value.ToUniversalTime()     
 
     type UtcDateTimeValidator() = 
         inherit PiType<unit, DateTime, DateTime>((), verifyUtcDateTime)
@@ -69,49 +83,88 @@ let utcTime = DateTime.Now |> UtcDateTime.Create
 
 Use the ````config```` input to make more specific types over a generalized validator function. 
 
-Construct the ````DependentType option```` one of two ways
+Construct the ````DependentType option```` one of three ways
+
+* ````mkDependentType```` function, requires type hint in let value
+* ````TryCreate```` for option base types this will lift option to the DependentType
+* ````Create```` is always safe, but does not lift option
+
 *)
 let validate normalize fn v =
     if fn (normalize v) then Some (normalize v) else None
 
 let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
 
-type NumRangeValidator(config) = inherit PiType<int * int, int, int>(config, validateRange)
+type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
 
 type MaxPos100 () = inherit NumRangeValidator(0, 100)
 
-type PositiveInt100 = DependentType<MaxPos100, int * int, int, int>
+type PositiveInt100 = DependentType<MaxPos100, int * int, int, int option>
 
-let a : PositiveInt100 option = mkDependentType 100
+let a : PositiveInt100 = mkDependentType 100
 
 let b = PositiveInt100.TryCreate 100
+
+let c = PositiveInt100.Create 100
 (**
 ### Working with the underlying element
 
 Return the underlying typed element with the ````extract```` function or the ````Value```` property. 
 
-````DependentType.ToString()```` implements the underlying element's type ````ToString()````.
+````DependentType.ToString()```` implements the underlying ````'T2```` element's type ````ToString()````.
 *)
-let a' = a.Value |> extract
-let b' = b.Value.Value
+let a' = extract a
+let b' = someValue b
+let c' = c.Value.Value
 
-// 100
-printfn "%i" a'
+// Some 100
+printfn "%A" a'
 
 // "100"
-printfn "%s" <| b.ToString()
-(**
-### Converting between dependent types
+printfn "%i" b'
 
-````convertTo```` supports trying to convert between dependent types. F# type inference cannot infer the resulting option type, therefore a hint is needed.
+// "100"
+printfn "%i" c'
+
+// Some 100
+printfn "%A" <| a.ToString()
+(** 
+### Base type of discriminated Union
 *)
-type MaxPos200 () = inherit NumRangeValidator(0, 200)
+type IntegerOfSign =
+        | PositiveInt of int
+        | Zero of int
+        | NegativeInt of int
 
-type PositiveInt200 = DependentType<MaxPos100, int * int, int, int>
+module SumType =
+    let intType _ (value : int) =
+        match value with
+        | v when v > 0 ->
+            IntegerOfSign.PositiveInt v
+        | v when v = 0 ->
+            IntegerOfSign.Zero v
+        | v ->
+            IntegerOfSign.NegativeInt v
 
-let valToString5 : Option<PositiveInt200> = convertTo a.Value
+    type IntSumTypeDiscriminator() = 
+        inherit PiType<unit, int, IntegerOfSign>((), intType)
 
-printfn "PositiveInt100 converted to PositiveInt200: %A of type %A" valToString5.Value <| valToString5.GetType()
+    type IntSumType () = inherit IntSumTypeDiscriminator()
+    
+type IntegerType = DependentType<SumType.IntSumType, unit, int, IntegerOfSign>
+
+let s2 = IntegerType.Create -21
+let s3 = IntegerType.Create 0
+let s4 = IntegerType.Create 21
+
+// DependentType (NegativeInt -21)
+printfn "%A"s2
+
+// DependentType (Zero 0)
+printfn "%A"s3
+
+// DependentType (PositiveInt 21)
+printfn "%A"s4
 (**
 ### Generic dependent types
 
@@ -125,18 +178,16 @@ module NonEmptySetDef =
             None
 
     type NonEmptySetValidator<'T when 'T : comparison>() = 
-        inherit PiType<unit, Set<'T>, Set<'T>>((), verifyNonEmptySet)
+        inherit PiType<unit, Set<'T>, Set<'T> option>((), verifyNonEmptySet)
 
     type ValidNonEmptySet<'T when 'T : comparison>() = inherit NonEmptySetValidator<'T>()
     
-type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>, Set<'T>>
+type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>, Set<'T> option> 
 
 let myNonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.Create
 let myNonEmptyStringSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.Create
 (**
 ### Limit values to ranges
-
-Exercise for the student: make the following dependent types for generic numbers.
 *)
 module IntRange =
     let validate fn v =
@@ -145,65 +196,49 @@ module IntRange =
     let validateMin (min) v = validate (fun v -> v >= min) v
     let validateMax (max) v = validate (fun v -> v <= max) v
 
-    type NumRangeValidator(config) = inherit Validator<int * int, int>(config, validateRange)
-    type MinNumRangeValidator(config) = inherit Validator<int, int>(config, validateMin)
-    type MaxNumRangeValidator(config) = inherit Validator<int, int>(config, validateMax)
+    type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
+    type MinNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMin)
+    type MaxNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMax)
 
-    type MaxPos150 () = inherit NumRangeValidator(0, 150)
+    type MaxPos100 () = inherit NumRangeValidator(0, 100)
     type MaxPos20000 () = inherit NumRangeValidator(0, 20000)
     type RangeMinus100To100 () = inherit NumRangeValidator(-100, 100)
     type Min101 () = inherit MinNumRangeValidator(101)
     type MaxMinus101 () = inherit MaxNumRangeValidator(-101)
 
-type PositiveInt150 = LimitedValue<IntRange.MaxPos150, int * int, int>
-type PositiveInt20000 = LimitedValue<IntRange.MaxPos20000, int * int, int>
-type Minus100To100 = LimitedValue<IntRange.RangeMinus100To100, int * int, int>
+type PositiveInt100' = DependentType<IntRange.MaxPos100, int * int, int, int option>
+type PositiveInt20000 = DependentType<IntRange.MaxPos20000, int * int, int, int option>
+type Minus100To100 = DependentType<IntRange.RangeMinus100To100, int * int, int, int option>
 
-type GT100 = LimitedValue<IntRange.Min101, int, int>
-type LTminus100 = LimitedValue<IntRange.MaxMinus101, int, int>
+type GT100 = DependentType<IntRange.Min101, int, int, int option>
+type LTminus100 = DependentType<IntRange.MaxMinus101, int, int, int option>
 (**
-### Create and TryCreate overloads
-
-If ````DependentType```` and ````LimitedValue```` supported method extensions, only a single ````TryCreate```` static member would be required, and users
-could overload ````TryCreate```` and ````Create```` to meet their needs. For now we must provide all necessary overloads in
-the ````DependentTypes```` library.
+### DependentPair
 *)
-let aa = Some " this string " |> TrimNonEmptyString.TryCreate
+module SizeMax5Type =
+    let validate normalize fn v =
+        if fn (normalize v) then Some (normalize v) else None
 
-let bb = "this string " |> TrimNonEmptyString.TryCreate
+    let validateLen len s = 
+        validate id (fun (s:string) -> s.Length <= len) s
 
-let cc = "this string " |> TrimNonEmptyString.Create
+    type LenValidator(config) = 
+        inherit PiType<int, string, string option>(config, validateLen)
 
-let dd = [" this string "; "that string"; "the other string "] |> TrimNonEmptyString.Create
+    type PairLenValidator(config) = 
+        inherit SigmaType<int, string, string option>(config, validateLen)
 
-let ee = [|" this string "; "that string"; "the other string "|] |> TrimNonEmptyString.Create
-(**
-### Why 'T1 -> 'T2?
+    type SizeMax5 () = inherit LenValidator(5) 
 
-So far we have not shown any compelling examples exploiting ````DependentType```` taking ````'T1```` input to a ````'T2```` base type.
-That's because we have not thought of any! But we do not want to deny you the opportunity to come up with your own use case.
+    type SizeMax5Pair () = inherit PairLenValidator(5)
 
-Here is a trivial example:
-*)
-module TrivialT1toT2 =
-    let tryConstruct normalize fn v =
-        fn (normalize v)
+type StringMax5Pair = DependentPair<SizeMax5Type.SizeMax5Pair, int, string, string option>
 
-    let tryConstructIndexToString i = 
-        tryConstruct id (fun i' -> 
-            (match i' with
-            | n when n < 0 -> "negative"
-            | n when n > 0 -> "positive"
-            | _ -> "zero" )
-            |> Some ) i
+let s100 = StringMax5Pair.Create "100"
+let s100000 = StringMax5Pair.Create "100000"
 
-    let tryIndexToString _ v = tryConstruct id tryConstructIndexToString v
+// DependentPair ("100",Some "100")
+printfn "%A" s100
 
-    type IndexToStringPiType() = 
-        inherit PiType<unit, int, string>((), tryIndexToString)
-
-type IndexToString = DependentType<TrivialT1toT2.IndexToStringPiType, unit, int, string>
-
-let neg =  (IndexToString.TryCreate -100).Value
-
-printfn "%s" neg.Value
+// DependentPair ("100000",None)
+printfn "%A" s100000
