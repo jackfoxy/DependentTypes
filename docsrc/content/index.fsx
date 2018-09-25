@@ -27,7 +27,7 @@ DependentTypes
 In computer science and logic, a **dependent type** is a type whose definition depends on a value. A "pair of integers" is a type. A "pair of integers where the second 
 is greater than the first" is a dependent type...
 
-*Wikipedia article, Dependent type*
+ *Wikipedia article, Dependent type*
 
 This project is an experiment in bringing [dependent types](https://en.wikipedia.org/wiki/Dependent_type) to F# for supporting finer levels of type granularity
 in a consistent manner.
@@ -107,23 +107,6 @@ type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Co
                                                  and  'SigmaType : (new: unit -> 'SigmaType)>
 ````
 is a pair of the input element and resulting dependent type. Useage is similar to that of dependent types.
-*)
-module NonEmptySetDef =
-    let verifyNonEmptySet _ (value : Set<int>) =
-        if value.Count > 0 then
-            Some value  
-        else
-            None
-
-    type NonEmptySetValidator() = 
-        inherit Validator<unit, Set<int>>((), verifyNonEmptySet)
-
-    type ValidNonEmptySet() = inherit NonEmptySetValidator()
-    
-type NonEmptyIntSet = DependentType<NonEmptySetDef.ValidNonEmptySet, unit, Set<int>>
-
-let myNonEmptyIntSetOpt = [1;2;3] |> Set.ofList |> NonEmptyIntSet.TryCreate
-(**
 
 Samples & documentation
 -----------------------

@@ -138,40 +138,6 @@ example of a generic collection type, <code>Set&lt;'T&gt;</code>.</p>
 </tr>
 </table>
 <p>is a pair of the input element and resulting dependent type. Useage is similar to that of dependent types.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="m">NonEmptySetDef</span> <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 100)" onmouseover="showTip(event, 'fs45', 100)" class="fn">verifyNonEmptySet</span> <span class="id">_</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs46', 101)" onmouseover="showTip(event, 'fs46', 101)" class="id">value</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs47', 102)" onmouseover="showTip(event, 'fs47', 102)" class="rt">Set</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs24', 103)" onmouseover="showTip(event, 'fs24', 103)" class="vt">int</span><span class="pn">&gt;</span><span class="pn">)</span> <span class="o">=</span>
-        <span class="k">if</span> <span onmouseout="hideTip(event, 'fs46', 104)" onmouseover="showTip(event, 'fs46', 104)" class="id">value</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs48', 105)" onmouseover="showTip(event, 'fs48', 105)" class="id">Count</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="k">then</span>
-            <span onmouseout="hideTip(event, 'fs17', 106)" onmouseover="showTip(event, 'fs17', 106)" class="uc">Some</span> <span onmouseout="hideTip(event, 'fs46', 107)" onmouseover="showTip(event, 'fs46', 107)" class="id">value</span>  
-        <span class="k">else</span>
-            <span onmouseout="hideTip(event, 'fs12', 108)" onmouseover="showTip(event, 'fs12', 108)" class="uc">None</span>
-
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs49', 109)" onmouseover="showTip(event, 'fs49', 109)" class="rt">NonEmptySetValidator</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span> 
-        <span class="k">inherit</span> <span class="id">Validator</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs19', 110)" onmouseover="showTip(event, 'fs19', 110)" class="id">unit</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs47', 111)" onmouseover="showTip(event, 'fs47', 111)" class="id">Set</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs24', 112)" onmouseover="showTip(event, 'fs24', 112)" class="id">int</span><span class="pn">&gt;</span><span class="pn">&gt;</span><span class="pn">(</span><span class="pn">(</span><span class="pn">)</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs45', 113)" onmouseover="showTip(event, 'fs45', 113)" class="id">verifyNonEmptySet</span><span class="pn">)</span>
-
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs50', 114)" onmouseover="showTip(event, 'fs50', 114)" class="rt">ValidNonEmptySet</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span> <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs49', 115)" onmouseover="showTip(event, 'fs49', 115)" class="rt">NonEmptySetValidator</span><span class="pn">(</span><span class="pn">)</span>
-    
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs51', 116)" onmouseover="showTip(event, 'fs51', 116)" class="rt">NonEmptyIntSet</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 117)" onmouseover="showTip(event, 'fs31', 117)" class="rt">DependentType</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs52', 118)" onmouseover="showTip(event, 'fs52', 118)" class="id">NonEmptySetDef</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 119)" onmouseover="showTip(event, 'fs53', 119)" class="id">ValidNonEmptySet</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs19', 120)" onmouseover="showTip(event, 'fs19', 120)" class="id">unit</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs47', 121)" onmouseover="showTip(event, 'fs47', 121)" class="id">Set</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs24', 122)" onmouseover="showTip(event, 'fs24', 122)" class="id">int</span><span class="pn">&gt;</span><span class="pn">&gt;</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 123)" onmouseover="showTip(event, 'fs54', 123)" class="id">myNonEmptyIntSetOpt</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1</span><span class="pn">;</span><span class="n">2</span><span class="pn">;</span><span class="n">3</span><span class="pn">]</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs47', 124)" onmouseover="showTip(event, 'fs47', 124)" class="m">Set</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 125)" onmouseover="showTip(event, 'fs55', 125)" class="id">ofList</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs51', 126)" onmouseover="showTip(event, 'fs51', 126)" class="id">NonEmptyIntSet</span><span class="pn">.</span><span class="id">TryCreate</span>
-</code></pre></td>
-</tr>
-</table>
 <h2><a name="Samples-amp-documentation" class="anchor" href="#Samples-amp-documentation">Samples &amp; documentation</a></h2>
 <ul>
 <li><p><a href="tutorial.html">Tutorial</a> contains a further explanation of this dependent types library.</p></li>
@@ -254,17 +220,6 @@ redistribution for both commercial and non-commercial purposes. For more informa
 <div class="tip" id="fs42">val digitsOfLength3 : DependentType&lt;DigitsDef.ValidDigits3,int,string,string option&gt;</div>
 <div class="tip" id="fs43">val notDigitsOfLength3 : Option&lt;DependentType&lt;DigitsDef.ValidDigits3,int,string,string option&gt;&gt;</div>
 <div class="tip" id="fs44">static member DependentType.TryCreate : x:Option&lt;&#39;T&gt; -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />static member DependentType.TryCreate : x:&#39;T -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;</div>
-<div class="tip" id="fs45">val verifyNonEmptySet : &#39;a -&gt; value:Set&lt;int&gt; -&gt; Set&lt;int&gt; option</div>
-<div class="tip" id="fs46">val value : Set&lt;int&gt;</div>
-<div class="tip" id="fs47">Multiple items<br />module Set<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Set&lt;&#39;T (requires comparison)&gt; =<br />&#160;&#160;interface IComparable<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;interface ICollection&lt;&#39;T&gt;<br />&#160;&#160;new : elements:seq&lt;&#39;T&gt; -&gt; Set&lt;&#39;T&gt;<br />&#160;&#160;member Add : value:&#39;T -&gt; Set&lt;&#39;T&gt;<br />&#160;&#160;member Contains : value:&#39;T -&gt; bool<br />&#160;&#160;override Equals : obj -&gt; bool<br />&#160;&#160;member IsProperSubsetOf : otherSet:Set&lt;&#39;T&gt; -&gt; bool<br />&#160;&#160;member IsProperSupersetOf : otherSet:Set&lt;&#39;T&gt; -&gt; bool<br />&#160;&#160;...<br /><br />--------------------<br />new : elements:seq&lt;&#39;T&gt; -&gt; Set&lt;&#39;T&gt;</div>
-<div class="tip" id="fs48">property Set.Count: int</div>
-<div class="tip" id="fs49">Multiple items<br />type NonEmptySetValidator =<br />&#160;&#160;inherit obj<br />&#160;&#160;new : unit -&gt; NonEmptySetValidator<br /><br />--------------------<br />new : unit -&gt; NonEmptySetValidator</div>
-<div class="tip" id="fs50">Multiple items<br />type ValidNonEmptySet =<br />&#160;&#160;inherit NonEmptySetValidator<br />&#160;&#160;new : unit -&gt; ValidNonEmptySet<br /><br />--------------------<br />new : unit -&gt; ValidNonEmptySet</div>
-<div class="tip" id="fs51">type NonEmptyIntSet = obj</div>
-<div class="tip" id="fs52">module NonEmptySetDef<br /><br />from Index</div>
-<div class="tip" id="fs53">Multiple items<br />type ValidNonEmptySet =<br />&#160;&#160;inherit NonEmptySetValidator<br />&#160;&#160;new : unit -&gt; ValidNonEmptySet<br /><br />--------------------<br />new : unit -&gt; NonEmptySetDef.ValidNonEmptySet</div>
-<div class="tip" id="fs54">val myNonEmptyIntSetOpt : obj</div>
-<div class="tip" id="fs55">val ofList : elements:&#39;T list -&gt; Set&lt;&#39;T&gt; (requires comparison)</div>
 
         </div>
         <div class="span3">
