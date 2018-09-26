@@ -2,9 +2,24 @@
 // FAKE build script
 // --------------------------------------------------------------------------------------
 
-#r "paket: groupref FakeBuild //"
+#r "paket:
+nuget Fake.Core.Target
+nuget Fake.IO.FileSystem
+nuget Fake.DotNet.Cli
+nuget Fake.Tools.Git
+nuget Fake.DotNet.MSBuild
+nuget Fake.Core.ReleaseNotes 
+nuget Fake.DotNet.AssemblyInfoFile
+nuget Fake.DotNet.Paket
+nuget Fake.DotNet.Testing.Expecto 
+nuget Fake.DotNet.FSFormatting //"
 
 #load "./.fake/build.fsx/intellisense.fsx"
+
+
+#if !FAKE
+#r "netstandard"
+#endif
 
 open System.IO
 open Fake.Core
@@ -50,7 +65,7 @@ let solutionFile  = "DependentTypes.sln"
 // Default target configuration
 let configuration = "Release"
 
-let netFramework = "net472"
+let netFramework = "net45"
 
 // Pattern specifying assemblies to be tested using Expecto
 let testAssemblies = sprintf "tests/**/bin/Release/%s/*Tests.exe" netFramework
@@ -212,7 +227,9 @@ Target.create "ReferenceDocs" (fun _ ->
    
         let conventionBased = 
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
+            |> Array.filter (fun d -> d.Name = "DependentTypes")
             |> Array.collect (fun d ->
+                printfn "tada %s" d.Name
                 let name, dInfo = 
                         d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains(netFramework))).[0]
                 dInfo.GetFiles()

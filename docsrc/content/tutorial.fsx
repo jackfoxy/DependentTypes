@@ -10,7 +10,7 @@ Dependent types tutorial
 
 ### Trimmed, non-empty, non-null strings
 
-The ````module```` is for code formatting purposes. Otherwise it serves no functional purpose. This is an example of passing ````unit````
+Note that the ````module TrimNonEmptyStringDef```` helps format the code for readability. Otherwise it serves no functional purpose. This is an example of passing ````unit````
 as the ````config````.
 *)
 open DependentTypes
