@@ -120,10 +120,8 @@ module DependentType =
 
         type IntSumTypeDiscriminator() = 
             inherit PiType<unit, int, IntegerOfSign>((), intType)
-
-        type IntSumType () = inherit IntSumTypeDiscriminator()
     
-    type IntegerType = DependentType<SumType.IntSumType, unit, int, IntegerOfSign>
+    type IntegerType = DependentType<SumType.IntSumTypeDiscriminator, unit, int, IntegerOfSign>
 
     type IntegerNegNonNeg =
         | NonNegativeInt of int
@@ -141,10 +139,8 @@ module DependentType =
 
         type IntSumTypeDiscriminator() = 
             inherit PiType<unit, IntegerOfSign, IntegerNegNonNeg>((), intType)
-
-        type IntSumType () = inherit IntSumTypeDiscriminator()
     
-    type IntegerSignType = DependentType<NonNegativSumType.IntSumType, unit, IntegerOfSign, IntegerNegNonNeg>
+    type IntegerSignType = DependentType<NonNegativSumType.IntSumTypeDiscriminator, unit, IntegerOfSign, IntegerNegNonNeg>
 
     let reflexivity x =
         Expect.equal x x "reflexivity"

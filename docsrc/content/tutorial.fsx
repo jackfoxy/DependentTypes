@@ -92,7 +92,7 @@ printfn "%b" notTrimNonEmptyString.IsNone
 (**
 ### Create method
 
-For all ````'T2```` base types the ````Create```` method is safe (meaning it will not throw), but for option types if will not lift the option).
+For all ````'T2```` base types the ````Create```` method is safe (meaning it will not throw), but for option types if will not lift the option.
 
 Here is an example of a dependent type with a simple ````'T2```` base type.
 *)
@@ -110,6 +110,8 @@ type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime
 let utcTime = DateTime.Now |> UtcDateTime.Create
 (** 
 ### Base type of discriminated Union
+
+Use F# discriminated union to mimic a type family of arbitrarily many members.
 *)
 type IntegerOfSign =
         | PositiveInt of int
@@ -128,10 +130,8 @@ module SumType =
 
     type IntSumTypeDiscriminator() = 
         inherit PiType<unit, int, IntegerOfSign>((), intType)
-
-    type IntSumType () = inherit IntSumTypeDiscriminator()
     
-type IntegerType = DependentType<SumType.IntSumType, unit, int, IntegerOfSign>
+type IntegerType = DependentType<SumType.IntSumTypeDiscriminator, unit, int, IntegerOfSign>
 
 let s2 = IntegerType.Create -21
 let s3 = IntegerType.Create 0
@@ -216,6 +216,8 @@ printfn "%i" c'
 printfn "%A" <| a.ToString()
 (**
 ### DependentPair
+
+Useful for keeing the input element associated with the dependent type.
 *)
 module SizeMax5Type =
     let validate normalize fn v =

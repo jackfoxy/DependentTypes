@@ -94,9 +94,6 @@ Dependent types support the same equality and comparison traits as their base ``
 
 [Extension methods are not yet supported](https://github.com/jackfoxy/DependentTypes/issues/1).
 
-See the [Tutorial](tutorial.html) and [sample library of dependent types](https://github.com/jackfoxy/DependentTypes/blob/9281602a7d119920735e1c786df462ca000d4ab2/src/DomainLib/Domain.fs#L32) for an
-example of a generic collection type, ````Set<'T>````.
-
 DependentPairs
 ==============
 
