@@ -14,9 +14,7 @@ module TrimNonEmptyStringDef =
     type NonEmptyValidator() = 
         inherit PiType<unit, string, string option>((), verifyTrimNonEmptyString)
 
-    type NonEmpty () = inherit NonEmptyValidator()
-
-type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string option> 
+type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmptyValidator, unit, string, string option> 
 
 module UtcDateTimeDef =
     let verifyUtcDateTime _ (value : DateTime) =
@@ -24,10 +22,8 @@ module UtcDateTimeDef =
 
     type UtcDateTimeValidator() = 
         inherit PiType<unit, DateTime, DateTime>((), verifyUtcDateTime)
-
-    type ValidUtcDateTime () = inherit UtcDateTimeValidator()
-    
-type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime, DateTime> 
+ 
+type UtcDateTime = DependentType<UtcDateTimeDef.UtcDateTimeValidator, unit, DateTime, DateTime> 
 
 module NonEmptySetDef =
     let verifyNonEmptySet _ (value : Set<'T>) =
@@ -38,10 +34,8 @@ module NonEmptySetDef =
 
     type NonEmptySetValidator<'T when 'T : comparison>() = 
         inherit PiType<unit, Set<'T>, Set<'T> option>((), verifyNonEmptySet)
-
-    type ValidNonEmptySet<'T when 'T : comparison>() = inherit NonEmptySetValidator<'T>()
-    
-type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>, Set<'T> option>   
+ 
+type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.NonEmptySetValidator<'T>, unit, Set<'T>, Set<'T> option>   
 
 module RegExStringVerify =
     let regExStringVerify (regex : Regex) config (value : string) =

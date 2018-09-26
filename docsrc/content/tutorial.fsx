@@ -10,6 +10,8 @@ Dependent types tutorial
 
 ### Trimmed, non-empty, non-null strings
 
+We will see later that passing a configuration other than unit, (), requires a second level of type inheritance.
+
 Note that the ````module TrimNonEmptyStringDef```` helps format the code for readability. Otherwise it serves no functional purpose. This is an example of passing ````unit````
 as the ````config````.
 *)
@@ -27,9 +29,7 @@ module TrimNonEmptyStringDef =
     type NonEmptyValidator() = 
         inherit PiType<unit, string, string option>((), verifyTrimNonEmptyString)
 
-    type NonEmpty () = inherit NonEmptyValidator()
-
-type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string option>  
+type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmptyValidator, unit, string, string option>  
 (**
 ### Generalized and specific type creation
 
@@ -156,10 +156,8 @@ module NonEmptySetDef =
 
     type NonEmptySetValidator<'T when 'T : comparison>() = 
         inherit PiType<unit, Set<'T>, Set<'T> option>((), verifyNonEmptySet)
-
-    type ValidNonEmptySet<'T when 'T : comparison>() = inherit NonEmptySetValidator<'T>()
-    
-type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>, Set<'T> option> 
+  
+type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.NonEmptySetValidator<'T>, unit, Set<'T>, Set<'T> option> 
 
 let myNonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.Create
 let myNonEmptyStringSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.Create

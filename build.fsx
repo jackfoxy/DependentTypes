@@ -68,7 +68,7 @@ let configuration = "Release"
 let netFramework = "net45"
 
 // Pattern specifying assemblies to be tested using Expecto
-let testAssemblies = sprintf "tests/**/bin/Release/%s/*Tests.exe" netFramework
+let testAssemblies = sprintf "tests/**/bin/Release/net472/*Tests.exe" //netFramework
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
@@ -229,7 +229,6 @@ Target.create "ReferenceDocs" (fun _ ->
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
             |> Array.filter (fun d -> d.Name = "DependentTypes")
             |> Array.collect (fun d ->
-                printfn "tada %s" d.Name
                 let name, dInfo = 
                         d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains(netFramework))).[0]
                 dInfo.GetFiles()

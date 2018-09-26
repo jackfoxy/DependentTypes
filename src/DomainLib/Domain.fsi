@@ -9,36 +9,24 @@ module TrimNonEmptyStringDef =
         inherit PiType<unit, string, string option>
         new : config : unit -> NonEmptyValidator
 
-    type NonEmpty =
-        inherit NonEmptyValidator
-        new : unit -> NonEmpty
-
 /// Trimmed, non-empty, non-null string
-type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string option>
+type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmptyValidator, unit, string, string option>
 
 module UtcDateTimeDef =
     type UtcDateTimeValidator =
         inherit PiType<unit, DateTime, DateTime>
         new : config : unit -> UtcDateTimeValidator
 
-    type ValidUtcDateTime =
-        inherit UtcDateTimeValidator
-        new : unit -> ValidUtcDateTime
-
 /// DateTime set to UTC.
-type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime, DateTime> 
+type UtcDateTime = DependentType<UtcDateTimeDef.UtcDateTimeValidator, unit, DateTime, DateTime> 
 
 module NonEmptySetDef =
     type NonEmptySetValidator<'T when 'T : comparison> =
         inherit PiType<unit, Set<'T>, Set<'T> option>
         new : config : unit -> NonEmptySetValidator<'T>
 
-    type ValidNonEmptySet<'T when 'T : comparison> =
-        inherit NonEmptySetValidator<'T>
-        new : unit -> ValidNonEmptySet<'T>
-
 /// Generic non-empty Set<'T>
-type NonEmptySet<'T when 'T : comparison> = DependentType<NonEmptySetDef.ValidNonEmptySet<'T>, unit, Set<'T>, Set<'T> option>
+type NonEmptySet<'T when 'T : comparison> = DependentType<NonEmptySetDef.NonEmptySetValidator<'T>, unit, Set<'T>, Set<'T> option>
 
 module UpperLatinDef =
     type UpperLatinValidator =
