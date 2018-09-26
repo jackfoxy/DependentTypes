@@ -36,12 +36,15 @@
 <h1><a name="DependentTypes" class="anchor" href="#DependentTypes">DependentTypes</a></h1>
 <p>In computer science and logic, a <strong>dependent type</strong> is a type whose definition depends on a value. A "pair of integers" is a type. A "pair of integers where the second
 is greater than the first" is a dependent type...</p>
+<blockquote>
 <p><em>Wikipedia article, Dependent type</em></p>
+</blockquote>
 <p>This project is an experiment in bringing <a href="https://en.wikipedia.org/wiki/Dependent_type">dependent types</a> to F# for supporting finer levels of type granularity
 in a consistent manner.</p>
 <p>Dependent types in logic and computer science take an element of a specific type and output a typed element in a family of types. F# does not support <em>a family of types</em> in a
 generic sense, but we can still use F# and .NET types as output types that have family-like characteristics. This library presents generic dependent types, taking an element
 of a specific input type to a new base type through a typed function <code>'T1 -&gt; 'T2</code>.</p>
+<p>The base  output types can be:</p>
 <ul>
 <li><code>'T2</code> as any F# or .NET type, a family of one type</li>
 <li>F# option types, the input element does or does not belong to the output underlying type, mimicking a family of two types</li>
@@ -57,13 +60,13 @@ of a specific input type to a new base type through a typed function <code>'T1 -
 </tr>
 </table>
 <p>has a type parameter that includes a <em>configuration</em>, and a typed <em>pi</em> function, which maps input elements of the specified type to elements of the output type.</p>
-<p>The <em>configuration</em> is a convenience allowing re-use of the same function code to serve multiple dependent types by passing any desired parameters..</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="id">PiType</span><span class="pn">&lt;</span><span class="id">&#39;</span><span class="id">Config</span><span class="pn">,</span> <span class="id">&#39;</span><span class="id">T</span><span class="pn">,</span> <span class="id">&#39;</span><span class="id">T2</span><span class="pn">&gt;</span> <span class="pn">(</span><span class="id">config</span><span class="pn">:</span> <span class="id">&#39;</span><span class="id">Config</span><span class="pn">,</span> <span class="id">pi</span><span class="pn">:</span> <span class="id">&#39;</span><span class="id">Config</span> <span class="k">-&gt;</span> <span class="id">&#39;</span><span class="id">T</span> <span class="k">-&gt;</span> <span class="id">&#39;</span><span class="id">T2</span><span class="pn">)</span>
 </code></pre></td>
 </tr>
 </table>
+<p>The <em>configuration</em> is a convenience allowing re-use of the same function code to serve multiple dependent types by passing any desired parameters.</p>
 <p>The construction of similar dependent types sharing the same <em>pi</em> function looks like this:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -87,7 +90,6 @@ of a specific input type to a new base type through a typed function <code>'T1 -
 <span class="l">20: </span>
 <span class="l">21: </span>
 <span class="l">22: </span>
-<span class="l">23: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs20', 34)" onmouseover="showTip(event, 'fs20', 34)" class="id">DependentTypes</span>
 
@@ -108,7 +110,6 @@ of a specific input type to a new base type through a typed function <code>'T1 -
 <span class="k">type</span> <span onmouseout="hideTip(event, 'fs36', 74)" onmouseover="showTip(event, 'fs36', 74)" class="rt">Digits3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 75)" onmouseover="showTip(event, 'fs31', 75)" class="rt">DependentType</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs32', 76)" onmouseover="showTip(event, 'fs32', 76)" class="m">DigitsDef</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 77)" onmouseover="showTip(event, 'fs37', 77)" class="id">ValidDigits3</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs24', 78)" onmouseover="showTip(event, 'fs24', 78)" class="vt">int</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs9', 79)" onmouseover="showTip(event, 'fs9', 79)" class="rt">string</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs9', 80)" onmouseover="showTip(event, 'fs9', 80)" class="rt">string</span> <span onmouseout="hideTip(event, 'fs25', 81)" onmouseover="showTip(event, 'fs25', 81)" class="rt">option</span><span class="pn">&gt;</span>
 <span class="k">type</span> <span onmouseout="hideTip(event, 'fs38', 82)" onmouseover="showTip(event, 'fs38', 82)" class="rt">Digits4</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 83)" onmouseover="showTip(event, 'fs31', 83)" class="rt">DependentType</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs32', 84)" onmouseover="showTip(event, 'fs32', 84)" class="m">DigitsDef</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 85)" onmouseover="showTip(event, 'fs39', 85)" class="id">ValidDigits4</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs24', 86)" onmouseover="showTip(event, 'fs24', 86)" class="vt">int</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs9', 87)" onmouseover="showTip(event, 'fs9', 87)" class="rt">string</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs9', 88)" onmouseover="showTip(event, 'fs9', 88)" class="rt">string</span> <span onmouseout="hideTip(event, 'fs25', 89)" onmouseover="showTip(event, 'fs25', 89)" class="rt">option</span><span class="pn">&gt;</span>
 
-
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 90)" onmouseover="showTip(event, 'fs40', 90)" class="id">digits</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs30', 91)" onmouseover="showTip(event, 'fs30', 91)" class="rt">Digits</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 92)" onmouseover="showTip(event, 'fs41', 92)" class="id">Create</span> <span class="s">&quot;093884765&quot;</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 93)" onmouseover="showTip(event, 'fs42', 93)" class="id">digitsOfLength3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs36', 94)" onmouseover="showTip(event, 'fs36', 94)" class="rt">Digits3</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 95)" onmouseover="showTip(event, 'fs41', 95)" class="id">Create</span> <span class="s">&quot;007&quot;</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs43', 96)" onmouseover="showTip(event, 'fs43', 96)" class="id">notDigitsOfLength3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs36', 97)" onmouseover="showTip(event, 'fs36', 97)" class="rt">Digits3</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 98)" onmouseover="showTip(event, 'fs44', 98)" class="id">TryCreate</span> <span class="s">&quot;0007&quot;</span>
@@ -120,11 +121,11 @@ of a specific input type to a new base type through a typed function <code>'T1 -
 <li><p>The full validation function <code>regExStringVerify</code> is not shown. A config value &lt; 1 accepts digit strings of any length.</p></li>
 <li><p>The presence of <code>module DigitsDef</code> is strictly for readability purposes, segregating the "helper" functions and types.</p></li>
 <li>All the helper types must have the same access level as the dependent type.</li>
-<li>Aliasing is optional, providing better readability.</li>
+<li>Aliasing is optional for providing better readability.</li>
 <li><p><code>TryCreate</code> lifts the <code>option</code> of <code>'T2</code> to the <code>DependentType</code>.</p></li>
 </ol>
 <p>Dependent types support the same equality and comparison traits as their base <code>'T2</code> type.</p>
-<p><a href="https://github.com/jackfoxy/DependentTypes/issues/1">Extension methods are not yet supported</a>, yet.</p>
+<p><a href="https://github.com/jackfoxy/DependentTypes/issues/1">Extension methods are not yet supported</a>.</p>
 <p>See the <a href="tutorial.html">Tutorial</a> and <a href="https://github.com/jackfoxy/DependentTypes/blob/9281602a7d119920735e1c786df462ca000d4ab2/src/DomainLib/Domain.fs#L32">sample library of dependent types</a> for an
 example of a generic collection type, <code>Set&lt;'T&gt;</code>.</p>
 <h1><a name="DependentPairs" class="anchor" href="#DependentPairs">DependentPairs</a></h1>
@@ -133,11 +134,11 @@ example of a generic collection type, <code>Set&lt;'T&gt;</code>.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span class="id">DependentPair</span><span class="pn">&lt;</span><span class="id">&#39;</span><span class="id">SigmaType</span><span class="pn">,</span> <span class="id">&#39;</span><span class="id">Config</span><span class="pn">,</span> <span class="id">&#39;</span><span class="id">T</span><span class="pn">,</span> <span class="id">&#39;</span><span class="id">T2</span> <span class="k">when</span> <span class="id">&#39;</span><span class="id">SigmaType</span> <span class="o">:&gt;</span> <span class="id">SigmaType</span><span class="pn">&lt;</span><span class="id">&#39;</span><span class="id">Config</span><span class="pn">,</span> <span class="id">&#39;</span><span class="id">T</span><span class="pn">,</span> <span class="id">&#39;</span><span class="id">T2</span><span class="pn">&gt;</span>  
-                                                 <span class="k">and</span>  <span class="id">&#39;</span><span class="id">SigmaType</span> <span class="pn">:</span> <span class="pn">(</span><span class="k">new</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs19', 99)" onmouseover="showTip(event, 'fs19', 99)" class="id">unit</span> <span class="k">-&gt;</span> <span class="id">&#39;</span><span class="id">SigmaType</span><span class="pn">)</span><span class="pn">&gt;</span>
+                                                 <span class="k">and</span> <span class="id">&#39;</span><span class="id">SigmaType</span> <span class="pn">:</span> <span class="pn">(</span><span class="k">new</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs19', 99)" onmouseover="showTip(event, 'fs19', 99)" class="id">unit</span> <span class="k">-&gt;</span> <span class="id">&#39;</span><span class="id">SigmaType</span><span class="pn">)</span><span class="pn">&gt;</span>
 </code></pre></td>
 </tr>
 </table>
-<p>is a pair of the input element and resulting dependent type. Useage is similar to that of dependent types.</p>
+<p>is a pair of the input element and resulting dependent type. Usage is similar to that of dependent types.</p>
 <h2><a name="Samples-amp-documentation" class="anchor" href="#Samples-amp-documentation">Samples &amp; documentation</a></h2>
 <ul>
 <li><p><a href="tutorial.html">Tutorial</a> contains a further explanation of this dependent types library.</p></li>
@@ -150,26 +151,19 @@ and functions in the library.</p>
 <ol>
 <li>trimmed, non-empty, non-null string</li>
 <li>non-empty generic set</li>
-<li>utc datetime</li>
+<li>UTC datetime</li>
 <li>uppercase Latin string of undetermined or static length</li>
-<li>digit string of undetermined or static length</li>
-<li>*integer restricted to a range</li>
+<li>digit string of undetermined or specific length</li>
+<li>integer restricted to a range</li>
 </ol>
 </li>
 <li><p>The <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypesConsole">DependentTypesConsole</a> project runs demos of dependent types.</p></li>
 <li><p><a href="https://github.com/haf/expecto">Expecto</a> test projects for both the <a href="https://github.com/jackfoxy/DependentTypes/tree/master/tests/DependentTypes.Tests">DependentTypes</a> library and the <a href="https://github.com/jackfoxy/DependentTypes/tree/master/tests/DomainLib.Tests">DomainLib</a> sample dependent types.</p></li>
 </ul>
-<h2><a name="Issues" class="anchor" href="#Issues">Issues</a></h2>
-<p>Several issues are available for discussion. Among the most interesting</p>
-<ul>
-<li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/1">Dependent types do not support extension methods</a>.</p></li>
-<li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/5">Add Expecto BenchmarkDotNet performance tests</a></p></li>
-<li><p><a href="https://github.com/jackfoxy/DependentTypes/issues/3">Future direction: literal type parameters</a>.</p></li>
-</ul>
 <h2><a name="Contributing-and-copyright" class="anchor" href="#Contributing-and-copyright">Contributing and copyright</a></h2>
-<p>This library is based on original experiments by @robkuz with the LimitedValue type,
+<p>This library is based on original experiments by @robkuz with the LimitedValue type:
 <a href="https://robkuz.github.io/Limited-Values/">Creating Generic Wrappers for Validated Values</a>.
-Further discussion <a href="https://github.com/robkuz/robkuz.github.io/issues/6">here</a></p>
+Further discussion can be found <a href="https://github.com/robkuz/robkuz.github.io/issues/6">here</a>.</p>
 <p>You can <a href="https://github.com/jackfoxy/DependentTypes/issues">report issues</a>, fork the project, and submit pull requests. Please also
 add tests and samples that can be turned into <a href="https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content">documentation</a>.</p>
 <p>The library is available under Public Domain license, which allows modification and

@@ -83,7 +83,7 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
 
 /// 'T -> 'T * 'T2 dependent pair
 type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Config, 'T, 'T2>  
-                                                 and  'SigmaType : (new: unit -> 'SigmaType)> =
+                                                 and 'SigmaType : (new: unit -> 'SigmaType)> =
      DependentPair of 'T * 'T2
      with 
         member __.Value = 

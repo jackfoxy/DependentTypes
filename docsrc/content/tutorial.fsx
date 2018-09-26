@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/DependentTypes/net472"
+#I "../../bin/DependentTypes/net45"
 #r "DependentTypes.dll"
 
 (**
@@ -31,12 +31,39 @@ module TrimNonEmptyStringDef =
 
 type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmpty, unit, string, string option>  
 (**
+### Generalized and specific type creation
+
+Use the ````config```` input to make more specific types over a generalized validator function. 
+
+Construct the ````DependentType option```` one of three ways
+
+* ````mkDependentType```` function, requires type hint in let value
+* ````TryCreate```` for option base types this will lift option to the DependentType
+* ````Create```` is always safe (will not throw), but does not lift option to the DependentType
+*)
+let validate normalize fn v =
+    if fn (normalize v) then Some (normalize v) else None
+
+let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
+
+type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
+
+type MaxPos100 () = inherit NumRangeValidator(0, 100)
+
+type PositiveInt100 = DependentType<MaxPos100, int * int, int, int option>
+
+let a : PositiveInt100 = mkDependentType 100
+
+let b = PositiveInt100.TryCreate 100
+
+let c = PositiveInt100.Create 100
+(**
 ### TryCreate method
 
 If the base type is an option type, and it was created with ````TryCreate````, option is lifted to the DependentType itself. If the value is known to be 
 ````Some````, the unsafe function ````someValue```` may be used to access the value.
 
-````DependentType.Value```` returns the element in its base type.
+````DependentType.Value```` returns the base type value.
 *)
 let myGoodString = (TrimNonEmptyString.TryCreate "good string   ")
 
@@ -62,7 +89,7 @@ printfn "%b" notTrimNonEmptyString.IsNone
 (**
 ### Create method
 
-For all ````'T2```` base types the ````Create```` method is safe (but for option types will not lift the option).
+For all ````'T2```` base types the ````Create```` method is safe, but for option types will not lift the option).
 
 Here is an example of a dependent type with a simple ````'T2```` base type.
 *)
@@ -78,56 +105,6 @@ module UtcDateTimeDef =
 type UtcDateTime = DependentType<UtcDateTimeDef.ValidUtcDateTime, unit, DateTime, DateTime> 
 
 let utcTime = DateTime.Now |> UtcDateTime.Create
-(**
-### Generalized and specific type creation
-
-Use the ````config```` input to make more specific types over a generalized validator function. 
-
-Construct the ````DependentType option```` one of three ways
-
-* ````mkDependentType```` function, requires type hint in let value
-* ````TryCreate```` for option base types this will lift option to the DependentType
-* ````Create```` is always safe, but does not lift option
-
-*)
-let validate normalize fn v =
-    if fn (normalize v) then Some (normalize v) else None
-
-let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
-
-type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
-
-type MaxPos100 () = inherit NumRangeValidator(0, 100)
-
-type PositiveInt100 = DependentType<MaxPos100, int * int, int, int option>
-
-let a : PositiveInt100 = mkDependentType 100
-
-let b = PositiveInt100.TryCreate 100
-
-let c = PositiveInt100.Create 100
-(**
-### Working with the underlying element
-
-Return the underlying typed element with the ````extract```` function or the ````Value```` property. 
-
-````DependentType.ToString()```` implements the underlying ````'T2```` element's type ````ToString()````.
-*)
-let a' = extract a
-let b' = someValue b
-let c' = c.Value.Value
-
-// Some 100
-printfn "%A" a'
-
-// "100"
-printfn "%i" b'
-
-// "100"
-printfn "%i" c'
-
-// Some 100
-printfn "%A" <| a.ToString()
 (** 
 ### Base type of discriminated Union
 *)
@@ -188,6 +165,8 @@ let myNonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.Create
 let myNonEmptyStringSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.Create
 (**
 ### Limit values to ranges
+
+Note that passing a configuration other than unit, (), requires a second level of inheritance.
 *)
 module IntRange =
     let validate fn v =
@@ -212,6 +191,28 @@ type Minus100To100 = DependentType<IntRange.RangeMinus100To100, int * int, int, 
 
 type GT100 = DependentType<IntRange.Min101, int, int, int option>
 type LTminus100 = DependentType<IntRange.MaxMinus101, int, int, int option>
+(**
+### Working with the underlying element
+
+Return the underlying typed element with the ````extract```` function or the ````Value```` property. 
+
+````DependentType.ToString()```` implements the underlying ````'T2```` element's type ````ToString()````.
+*)
+let a' = extract a
+let b' = someValue b
+let c' = c.Value.Value
+
+// Some 100
+printfn "%A" a'
+
+// "100"
+printfn "%i" b'
+
+// "100"
+printfn "%i" c'
+
+// Some 100
+printfn "%A" <| a.ToString()
 (**
 ### DependentPair
 *)

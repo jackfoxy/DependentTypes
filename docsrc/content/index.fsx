@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/DependentTypes/net472"
+#I "../../bin/DependentTypes/net45"
 #r "DependentTypes.dll"
 open System
 open System.Text.RegularExpressions
@@ -27,7 +27,7 @@ DependentTypes
 In computer science and logic, a **dependent type** is a type whose definition depends on a value. A "pair of integers" is a type. A "pair of integers where the second 
 is greater than the first" is a dependent type...
 
- *Wikipedia article, Dependent type*
+ > *from Wikipedia article, Dependent type*
 
 This project is an experiment in bringing [dependent types](https://en.wikipedia.org/wiki/Dependent_type) to F# for supporting finer levels of type granularity
 in a consistent manner.
@@ -36,9 +36,11 @@ Dependent types in logic and computer science take an element of a specific type
 generic sense, but we can still use F# and .NET types as output types that have family-like characteristics. This library presents generic dependent types, taking an element 
 of a specific input type to a new base type through a typed function ````'T1 -> 'T2````. 
 
-* ````'T2```` as any F# or .NET type, a family of one type
-* F# option types, the input element does or does not belong to the output underlying type, mimicking a family of two types
-* F# discriminated union, the input element belongs to some member of the DU, mimicking a family of arbitrarily many types
+The base ````'T2```` output types can be:
+
+* any F# or .NET type, a family of one type
+* an F# option type, the input element does or does not belong to the output underlying type, mimicking a family of two types
+* an F# discriminated union type, the input element belongs to some member of the DU, mimicking a family of arbitrarily many types
 
 
 The dependent type 
@@ -47,11 +49,10 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
                                               and  'PiType : (new: unit -> 'PiType)>
 ````
 has a type parameter that includes a *configuration*, and a typed *pi* function, which maps input elements of the specified type to elements of the output type.
-
-The *configuration* is a convenience allowing re-use of the same function code to serve multiple dependent types by passing any desired parameters..
 ````
 type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2)
 ````
+The *configuration* is a convenience allowing re-use of the same function code to serve multiple dependent types by passing any desired parameters.
 
 The construction of similar dependent types sharing the same *pi* function looks like this:
 *)
@@ -74,7 +75,6 @@ type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string option>
 type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string option>
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string option>
 
-
 let digits = Digits.Create "093884765"
 let digitsOfLength3 = Digits3.Create "007"
 let notDigitsOfLength3 = Digits3.TryCreate "0007"
@@ -87,13 +87,13 @@ let notDigitsOfLength3 = Digits3.TryCreate "0007"
 
 3. All the helper types must have the same access level as the dependent type.
 
-4. Aliasing is optional, providing better readability.
+4. Aliasing is optional for providing better readability.
 
 5. ````TryCreate```` lifts the ````option```` of ````'T2```` to the ````DependentType````.
 
 Dependent types support the same equality and comparison traits as their base ````'T2```` type. 
 
-[Extension methods are not yet supported](https://github.com/jackfoxy/DependentTypes/issues/1), yet.
+[Extension methods are not yet supported](https://github.com/jackfoxy/DependentTypes/issues/1).
 
 See the [Tutorial](tutorial.html) and [sample library of dependent types](https://github.com/jackfoxy/DependentTypes/blob/9281602a7d119920735e1c786df462ca000d4ab2/src/DomainLib/Domain.fs#L32) for an
 example of a generic collection type, ````Set<'T>````.
@@ -104,9 +104,9 @@ DependentPairs
 The dependent pair 
 ````
 type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Config, 'T, 'T2>  
-                                                 and  'SigmaType : (new: unit -> 'SigmaType)>
+                                                 and 'SigmaType : (new: unit -> 'SigmaType)>
 ````
-is a pair of the input element and resulting dependent type. Useage is similar to that of dependent types.
+is a pair of the input element and resulting dependent type. Usage is similar to that of dependent types.
 
 Samples & documentation
 -----------------------
@@ -122,35 +122,24 @@ Samples & documentation
 
      2. non-empty generic set
 
-     3. utc datetime
+     3. UTC datetime
 
-     4. uppercase Latin string of undetermined or static length
+     4. uppercase Latin string of undetermined or specific length
 
-     5. digit string of undetermined or static length
+     5. digit string of undetermined or specific length
 
-     6. *integer restricted to a range
+     6. integer restricted to a range
 
  * The [DependentTypesConsole](https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypesConsole) project runs demos of dependent types.
 
  * [Expecto](https://github.com/haf/expecto) test projects for both the [DependentTypes](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DependentTypes.Tests) library and the [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/tests/DomainLib.Tests) sample dependent types.
-
-Issues
-------
-
-Several issues are available for discussion. Among the most interesting
-
- * [Dependent types do not support extension methods](https://github.com/jackfoxy/DependentTypes/issues/1).
- 
- * [Add Expecto BenchmarkDotNet performance tests](https://github.com/jackfoxy/DependentTypes/issues/5)
-
- * [Future direction: literal type parameters](https://github.com/jackfoxy/DependentTypes/issues/3).
  
 Contributing and copyright
 --------------------------
 
-This library is based on original experiments by @robkuz with the LimitedValue type,
+This library is based on original experiments by @robkuz with the LimitedValue type:
 [Creating Generic Wrappers for Validated Values](https://robkuz.github.io/Limited-Values/).
-Further discussion [here](https://github.com/robkuz/robkuz.github.io/issues/6)
+Further discussion can be found [here](https://github.com/robkuz/robkuz.github.io/issues/6).
 
 You can [report issues][issues], fork the project, and submit pull requests. Please also 
 add tests and samples that can be turned into [documentation](https://github.com/jackfoxy/DependentTypes/tree/master/docsrc/content).
