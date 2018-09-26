@@ -10,10 +10,10 @@ Dependent types tutorial
 
 ### Trimmed, non-empty, non-null strings
 
+This is an example of passing ````unit```` as the ````config````.
 We will see later that passing a configuration other than unit, (), requires a second level of type inheritance.
 
-Note that the ````module TrimNonEmptyStringDef```` helps format the code for readability. Otherwise it serves no functional purpose. This is an example of passing ````unit````
-as the ````config````.
+Note that the ````module TrimNonEmptyStringDef```` helps format the code for readability. Otherwise it serves no functional purpose. 
 *)
 open DependentTypes
 open DependentTypes.DependentTypes
@@ -40,17 +40,20 @@ Construct the ````DependentType option```` one of three ways
 * ````mkDependentType```` function, requires type hint in let value
 * ````TryCreate```` for option base types this will lift option to the DependentType
 * ````Create```` is always safe (will not throw), but does not lift option to the DependentType
+
+Note that passing a configuration other than unit, (), requires a second level of inheritance.
 *)
-let validate normalize fn v =
-    if fn (normalize v) then Some (normalize v) else None
+module RangeValidation =
+    let validate normalize fn v =
+        if fn (normalize v) then Some (normalize v) else None
 
-let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
+    let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
 
-type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
+    type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
 
-type MaxPos100 () = inherit NumRangeValidator(0, 100)
+    type MaxPos100 () = inherit NumRangeValidator(0, 100)
 
-type PositiveInt100 = DependentType<MaxPos100, int * int, int, int option>
+type PositiveInt100 = DependentType<RangeValidation.MaxPos100, int * int, int, int option>
 
 let a : PositiveInt100 = mkDependentType 100
 
@@ -89,7 +92,7 @@ printfn "%b" notTrimNonEmptyString.IsNone
 (**
 ### Create method
 
-For all ````'T2```` base types the ````Create```` method is safe, but for option types will not lift the option).
+For all ````'T2```` base types the ````Create```` method is safe (meaning it will not throw), but for option types if will not lift the option).
 
 Here is an example of a dependent type with a simple ````'T2```` base type.
 *)

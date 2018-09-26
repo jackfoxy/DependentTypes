@@ -27,7 +27,7 @@ DependentTypes
 In computer science and logic, a **dependent type** is a type whose definition depends on a value. A "pair of integers" is a type. A "pair of integers where the second 
 is greater than the first" is a dependent type...
 
- > *from Wikipedia article, Dependent type*
+ > from *Wikipedia article, Dependent type*
 
 This project is an experiment in bringing [dependent types](https://en.wikipedia.org/wiki/Dependent_type) to F# for supporting finer levels of type granularity
 in a consistent manner.
@@ -41,7 +41,6 @@ The base ````'T2```` output types can be:
 * any F# or .NET type, a family of one type
 * an F# option type, the input element does or does not belong to the output underlying type, mimicking a family of two types
 * an F# discriminated union type, the input element belongs to some member of the DU, mimicking a family of arbitrarily many types
-
 
 The dependent type 
 ````

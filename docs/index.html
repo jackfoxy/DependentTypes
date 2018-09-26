@@ -37,18 +37,18 @@
 <p>In computer science and logic, a <strong>dependent type</strong> is a type whose definition depends on a value. A "pair of integers" is a type. A "pair of integers where the second
 is greater than the first" is a dependent type...</p>
 <blockquote>
-<p><em>Wikipedia article, Dependent type</em></p>
+<p>from <em>Wikipedia article, Dependent type</em></p>
 </blockquote>
 <p>This project is an experiment in bringing <a href="https://en.wikipedia.org/wiki/Dependent_type">dependent types</a> to F# for supporting finer levels of type granularity
 in a consistent manner.</p>
 <p>Dependent types in logic and computer science take an element of a specific type and output a typed element in a family of types. F# does not support <em>a family of types</em> in a
 generic sense, but we can still use F# and .NET types as output types that have family-like characteristics. This library presents generic dependent types, taking an element
 of a specific input type to a new base type through a typed function <code>'T1 -&gt; 'T2</code>.</p>
-<p>The base  output types can be:</p>
+<p>The base <code>'T2</code> output types can be:</p>
 <ul>
-<li><code>'T2</code> as any F# or .NET type, a family of one type</li>
-<li>F# option types, the input element does or does not belong to the output underlying type, mimicking a family of two types</li>
-<li>F# discriminated union, the input element belongs to some member of the DU, mimicking a family of arbitrarily many types</li>
+<li>any F# or .NET type, a family of one type</li>
+<li>an F# option type, the input element does or does not belong to the output underlying type, mimicking a family of two types</li>
+<li>an F# discriminated union type, the input element belongs to some member of the DU, mimicking a family of arbitrarily many types</li>
 </ul>
 <p>The dependent type</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
@@ -152,7 +152,7 @@ and functions in the library.</p>
 <li>trimmed, non-empty, non-null string</li>
 <li>non-empty generic set</li>
 <li>UTC datetime</li>
-<li>uppercase Latin string of undetermined or static length</li>
+<li>uppercase Latin string of undetermined or specific length</li>
 <li>digit string of undetermined or specific length</li>
 <li>integer restricted to a range</li>
 </ol>
