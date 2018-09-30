@@ -453,6 +453,83 @@ We will see later that passing a configuration other than unit, (), requires a s
 </code></pre></td>
 </tr>
 </table>
+<h3><a name="ConvertTo" class="anchor" href="#ConvertTo">ConvertTo</a></h3>
+<p>If the output <code>T2</code> base type of one depependent type is the input type <code>T1</code> of another, you can convert elements directly from one type to another.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs133', 412)" onmouseover="showTip(event, 'fs133', 412)" class="rt">IntegerNegNonNeg</span> <span class="o">=</span>
+    <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs134', 413)" onmouseover="showTip(event, 'fs134', 413)" class="uc">NonNegativeInt</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs32', 414)" onmouseover="showTip(event, 'fs32', 414)" class="vt">int</span>
+    <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs135', 415)" onmouseover="showTip(event, 'fs135', 415)" class="uc">NegativeInt</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs32', 416)" onmouseover="showTip(event, 'fs32', 416)" class="vt">int</span>
+
+<span class="k">module</span> <span class="m">NonNegativSumType</span> <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs136', 417)" onmouseover="showTip(event, 'fs136', 417)" class="fn">intType</span> <span class="id">_</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs137', 418)" onmouseover="showTip(event, 'fs137', 418)" class="id">value</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs63', 419)" onmouseover="showTip(event, 'fs63', 419)" class="rt">IntegerOfSign</span><span class="pn">)</span> <span class="o">=</span>
+        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs137', 420)" onmouseover="showTip(event, 'fs137', 420)" class="id">value</span> <span class="k">with</span>
+        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs63', 421)" onmouseover="showTip(event, 'fs63', 421)" class="rt">IntegerOfSign</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 422)" onmouseover="showTip(event, 'fs64', 422)" class="id">PositiveInt</span> <span onmouseout="hideTip(event, 'fs69', 423)" onmouseover="showTip(event, 'fs69', 423)" class="id">v</span> <span class="k">-&gt;</span>
+            <span onmouseout="hideTip(event, 'fs133', 424)" onmouseover="showTip(event, 'fs133', 424)" class="rt">IntegerNegNonNeg</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs134', 425)" onmouseover="showTip(event, 'fs134', 425)" class="id">NonNegativeInt</span> <span onmouseout="hideTip(event, 'fs69', 426)" onmouseover="showTip(event, 'fs69', 426)" class="id">v</span>
+        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs63', 427)" onmouseover="showTip(event, 'fs63', 427)" class="rt">IntegerOfSign</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs65', 428)" onmouseover="showTip(event, 'fs65', 428)" class="id">Zero</span> <span onmouseout="hideTip(event, 'fs69', 429)" onmouseover="showTip(event, 'fs69', 429)" class="id">v</span> <span class="k">-&gt;</span>
+            <span onmouseout="hideTip(event, 'fs133', 430)" onmouseover="showTip(event, 'fs133', 430)" class="rt">IntegerNegNonNeg</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs134', 431)" onmouseover="showTip(event, 'fs134', 431)" class="id">NonNegativeInt</span> <span onmouseout="hideTip(event, 'fs69', 432)" onmouseover="showTip(event, 'fs69', 432)" class="id">v</span>
+        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs63', 433)" onmouseover="showTip(event, 'fs63', 433)" class="rt">IntegerOfSign</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs66', 434)" onmouseover="showTip(event, 'fs66', 434)" class="id">NegativeInt</span> <span onmouseout="hideTip(event, 'fs69', 435)" onmouseover="showTip(event, 'fs69', 435)" class="id">v</span> <span class="k">-&gt;</span>
+            <span onmouseout="hideTip(event, 'fs133', 436)" onmouseover="showTip(event, 'fs133', 436)" class="rt">IntegerNegNonNeg</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs135', 437)" onmouseover="showTip(event, 'fs135', 437)" class="id">NegativeInt</span> <span onmouseout="hideTip(event, 'fs69', 438)" onmouseover="showTip(event, 'fs69', 438)" class="id">v</span>
+
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs138', 439)" onmouseover="showTip(event, 'fs138', 439)" class="rt">IntSumTypeDiscriminator</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span> 
+        <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs14', 440)" onmouseover="showTip(event, 'fs14', 440)" class="rt">PiType</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs15', 441)" onmouseover="showTip(event, 'fs15', 441)" class="rt">unit</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs63', 442)" onmouseover="showTip(event, 'fs63', 442)" class="rt">IntegerOfSign</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs133', 443)" onmouseover="showTip(event, 'fs133', 443)" class="rt">IntegerNegNonNeg</span><span class="pn">&gt;</span><span class="pn">(</span><span class="pn">(</span><span class="pn">)</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs136', 444)" onmouseover="showTip(event, 'fs136', 444)" class="fn">intType</span><span class="pn">)</span>
+    
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs139', 445)" onmouseover="showTip(event, 'fs139', 445)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 446)" onmouseover="showTip(event, 'fs18', 446)" class="rt">DependentType</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs140', 447)" onmouseover="showTip(event, 'fs140', 447)" class="m">NonNegativSumType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs141', 448)" onmouseover="showTip(event, 'fs141', 448)" class="id">IntSumTypeDiscriminator</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs15', 449)" onmouseover="showTip(event, 'fs15', 449)" class="rt">unit</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs63', 450)" onmouseover="showTip(event, 'fs63', 450)" class="rt">IntegerOfSign</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs133', 451)" onmouseover="showTip(event, 'fs133', 451)" class="rt">IntegerNegNonNeg</span><span class="pn">&gt;</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs142', 452)" onmouseover="showTip(event, 'fs142', 452)" class="id">s42</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs71', 453)" onmouseover="showTip(event, 'fs71', 453)" class="rt">IntegerType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 454)" onmouseover="showTip(event, 'fs42', 454)" class="id">Create</span> <span class="n">42</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs143', 455)" onmouseover="showTip(event, 'fs143', 455)" class="id">s0</span>  <span class="o">=</span> <span onmouseout="hideTip(event, 'fs71', 456)" onmouseover="showTip(event, 'fs71', 456)" class="rt">IntegerType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 457)" onmouseover="showTip(event, 'fs42', 457)" class="id">Create</span> <span class="n">0</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs144', 458)" onmouseover="showTip(event, 'fs144', 458)" class="id">s_42</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs71', 459)" onmouseover="showTip(event, 'fs71', 459)" class="rt">IntegerType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 460)" onmouseover="showTip(event, 'fs42', 460)" class="id">Create</span> <span class="o">-</span><span class="n">42</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs145', 461)" onmouseover="showTip(event, 'fs145', 461)" class="id">s42B</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs139', 462)" onmouseover="showTip(event, 'fs139', 462)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs139', 463)" onmouseover="showTip(event, 'fs139', 463)" class="rt">IntegerSignType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs146', 464)" onmouseover="showTip(event, 'fs146', 464)" class="id">ConvertTo</span> <span onmouseout="hideTip(event, 'fs142', 465)" onmouseover="showTip(event, 'fs142', 465)" class="id">s42</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs147', 466)" onmouseover="showTip(event, 'fs147', 466)" class="id">s0B</span> <span class="pn">:</span><span onmouseout="hideTip(event, 'fs139', 467)" onmouseover="showTip(event, 'fs139', 467)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs139', 468)" onmouseover="showTip(event, 'fs139', 468)" class="rt">IntegerSignType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs146', 469)" onmouseover="showTip(event, 'fs146', 469)" class="id">ConvertTo</span> <span onmouseout="hideTip(event, 'fs143', 470)" onmouseover="showTip(event, 'fs143', 470)" class="id">s0</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs148', 471)" onmouseover="showTip(event, 'fs148', 471)" class="id">s_42B</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs139', 472)" onmouseover="showTip(event, 'fs139', 472)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs149', 473)" onmouseover="showTip(event, 'fs149', 473)" class="fn">convertTo</span> <span onmouseout="hideTip(event, 'fs144', 474)" onmouseover="showTip(event, 'fs144', 474)" class="id">s_42</span>
+
+<span class="c">// DependentType (NonNegativeInt 42)</span>
+<span onmouseout="hideTip(event, 'fs45', 475)" onmouseover="showTip(event, 'fs45', 475)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs145', 476)" onmouseover="showTip(event, 'fs145', 476)" class="id">s42B</span>
+
+<span class="c">// DependentType (NonNegativeInt 0)</span>
+<span onmouseout="hideTip(event, 'fs45', 477)" onmouseover="showTip(event, 'fs45', 477)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs147', 478)" onmouseover="showTip(event, 'fs147', 478)" class="id">s0B</span>
+
+<span class="c">// DependentType (NegativeInt -42)</span>
+<span onmouseout="hideTip(event, 'fs45', 479)" onmouseover="showTip(event, 'fs45', 479)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs148', 480)" onmouseover="showTip(event, 'fs148', 480)" class="id">s_42B</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Note: the type hints <code>let s42B : IntegerSignType =</code>, etc. are usually not necessary in compiled code when using the type's static method, but may be in FSI.</p>
 
 <div class="tip" id="fs1">namespace DependentTypes</div>
 <div class="tip" id="fs2">Multiple items<br />module DependentTypes<br /><br />from DependentTypes<br /><br />--------------------<br />namespace DependentTypes</div>
@@ -586,6 +663,23 @@ We will see later that passing a configuration other than unit, (), requires a s
 <div class="tip" id="fs130">val s100 : DependentPair&lt;SizeMax5Type.SizeMax5Pair,int,string,string option&gt;</div>
 <div class="tip" id="fs131">static member DependentPair.Create : x:&#39;T -&gt; DependentPair&lt;&#39;SigmaType,&#39;Config,&#39;T,&#39;T2&gt;</div>
 <div class="tip" id="fs132">val s100000 : DependentPair&lt;SizeMax5Type.SizeMax5Pair,int,string,string option&gt;</div>
+<div class="tip" id="fs133">type IntegerNegNonNeg =<br />&#160;&#160;| NonNegativeInt of int<br />&#160;&#160;| NegativeInt of int</div>
+<div class="tip" id="fs134">union case IntegerNegNonNeg.NonNegativeInt: int -&gt; IntegerNegNonNeg</div>
+<div class="tip" id="fs135">union case IntegerNegNonNeg.NegativeInt: int -&gt; IntegerNegNonNeg</div>
+<div class="tip" id="fs136">val intType : &#39;a -&gt; value:IntegerOfSign -&gt; IntegerNegNonNeg</div>
+<div class="tip" id="fs137">val value : IntegerOfSign</div>
+<div class="tip" id="fs138">Multiple items<br />type IntSumTypeDiscriminator =<br />&#160;&#160;inherit PiType&lt;unit,IntegerOfSign,IntegerNegNonNeg&gt;<br />&#160;&#160;new : unit -&gt; IntSumTypeDiscriminator<br /><br />--------------------<br />new : unit -&gt; IntSumTypeDiscriminator</div>
+<div class="tip" id="fs139">type IntegerSignType = DependentType&lt;NonNegativSumType.IntSumTypeDiscriminator,unit,IntegerOfSign,IntegerNegNonNeg&gt;</div>
+<div class="tip" id="fs140">module NonNegativSumType<br /><br />from Tutorial</div>
+<div class="tip" id="fs141">Multiple items<br />type IntSumTypeDiscriminator =<br />&#160;&#160;inherit PiType&lt;unit,IntegerOfSign,IntegerNegNonNeg&gt;<br />&#160;&#160;new : unit -&gt; IntSumTypeDiscriminator<br /><br />--------------------<br />new : unit -&gt; NonNegativSumType.IntSumTypeDiscriminator</div>
+<div class="tip" id="fs142">val s42 : DependentType&lt;SumType.IntSumTypeDiscriminator,unit,int,IntegerOfSign&gt;</div>
+<div class="tip" id="fs143">val s0 : DependentType&lt;SumType.IntSumTypeDiscriminator,unit,int,IntegerOfSign&gt;</div>
+<div class="tip" id="fs144">val s_42 : DependentType&lt;SumType.IntSumTypeDiscriminator,unit,int,IntegerOfSign&gt;</div>
+<div class="tip" id="fs145">val s42B : IntegerSignType</div>
+<div class="tip" id="fs146">static member DependentType.ConvertTo : x:DependentType&lt;&#39;x,&#39;y,&#39;q,&#39;r&gt; -&gt; DependentType&lt;&#39;a,&#39;b,&#39;r,&#39;s&gt; (requires &#39;x :&gt; PiType&lt;&#39;y,&#39;q,&#39;r&gt; and default constructor and &#39;a :&gt; PiType&lt;&#39;b,&#39;r,&#39;s&gt; and default constructor)</div>
+<div class="tip" id="fs147">val s0B : IntegerSignType</div>
+<div class="tip" id="fs148">val s_42B : IntegerSignType</div>
+<div class="tip" id="fs149">val convertTo : x:&#39;S -&gt; &#39;T (requires member ConvertTo)</div>
 
         </div>
         <div class="span3">

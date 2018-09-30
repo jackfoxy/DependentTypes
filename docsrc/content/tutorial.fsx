@@ -246,3 +246,46 @@ printfn "%A" s100
 
 // DependentPair ("100000",None)
 printfn "%A" s100000
+(**
+### ConvertTo
+
+If the output ````T2```` base type of one depependent type is the input type ````T1```` of another, you can convert elements directly from one type to another.
+*)
+type IntegerNegNonNeg =
+    | NonNegativeInt of int
+    | NegativeInt of int
+
+module NonNegativSumType =
+    let intType _ (value : IntegerOfSign) =
+        match value with
+        | IntegerOfSign.PositiveInt v ->
+            IntegerNegNonNeg.NonNegativeInt v
+        | IntegerOfSign.Zero v ->
+            IntegerNegNonNeg.NonNegativeInt v
+        | IntegerOfSign.NegativeInt v ->
+            IntegerNegNonNeg.NegativeInt v
+
+    type IntSumTypeDiscriminator() = 
+        inherit PiType<unit, IntegerOfSign, IntegerNegNonNeg>((), intType)
+    
+type IntegerSignType = DependentType<NonNegativSumType.IntSumTypeDiscriminator, unit, IntegerOfSign, IntegerNegNonNeg>
+
+let s42 = IntegerType.Create 42
+let s0  = IntegerType.Create 0
+let s_42 = IntegerType.Create -42
+
+let s42B : IntegerSignType = IntegerSignType.ConvertTo s42
+let s0B :IntegerSignType = IntegerSignType.ConvertTo s0
+let s_42B : IntegerSignType = convertTo s_42
+
+// DependentType (NonNegativeInt 42)
+printfn "%A" s42B
+
+// DependentType (NonNegativeInt 0)
+printfn "%A" s0B
+
+// DependentType (NegativeInt -42)
+printfn "%A" s_42B
+(**
+Note: the type hints ````let s42B : IntegerSignType =````, etc. are usually not necessary in compiled code when using the type's static method, but may be in FSI.
+*)
