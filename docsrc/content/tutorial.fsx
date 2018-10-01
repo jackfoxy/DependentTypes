@@ -274,6 +274,15 @@ let s42 = IntegerType.Create 42
 let s0  = IntegerType.Create 0
 let s_42 = IntegerType.Create -42
 
+// DependentType (PositiveInt 42)
+printfn "%A" s42
+
+// DependentType (Zero 0)
+printfn "%A" s0
+
+// DependentType (NegativeInt -42)
+printfn "%A" s_42
+
 let s42B : IntegerSignType = IntegerSignType.ConvertTo s42
 let s0B :IntegerSignType = IntegerSignType.ConvertTo s0
 let s_42B : IntegerSignType = convertTo s_42

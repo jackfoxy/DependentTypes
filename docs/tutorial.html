@@ -490,6 +490,15 @@ We will see later that passing a configuration other than unit, (), requires a s
 <span class="l">33: </span>
 <span class="l">34: </span>
 <span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+<span class="l">39: </span>
+<span class="l">40: </span>
+<span class="l">41: </span>
+<span class="l">42: </span>
+<span class="l">43: </span>
+<span class="l">44: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs133', 412)" onmouseover="showTip(event, 'fs133', 412)" class="rt">IntegerNegNonNeg</span> <span class="o">=</span>
     <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs134', 413)" onmouseover="showTip(event, 'fs134', 413)" class="uc">NonNegativeInt</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs32', 414)" onmouseover="showTip(event, 'fs32', 414)" class="vt">int</span>
@@ -514,18 +523,27 @@ We will see later that passing a configuration other than unit, (), requires a s
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs143', 455)" onmouseover="showTip(event, 'fs143', 455)" class="id">s0</span>  <span class="o">=</span> <span onmouseout="hideTip(event, 'fs71', 456)" onmouseover="showTip(event, 'fs71', 456)" class="rt">IntegerType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 457)" onmouseover="showTip(event, 'fs42', 457)" class="id">Create</span> <span class="n">0</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs144', 458)" onmouseover="showTip(event, 'fs144', 458)" class="id">s_42</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs71', 459)" onmouseover="showTip(event, 'fs71', 459)" class="rt">IntegerType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 460)" onmouseover="showTip(event, 'fs42', 460)" class="id">Create</span> <span class="o">-</span><span class="n">42</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs145', 461)" onmouseover="showTip(event, 'fs145', 461)" class="id">s42B</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs139', 462)" onmouseover="showTip(event, 'fs139', 462)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs139', 463)" onmouseover="showTip(event, 'fs139', 463)" class="rt">IntegerSignType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs146', 464)" onmouseover="showTip(event, 'fs146', 464)" class="id">ConvertTo</span> <span onmouseout="hideTip(event, 'fs142', 465)" onmouseover="showTip(event, 'fs142', 465)" class="id">s42</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs147', 466)" onmouseover="showTip(event, 'fs147', 466)" class="id">s0B</span> <span class="pn">:</span><span onmouseout="hideTip(event, 'fs139', 467)" onmouseover="showTip(event, 'fs139', 467)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs139', 468)" onmouseover="showTip(event, 'fs139', 468)" class="rt">IntegerSignType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs146', 469)" onmouseover="showTip(event, 'fs146', 469)" class="id">ConvertTo</span> <span onmouseout="hideTip(event, 'fs143', 470)" onmouseover="showTip(event, 'fs143', 470)" class="id">s0</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs148', 471)" onmouseover="showTip(event, 'fs148', 471)" class="id">s_42B</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs139', 472)" onmouseover="showTip(event, 'fs139', 472)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs149', 473)" onmouseover="showTip(event, 'fs149', 473)" class="fn">convertTo</span> <span onmouseout="hideTip(event, 'fs144', 474)" onmouseover="showTip(event, 'fs144', 474)" class="id">s_42</span>
+<span class="c">// DependentType (PositiveInt 42)</span>
+<span onmouseout="hideTip(event, 'fs45', 461)" onmouseover="showTip(event, 'fs45', 461)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs142', 462)" onmouseover="showTip(event, 'fs142', 462)" class="id">s42</span>
 
-<span class="c">// DependentType (NonNegativeInt 42)</span>
-<span onmouseout="hideTip(event, 'fs45', 475)" onmouseover="showTip(event, 'fs45', 475)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs145', 476)" onmouseover="showTip(event, 'fs145', 476)" class="id">s42B</span>
-
-<span class="c">// DependentType (NonNegativeInt 0)</span>
-<span onmouseout="hideTip(event, 'fs45', 477)" onmouseover="showTip(event, 'fs45', 477)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs147', 478)" onmouseover="showTip(event, 'fs147', 478)" class="id">s0B</span>
+<span class="c">// DependentType (Zero 0)</span>
+<span onmouseout="hideTip(event, 'fs45', 463)" onmouseover="showTip(event, 'fs45', 463)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs143', 464)" onmouseover="showTip(event, 'fs143', 464)" class="id">s0</span>
 
 <span class="c">// DependentType (NegativeInt -42)</span>
-<span onmouseout="hideTip(event, 'fs45', 479)" onmouseover="showTip(event, 'fs45', 479)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs148', 480)" onmouseover="showTip(event, 'fs148', 480)" class="id">s_42B</span>
+<span onmouseout="hideTip(event, 'fs45', 465)" onmouseover="showTip(event, 'fs45', 465)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs144', 466)" onmouseover="showTip(event, 'fs144', 466)" class="id">s_42</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs145', 467)" onmouseover="showTip(event, 'fs145', 467)" class="id">s42B</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs139', 468)" onmouseover="showTip(event, 'fs139', 468)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs139', 469)" onmouseover="showTip(event, 'fs139', 469)" class="rt">IntegerSignType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs146', 470)" onmouseover="showTip(event, 'fs146', 470)" class="id">ConvertTo</span> <span onmouseout="hideTip(event, 'fs142', 471)" onmouseover="showTip(event, 'fs142', 471)" class="id">s42</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs147', 472)" onmouseover="showTip(event, 'fs147', 472)" class="id">s0B</span> <span class="pn">:</span><span onmouseout="hideTip(event, 'fs139', 473)" onmouseover="showTip(event, 'fs139', 473)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs139', 474)" onmouseover="showTip(event, 'fs139', 474)" class="rt">IntegerSignType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs146', 475)" onmouseover="showTip(event, 'fs146', 475)" class="id">ConvertTo</span> <span onmouseout="hideTip(event, 'fs143', 476)" onmouseover="showTip(event, 'fs143', 476)" class="id">s0</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs148', 477)" onmouseover="showTip(event, 'fs148', 477)" class="id">s_42B</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs139', 478)" onmouseover="showTip(event, 'fs139', 478)" class="rt">IntegerSignType</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs149', 479)" onmouseover="showTip(event, 'fs149', 479)" class="fn">convertTo</span> <span onmouseout="hideTip(event, 'fs144', 480)" onmouseover="showTip(event, 'fs144', 480)" class="id">s_42</span>
+
+<span class="c">// DependentType (NonNegativeInt 42)</span>
+<span onmouseout="hideTip(event, 'fs45', 481)" onmouseover="showTip(event, 'fs45', 481)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs145', 482)" onmouseover="showTip(event, 'fs145', 482)" class="id">s42B</span>
+
+<span class="c">// DependentType (NonNegativeInt 0)</span>
+<span onmouseout="hideTip(event, 'fs45', 483)" onmouseover="showTip(event, 'fs45', 483)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs147', 484)" onmouseover="showTip(event, 'fs147', 484)" class="id">s0B</span>
+
+<span class="c">// DependentType (NegativeInt -42)</span>
+<span onmouseout="hideTip(event, 'fs45', 485)" onmouseover="showTip(event, 'fs45', 485)" class="fn">printfn</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs148', 486)" onmouseover="showTip(event, 'fs148', 486)" class="id">s_42B</span>
 </code></pre></td>
 </tr>
 </table>
