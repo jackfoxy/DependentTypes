@@ -5,6 +5,7 @@ nuget FSharp.Core
 
 nuget Expecto
 nuget Expecto.FsCheck
+nuget Expecto.BenchmarkDotNet
 nuget FsCheck 
 nuget Expecto.VisualStudio.TestAdapter version_in_path: true
 

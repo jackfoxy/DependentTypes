@@ -163,6 +163,7 @@ Target.create "Build" (fun _ ->
 
 Target.create "RunTests" (fun _ ->
     !! testAssemblies
+    |> Seq.filter (fun x -> x.ToLower().Contains("benchmark") |> not)
     |> Expecto.run id
 )
 
