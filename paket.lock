@@ -688,9 +688,7 @@ NUGET
       System.Xml.ReaderWriter (>= 4.3) - restriction: || (&& (== net45) (>= netstandard1.3)) (&& (== net472) (< net46)) (== netcoreapp2.1) (== netstandard2.0)
       System.Xml.XmlDocument (>= 4.3) - restriction: || (&& (== net45) (>= net46)) (&& (== net45) (>= netstandard1.3)) (== net472) (== netcoreapp2.1) (== netstandard2.0)
       System.Xml.XPath (>= 4.3) - restriction: || (&& (== net45) (>= net46)) (&& (== net45) (>= netstandard1.3)) (== net472) (== netcoreapp2.1) (== netstandard2.0)
-GITHUB
-  remote: eiriktsarpalis/TypeShape
-    src/TypeShape/TypeShape.fs (49e5fa6952414cd8cffddf7b6e0bb77508493440)
+
 GROUP Formatting
 NUGET
   remote: https://www.nuget.org/api/v2

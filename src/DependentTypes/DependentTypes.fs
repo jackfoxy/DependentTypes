@@ -1,9 +1,5 @@
 ﻿namespace DependentTypes
 
-#if INTERACTIVE
-#load @"..\..\paket-files\eiriktsarpalis\TypeShape\src\TypeShape\TypeShape.fs"
-#endif
-
 /// Inline helper functions.
 module DependentTypes =
     /// Create dependent type
@@ -25,7 +21,6 @@ module DependentTypes =
             |> Option.flatten).Value
             
 open DependentTypes
-open TypeShape
 
 [<Class>]
 /// Constructor / validator type for DependentType 'T -> 'T2 
@@ -59,15 +54,24 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
 
         static member TryCreate x : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             let piResult = (new 'PiType()).Create x
-
-            match shapeof<'T2> with
-            | Shape.FSharpOption _ ->
+            //if (typedefof<'T2>).Name.StartsWith("FSharpOption") then
+            if typedefof<'T2> = typedefof<_ option> then
                 if isNull (piResult :> obj) then
                     None
                 else
                     Some (DependentType piResult)
-            | _ -> 
+            else
                 Some (DependentType piResult)
+
+            //let x = (typedefof<'T2>).Name.StartsWith("FSharpOption")
+            //match shapeof<'T2> with
+            //| Shape.FSharpOption _ ->
+            //    if isNull (piResult :> obj) then
+            //        None
+            //    else
+            //        Some (DependentType piResult)
+            //| _ -> 
+            //    Some (DependentType piResult)
 
         static member TryCreate (x : 'T Option) : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             match x with

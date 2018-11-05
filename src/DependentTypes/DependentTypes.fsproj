@@ -17,10 +17,6 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\paket-files\eiriktsarpalis\TypeShape\src\TypeShape\TypeShape.fs">
-      <Paket>True</Paket>
-      <Link>TypeShape/TypeShape.fs</Link>
-    </Compile>
     <Compile Include="DependentTypes.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <None Include="paket.references" />
