@@ -39,7 +39,7 @@ module DomainTypes =
                             let t = TrimNonEmptyString.TryCreate x
                             t.IsNone)
 
-            testPropertyWithConfig config10k "TryCreate" <|
+            testPropertyWithConfig config10k "Create" <|
                 fun  () ->
                     Prop.forAll (Arb.fromGen <| nonEmptyNonAllWhitespaceString())
                         (fun (x : string) -> 
