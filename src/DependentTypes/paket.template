@@ -17,7 +17,7 @@ requireLicenseAcceptance
 language
     F#
 copyright
-    Copyright 2017
+    Copyright 2018
 tags
     DependentTypes DependentType F# fsharp
 summary

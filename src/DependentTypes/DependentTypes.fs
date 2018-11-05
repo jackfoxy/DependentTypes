@@ -1,7 +1,7 @@
 ﻿namespace DependentTypes
 
-/// Inline helper functions.
-module DependentTypes =
+/// Inline helper functions for dependent types.
+module Helpers =
     /// Create dependent type
     let inline mkDependentType (x: ^S) : ^T = 
         (^T: (static member Create: ^S -> ^T) x)
@@ -19,8 +19,30 @@ module DependentTypes =
         (x |> Option.map (fun x' ->
             (^S: (static member Extract: ^S -> ^T option ) x') )
             |> Option.flatten).Value
-            
-open DependentTypes
+     
+//module DependentTypes = Helpers   //aliasing not visible externally
+/// deprecated in favor of Helpers
+module private DependentTypes =
+    /// Create dependent type
+    let inline mkDependentType (x: ^S) : ^T = 
+        (^T: (static member Create: ^S -> ^T) x)
+
+    /// Retrieves base type value
+    let inline extract (x:^S) = 
+        (^S: (static member Extract: ^S -> ^T) x)
+
+    /// Conversion of base type value to compatible dependent type
+    let inline convertTo (x: ^S) : ^T = 
+        (^T: (static member ConvertTo: ^S -> ^T) x)
+
+    /// Retrieves the 'T2 value from an option DependentType
+    let inline someValue (x : ^S Option) =
+        (x |> Option.map (fun x' ->
+            (^S: (static member Extract: ^S -> ^T option ) x') )
+            |> Option.flatten).Value
+
+
+open Helpers
 
 [<Class>]
 /// Constructor / validator type for DependentType 'T -> 'T2 

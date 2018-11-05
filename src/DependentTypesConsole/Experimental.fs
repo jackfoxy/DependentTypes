@@ -1,7 +1,7 @@
 ﻿module Experimental
 
 open DependentTypes
-open DependentTypes.DependentTypes
+open DependentTypes.Helpers
 open System
 open System.Collections.Generic
 

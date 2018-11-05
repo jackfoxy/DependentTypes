@@ -22,6 +22,6 @@ let t2 = TrimNonEmptyString.TryCreate " "
 
 let t3 = TrimNonEmptyString.TryCreate (Some "sdfg  ")
 
-let t2Value = DependentTypes.someValue t2
+let t2Value = Helpers.someValue t2
 
-let t3Value = DependentTypes.someValue t3
+let t3Value = Helpers.someValue t3
