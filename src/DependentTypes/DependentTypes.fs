@@ -2,19 +2,22 @@
 
 /// Inline helper functions for dependent types.
 module Helpers =
-    /// Create dependent type
+    /// Create instance of dependent type.
     let inline mkDependentType (x: ^S) : ^T = 
         (^T: (static member Create: ^S -> ^T) x)
 
-    /// Retrieves base type value
+    /// Retrieves 'T2 (base type) element value.
     let inline extract (x:^S) = 
         (^S: (static member Extract: ^S -> ^T) x)
 
-    /// Conversion of base type value to compatible dependent type
+    /// Create instance of compatible dependent type from 'T2 (base type) element value.
     let inline convertTo (x: ^S) : ^T = 
         (^T: (static member ConvertTo: ^S -> ^T) x)
 
-    /// Retrieves the 'T2 value from an option DependentType
+    /// <summary>
+    /// Retrieves the 'T2 (base type) element from a DependentType option.
+    /// </summary>
+    /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
     let inline someValue (x : ^S Option) =
         (x |> Option.map (fun x' ->
             (^S: (static member Extract: ^S -> ^T option ) x') )
@@ -22,20 +25,41 @@ module Helpers =
      
 //module DependentTypes = Helpers   //aliasing not visible externally
 /// deprecated in favor of Helpers
-module private DependentTypes =
-    /// Create dependent type
+module DependentTypes =
+    /// <summary>
+    /// Create instance of dependent type.
+    /// </summary>
+    /// <remarks>
+    /// Deprecated. Use Helpers.someValue.
+    /// </remarks>
     let inline mkDependentType (x: ^S) : ^T = 
         (^T: (static member Create: ^S -> ^T) x)
 
-    /// Retrieves base type value
+    /// <summary>
+    /// Retrieves 'T2 (base type) value.
+    /// </summary>
+    /// <remarks>
+    /// Deprecated. Use Helpers.someValue.
+    /// </remarks>
     let inline extract (x:^S) = 
         (^S: (static member Extract: ^S -> ^T) x)
 
-    /// Conversion of base type value to compatible dependent type
+    /// <summary>
+    /// Conversion of 'T2 (base type) element value to compatible dependent type.
+    /// </summary>
+    /// <remarks>
+    /// Deprecated. Use Helpers.someValue.
+    /// </remarks>
     let inline convertTo (x: ^S) : ^T = 
         (^T: (static member ConvertTo: ^S -> ^T) x)
 
-    /// Retrieves the 'T2 value from an option DependentType
+    /// <summary>
+    /// Retrieves the 'T2 (base type) element from a DependentType option.
+    /// </summary>
+    /// <remarks>
+    /// Deprecated. Use Helpers.someValue.
+    /// </remarks>
+    /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
     let inline someValue (x : ^S Option) =
         (x |> Option.map (fun x' ->
             (^S: (static member Extract: ^S -> ^T option ) x') )
@@ -45,13 +69,13 @@ module private DependentTypes =
 open Helpers
 
 [<Class>]
-/// Constructor / validator type for DependentType 'T -> 'T2 
+/// Construction / validation type for DependentType 'T -> 'T2 
 type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
     member __.Create x  = pi config x
 
 
 [<Class>]
-/// Constructor / validator type for DependentPair 'T -> 'T * 'T2
+/// Construction / validation type for DependentPair 'T -> 'T * 'T2
 type SigmaType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
     member __.Create(x:'T) : 'T * 'T2 = x, (pi config x)
 
@@ -60,23 +84,29 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
                                               and  'PiType : (new: unit -> 'PiType)> =
     DependentType of 'T2
     with 
+        /// 'T2 (base type) element value.
         member __.Value = 
             let (DependentType t2) = __
             t2
 
+        /// 'T2 (base type) ToString(). 
         override __.ToString() = __.Value.ToString()     
         
+        /// Retrieve 'T2 (base type) element value.
         static member Extract  (x : DependentType<'PiType, 'Config, 'T, 'T2> ) = 
             let (DependentType t2) = x
             t2
 
+        /// Create instance of dependent type.
         static member Create x : DependentType<'PiType, 'Config, 'T, 'T2> =
             (new 'PiType()).Create x
             |> DependentType
 
+        /// Create instance of DependentType option.
+        /// If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.
         static member TryCreate x : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             let piResult = (new 'PiType()).Create x
-            //if (typedefof<'T2>).Name.StartsWith("FSharpOption") then
+
             if typedefof<'T2> = typedefof<_ option> then
                 if isNull (piResult :> obj) then
                     None
@@ -85,16 +115,8 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
             else
                 Some (DependentType piResult)
 
-            //let x = (typedefof<'T2>).Name.StartsWith("FSharpOption")
-            //match shapeof<'T2> with
-            //| Shape.FSharpOption _ ->
-            //    if isNull (piResult :> obj) then
-            //        None
-            //    else
-            //        Some (DependentType piResult)
-            //| _ -> 
-            //    Some (DependentType piResult)
-
+        /// Create instance of DependentType option.
+        /// If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.
         static member TryCreate (x : 'T Option) : DependentType<'PiType, 'Config, 'T, 'T2> Option =
             match x with
             | Some t -> 
@@ -103,6 +125,7 @@ type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T,
             | None -> 
                 None
 
+        /// Create compatible dependent type from 'T2 (base type) element value.
         static member inline ConvertTo(x : DependentType<'x, 'y, 'q, 'r> ) : DependentType<'a, 'b, 'r, 's> = 
             let (DependentType t2) = x
             mkDependentType t2  
@@ -112,10 +135,12 @@ type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Co
                                                  and 'SigmaType : (new: unit -> 'SigmaType)> =
      DependentPair of 'T * 'T2
      with 
+        /// Pair of 'T1 element and 'T2 (base type) element value.
         member __.Value = 
             let (DependentPair (s, s2)) = __
             s, s2
 
+        /// Create instance of dependent pair type.
         static member Create(x:'T) : DependentPair<'SigmaType, 'Config, 'T, 'T2> =
             (new 'SigmaType()).Create x
             |> DependentPair
