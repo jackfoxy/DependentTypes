@@ -258,6 +258,23 @@ let copyFiles () =
     Shell.copyRecursive (formatting @@ "styles") (output @@ "content") true 
     |> Trace.logItems "Copying styles and scripts: "
         
+let replace t r (lines:seq<string>) =
+  seq {
+    for s in lines do
+      if s.Contains(t) then 
+        yield s.Replace(t, r)
+      else yield s }
+
+let postProcessDocs () =
+    let dirInfo = DirectoryInfo.ofPath output
+
+    let filePath = System.IO.Path.Combine(dirInfo.FullName, "article.html")
+    let newContent =
+        File.ReadAllLines filePath
+        |> Array.toSeq
+        |> replace "00B1" "&#177;"
+    File.WriteAllLines(filePath, newContent)
+
 Target.create "Docs" (fun _ ->
     File.delete "docsrc/content/release-notes.md"
     Shell.copyFile "docsrc/content/" "RELEASE_NOTES.md"
@@ -294,6 +311,8 @@ Target.create "Docs" (fun _ ->
                 LayoutRoots = layoutRoots
                 ProjectParameters  = ("root", root)::info
                 Template = docTemplate } )
+
+    postProcessDocs()
 )
 
 Target.create "GenerateDocs" ignore

@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{83F16175
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D5255-776D-4B61-85F9-73C37AA1FB9A}"
 	ProjectSection(SolutionItems) = preProject
+		docsrc\content\article.fsx = docsrc\content\article.fsx
 		docsrc\content\index.fsx = docsrc\content\index.fsx
 		docsrc\content\tutorial.fsx = docsrc\content\tutorial.fsx
 	EndProjectSection
@@ -56,7 +57,7 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DomainLib", "src\DomainLib\
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "DependentTypes.Tests", "tests\DependentTypes.Tests\DependentTypes.Tests.fsproj", "{D56F4735-245A-46EC-8FFC-FF004366DF3D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmark.Tests", "tests\Benchmark.Tests\Benchmark.Tests.fsproj", "{EE4F3DCF-6B9D-47B4-9B39-3DBAE49D5217}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Benchmark.Tests", "tests\Benchmark.Tests\Benchmark.Tests.fsproj", "{EE4F3DCF-6B9D-47B4-9B39-3DBAE49D5217}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
