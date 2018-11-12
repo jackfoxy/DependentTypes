@@ -1,6 +1,7 @@
 framework: auto-detect
 source http://nuget.org/api/v2
 
+nuget BlackFox.Fake.BuildTask
 nuget FSharp.Core
 
 nuget Expecto

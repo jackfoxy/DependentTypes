@@ -3,6 +3,7 @@
 // --------------------------------------------------------------------------------------
 
 #r "paket:
+nuget BlackFox.Fake.BuildTask
 nuget Fake.Core.Target
 nuget Fake.IO.FileSystem
 nuget Fake.DotNet.Cli
@@ -16,14 +17,13 @@ nuget Fake.DotNet.FSFormatting //"
 
 #load "./.fake/build.fsx/intellisense.fsx"
 
-
 #if !FAKE
 #r "netstandard"
 #endif
 
+open BlackFox.Fake
 open System.IO
 open Fake.Core
-open Fake.Core.TargetOperators
 open Fake.DotNet
 open Fake.IO
 open Fake.IO.FileSystemOperators
@@ -31,11 +31,7 @@ open Fake.IO.Globbing.Operators
 open Fake.DotNet.Testing
 open Fake.Tools
 
-// --------------------------------------------------------------------------------------
-// START TODO: Provide project-specific details below
-// --------------------------------------------------------------------------------------
-
-// Information about the project are used
+// Information about the project is used
 //  - for version and project name in generated AssemblyInfo file
 //  - by the generated NuGet package
 //  - to run tests and to publish documentation on GitHub gh-pages
@@ -85,7 +81,7 @@ let website = "/DependentTypes"
 // --------------------------------------------------------------------------------------
 
 // Read additional information from the release notes document
-let release = ReleaseNotes.load "RELEASE_NOTES.md"
+let releaseNotes = ReleaseNotes.load "RELEASE_NOTES.md"
 
 // Helper active pattern for project types
 let (|Fsproj|Csproj|Vbproj|Shproj|) (projFileName:string) =
@@ -96,14 +92,22 @@ let (|Fsproj|Csproj|Vbproj|Shproj|) (projFileName:string) =
     | f when f.EndsWith("shproj") -> Shproj
     | _                           -> failwith (sprintf "Project file %s not supported. Unknown project type." projFileName)
 
+let clean = BuildTask.create "Clean" [] {
+    Shell.cleanDirs ["bin"; "temp"]
+}
+
+let cleanDocs = BuildTask.create "CleanDocs" [] {
+    Shell.cleanDirs ["docs/reference"; "docs"]
+}
+
 // Generate assembly info files with the right version & up-to-date information
-Target.create "AssemblyInfo" (fun _ ->
+let assemblyInfo = BuildTask.create "AssemblyInfo" [clean] {
     let getAssemblyInfoAttributes projectName =
         [ AssemblyInfo.Title (projectName)
           AssemblyInfo.Product project
           AssemblyInfo.Description summary
-          AssemblyInfo.Version release.AssemblyVersion
-          AssemblyInfo.FileVersion release.AssemblyVersion
+          AssemblyInfo.Version releaseNotes.AssemblyVersion
+          AssemblyInfo.FileVersion releaseNotes.AssemblyVersion
           AssemblyInfo.Configuration configuration ]
 
     let getProjectDetails projectPath =
@@ -123,69 +127,62 @@ Target.create "AssemblyInfo" (fun _ ->
         | Vbproj -> AssemblyInfoFile.createVisualBasic ((folderName </> "My Project") </> "AssemblyInfo.vb") attributes
         | Shproj -> ()
         )
-)
-
-// Copies binaries from default VS location to expected bin folder
-// But keeps a subdirectory structure for each project in the
-// src folder to support multiple project outputs
-Target.create "CopyBinaries" (fun _ ->
-    !! "src/**/*.??proj"
-    -- "src/**/*.shproj"
-    |>  Seq.map (fun f -> ((System.IO.Path.GetDirectoryName f) </> "bin" </> configuration, "bin" </> (System.IO.Path.GetFileNameWithoutExtension f)))
-    |>  Seq.iter (fun (fromDir, toDir) -> Shell.copyDir toDir fromDir (fun _ -> true))
-)
-
-// --------------------------------------------------------------------------------------
-// Clean build results
+}
 
 let buildConfiguration = DotNet.Custom <| Environment.environVarOrDefault "configuration" configuration
-
-Target.create "Clean" (fun _ ->
-    Shell.cleanDirs ["bin"; "temp"]
-)
-
-Target.create "CleanDocs" (fun _ ->
-    Shell.cleanDirs ["docs/output"]
-)
 
 // --------------------------------------------------------------------------------------
 // Build library & test project
 
-Target.create "Build" (fun _ ->
+let build = BuildTask.create "Build" [assemblyInfo] {
     solutionFile 
     |> DotNet.build (fun p -> 
         { p with
             Configuration = buildConfiguration })
-)
+}
+
+// Copies binaries from default VS location to expected bin folder
+// But keeps a subdirectory structure for each project in the
+// src folder to support multiple project outputs
+//Target.create "CopyBinaries" (fun _ ->
+let copyBinaries = BuildTask.create "CopyBinaries" [build] {
+    !! "src/**/*.??proj"
+    -- "src/**/*.shproj"
+    |>  Seq.map (fun f -> ((System.IO.Path.GetDirectoryName f) </> "bin" </> configuration, "bin" </> (System.IO.Path.GetFileNameWithoutExtension f)))
+    |>  Seq.iter (fun (fromDir, toDir) -> Shell.copyDir toDir fromDir (fun _ -> true))
+}
+
+
 
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
 
-Target.create "RunTests" (fun _ ->
+let runTests = BuildTask.create "RunTests" [copyBinaries] {
     !! testAssemblies
     |> Seq.filter (fun x -> x.ToLower().Contains("benchmark") |> not)
     |> Expecto.run id
-)
+}
 
 // --------------------------------------------------------------------------------------
 // Build a NuGet package
 
-Target.create "NuGet" (fun _ ->
-    let releaseNotes = release.Notes |> String.toLines
+let nuGet = BuildTask.create "NuGet" [copyBinaries] {
+    let release = releaseNotes.Notes |> String.toLines
 
     Paket.pack(fun p -> 
         { p with
             OutputPath = "bin"
-            Version = release.NugetVersion
-            ReleaseNotes = releaseNotes})
-)
+            Version = releaseNotes.NugetVersion
+            ReleaseNotes = release})
+}
 
-Target.create "PublishNuget" (fun _ ->
+let publishNuget = BuildTask.create "PublishNuget" [] {
     Paket.push(fun p ->
         { p with
             PublishUrl = "https://www.nuget.org"
             WorkingDir = "bin" })
-)
+
+}
 
 // --------------------------------------------------------------------------------------
 // Generate the documentation
@@ -218,39 +215,6 @@ layoutRootsAll.Add("en",[   templates;
                             formatting @@ "templates"
                             formatting @@ "templates/reference" ])
 
-Target.create "ReferenceDocs" (fun _ ->
-    Directory.ensure (output @@ "reference")
-
-    let binaries () =
-        let manuallyAdded = 
-            referenceBinaries 
-            |> List.map (fun b -> bin @@ b)
-   
-        let conventionBased = 
-            DirectoryInfo.getSubDirectories <| DirectoryInfo bin
-            |> Array.filter (fun d -> d.Name = "DependentTypes")
-            |> Array.collect (fun d ->
-                let name, dInfo = 
-                        d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains(netFramework))).[0]
-                dInfo.GetFiles()
-                |> Array.filter (fun x -> 
-                    x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
-                |> Array.map (fun x -> x.FullName) 
-                )
-            |> List.ofArray
-
-        conventionBased @ manuallyAdded
-
-    binaries()
-    |> FSFormatting.createDocsForDlls (fun args ->
-        { args with
-            OutputDirectory = output @@ "reference"
-            LayoutRoots =  layoutRootsAll.["en"]
-            ProjectParameters =  ("root", root)::info
-            SourceRepository = githubLink @@ "tree/master" }
-           )
-)
-
 let copyFiles () =
     Shell.copyRecursive files output true 
     |> Trace.logItems "Copying file: "
@@ -275,7 +239,7 @@ let postProcessDocs () =
         |> replace "00B1" "&#177;"
     File.WriteAllLines(filePath, newContent)
 
-Target.create "Docs" (fun _ ->
+let docs = BuildTask.create "Docs" [cleanDocs; copyBinaries] {
     File.delete "docsrc/content/release-notes.md"
     Shell.copyFile "docsrc/content/" "RELEASE_NOTES.md"
     Shell.rename "docsrc/content/release-notes.md" "docsrc/content/RELEASE_NOTES.md"
@@ -313,97 +277,52 @@ Target.create "Docs" (fun _ ->
                 Template = docTemplate } )
 
     postProcessDocs()
-)
+}
 
-Target.create "GenerateDocs" ignore
+let referenceDocs = BuildTask.create "ReferenceDocs" [cleanDocs; copyBinaries] {
+    Directory.ensure (output @@ "reference")
 
-let createIndexFsx lang =
-    let content = """(*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use
-// it to define helpers that you do not want to show in the documentation.
-#I "../../../bin"
+    let binaries () =
+        let manuallyAdded = 
+            referenceBinaries 
+            |> List.map (fun b -> bin @@ b)
+   
+        let conventionBased = 
+            DirectoryInfo.getSubDirectories <| DirectoryInfo bin
+            |> Array.filter (fun d -> d.Name = "DependentTypes")
+            |> Array.collect (fun d ->
+                let name, dInfo = 
+                        d.Name, (DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains(netFramework))).[0]
+                dInfo.GetFiles()
+                |> Array.filter (fun x -> 
+                    x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
+                |> Array.map (fun x -> x.FullName) 
+                )
+            |> List.ofArray
 
-(**
-F# Project Scaffold ({0})
-=========================
-*)
-"""
-    let targetDir = "docsrc/content" </> lang
-    let targetFile = targetDir </> "index.fsx"
-    Directory.ensure targetDir
-    System.IO.File.WriteAllText(targetFile, System.String.Format(content, lang))
+        conventionBased @ manuallyAdded
 
-Target.create "AddLangDocs" (fun _ ->
-    let args = System.Environment.GetCommandLineArgs()
-    if args.Length < 4 then
-        failwith "Language not specified."
+    binaries()
+    |> FSFormatting.createDocsForDlls (fun args ->
+        { args with
+            OutputDirectory = output @@ "reference"
+            LayoutRoots =  layoutRootsAll.["en"]
+            ProjectParameters =  ("root", root)::info
+            SourceRepository = githubLink @@ "tree/master" }
+           )
+}
 
-    args.[3..]
-    |> Seq.iter (fun lang ->
-        if lang.Length <> 2 && lang.Length <> 3 then
-            failwithf "Language must be 2 or 3 characters (ex. 'de', 'fr', 'ja', 'gsw', etc.): %s" lang
+let generateDocs = BuildTask.createEmpty "GenerateDocs" [docs; referenceDocs] 
 
-        let templateFileName = "template.cshtml"
-        let templateDir = "docsrc/tools/templates"
-        let langTemplateDir = templateDir </> lang
-        let langTemplateFileName = langTemplateDir </> templateFileName
-
-        if System.IO.File.Exists(langTemplateFileName) then
-            failwithf "Documents for specified language '%s' have already been added." lang
-
-        Directory.ensure langTemplateDir
-        Shell.copy langTemplateDir [ templateDir </> templateFileName ]
-
-        createIndexFsx lang)
-)
-
-// --------------------------------------------------------------------------------------
-// Release Scripts
-
-Target.create "ReleaseDocs" (fun _ ->
-    let tempDocsDir = "temp/gh-pages"
-    Shell.cleanDir tempDocsDir
-    Git.Repository.cloneSingleBranch "" (gitHome + "/" + gitName + ".git") "gh-pages" tempDocsDir
-
-    Shell.copyRecursive "docs/output" tempDocsDir true |> Trace.tracefn "%A"
-    Git.Staging.stageAll tempDocsDir
-    Git.Commit.exec tempDocsDir (sprintf "Update generated documentation for version %s" release.NugetVersion)
-    Git.Branches.push tempDocsDir
-)
-
-Target.create "Release" (fun _ ->
+let release = BuildTask.create "Release" [] {
     Git.Staging.stageAll ""
-    Git.Commit.exec "" (sprintf "Bump version to %s" release.NugetVersion)
+    Git.Commit.exec "" (sprintf "Bump version to %s" releaseNotes.NugetVersion)
     Git.Branches.push ""
 
-    Git.Branches.tag "" release.NugetVersion
-    Git.Branches.pushTag "" "origin" release.NugetVersion
-)
+    Git.Branches.tag "" releaseNotes.NugetVersion
+    Git.Branches.pushTag "" "origin" releaseNotes.NugetVersion
+}
 
-Target.create "BuildPackage" ignore
+let all = BuildTask.createEmpty "All" [docs; referenceDocs]
 
-// --------------------------------------------------------------------------------------
-// Run all targets by default. Invoke 'build <Target>' to override
-
-let isLocalBuild = (BuildServer.buildServer = LocalBuild)
-
-Target.create "All" ignore
-
-"Clean"
-  ==> "AssemblyInfo"
-  ==> "Build"
-  ==> "CopyBinaries"
-  ==> "RunTests"
-  =?> ("GenerateDocs", isLocalBuild)
-  ==> "NuGet"
-  ==> "All"
-  =?> ("ReleaseDocs", isLocalBuild)
-
-"RunTests" ?=> "CleanDocs"
-
-"CleanDocs"
-  ==>"Docs"
-  ==> "ReferenceDocs"
-  ==> "GenerateDocs"
-
-Target.runOrDefault "All"
+BuildTask.runOrDefault all
