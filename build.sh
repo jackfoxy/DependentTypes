@@ -6,5 +6,5 @@
 set -eu
 set -o pipefail
 
-dotnet restore build.proj
-dotnet fake "$@"
+./paket.sh restore || { exit $?; }
+dotnet run --project src\Build\Build.fsproj -- $@

@@ -1,5 +1,8 @@
 @echo off
 cls
 
-dotnet restore build.proj
-dotnet fake build %*
+.paket\paket.exe restore -s
+if errorlevel 1 (
+  exit /b %errorlevel%
+)
+dotnet run --project src\Build\Build.fsproj %*
