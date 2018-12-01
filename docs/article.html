@@ -102,23 +102,26 @@
 </code></pre></td>
 </tr>
 </table>
-<p>We benchmark creating a percent DependentType option against creating a simple float option using the same validation logic. Each benchmark instance creates 1 Some option and 1 None option in both cases.
-We benchmark 1,000,000 instances, hence 2M option instances.</p>
+<ul>
+<li>Create a percent DependentType option compared to creating a simple float option using the same validation logic.</li>
+<li>Each benchmark instance creates 1 Some option and 1 None option in both cases.</li>
+<li>Benchmark 1,000,000 instances, hence 2M option instances.</li>
+</ul>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 56)" onmouseover="showTip(event, 'fs11', 56)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 57)" onmouseover="showTip(event, 'fs11', 57)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">36.2342</span> <span class="n">&#177;</span> <span class="n">2.7402</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">95</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">689.8306</span> <span class="n">&#177;</span> <span class="n">30.1484</span> <span class="id">ms</span><span class="pn">)</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">21.9484</span> 
 </code></pre></td>
 </tr>
 </table>
-<p>Not surprisingly validation and creation of a simple option is faster, 19X faster.</p>
-<p>And it scales linearly, as we see when executing the benchmark 10X.</p>
+<p>Not surprisingly validation and creation of a simple option is faster, 28X faster.</p>
+<p>And it scales nearly linearly, as we see when executing the benchmark 10X instead of 1M.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="pn">(</span><span class="n">10X</span><span class="pn">)</span> <span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 58)" onmouseover="showTip(event, 'fs11', 58)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 59)" onmouseover="showTip(event, 'fs11', 59)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">0.0007</span> <span class="n">&#177;</span> <span class="n">0.0000</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">95</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">0.0128</span> <span class="n">&#177;</span> <span class="n">0.0015</span> <span class="id">ms</span><span class="pn">)</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">0.0006</span> 
 </code></pre></td>
 </tr>
 </table>
@@ -129,7 +132,7 @@ demanding network applications.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">naked</span> <span onmouseout="hideTip(event, 'fs11', 60)" onmouseover="showTip(event, 'fs11', 60)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 61)" onmouseover="showTip(event, 'fs11', 61)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">35.9181</span> <span class="n">&#177;</span> <span class="n">1.4791</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">95</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">697.0493</span> <span class="n">&#177;</span> <span class="n">36.7884</span> <span class="id">ms</span><span class="pn">)</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">18.3340</span> 
 </code></pre></td>
 </tr>
 </table>
@@ -139,12 +142,12 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 62)" onmouseover="showTip(event, 'fs11', 62)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentType</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">36.6164</span> <span class="n">&#177;</span> <span class="n">3.0847</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">87</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">283.1149</span> <span class="n">&#177;</span> <span class="n">7.6188</span> <span class="id">ms</span><span class="pn">)</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">17.0064</span> 
 </code></pre></td>
 </tr>
 </table>
-<p>Now validate option is less than 8X faster, so the "lift" overhead is noticeable at large scales (2M creations).</p>
-<p>Consuming (reading) benchmarks reveals far less performance difference.</p>
+<p>Validate option is now only 15X faster, so the "lift" overhead of DependentType is noticeable at large scales (2M creations).</p>
+<h3><a name="Consuming-reading-DependentType" class="anchor" href="#Consuming-reading-DependentType">Consuming (reading) DependentType.</a></h3>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -179,26 +182,30 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span onmouseout="hideTip(event, 'fs35', 94)" onmouseover="showTip(event, 'fs35', 94)" class="id">Option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span onmouseout="hideTip(event, 'fs35', 95)" onmouseover="showTip(event, 'fs35', 95)" class="id">Option</span> <span class="id">DependentType</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">32.1449</span> <span class="n">&#177;</span> <span class="n">1.4134</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">35</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">49.8144</span> <span class="n">&#177;</span> <span class="n">0.7834</span> <span class="id">ms</span><span class="pn">)</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">17.9776</span> 
 </code></pre></td>
 </tr>
 </table>
-<p>Very little practical difference, and even less if we substitute the verbose <code>Some pct.Value.Value</code> for the helper function <code>someValue</code>.</p>
+<ul>
+<li>Reading 2M float options is only 33% faster than read/extract value operation on DependentTypes.</li>
+</ul>
+<p>Substituting the verbose <code>Some pct.Value.Value</code> for the helper function <code>someValue</code> almost erases any advantage of float option.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span onmouseout="hideTip(event, 'fs35', 96)" onmouseover="showTip(event, 'fs35', 96)" class="id">Option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span onmouseout="hideTip(event, 'fs35', 97)" onmouseover="showTip(event, 'fs35', 97)" class="id">Option</span> <span class="id">DependentType</span> <span class="id">Value</span><span class="pn">.</span><span class="id">Value</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">24.0376</span> <span class="n">&#177;</span> <span class="n">0.4967</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">12</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">27.3507</span> <span class="n">&#177;</span> <span class="n">0.6477</span> <span class="id">ms</span><span class="pn">)</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">19.5531</span> 
 </code></pre></td>
 </tr>
 </table>
 <h2><a name="UtcDateTime-DependentType" class="anchor" href="#UtcDateTime-DependentType">UtcDateTime DependentType</a></h2>
-<p>Finally, benchmarking a type that is not an <code>option</code>, we compare UtcDateTime in the DomainLib to an implementation validating a DateTime. This time 1M benchmark runs is also 1M instances.</p>
+<p>Benchmarking a type that is not an <code>option</code>, we compare UtcDateTime in the DomainLib to an implementation validating a DateTime.</p>
+<p>This time 1M benchmark runs is also 1M instances.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span class="id">DateTime</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentType</span> <span class="id">DateTime</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">298.8211</span> <span class="n">&#177;</span> <span class="n">2.7119</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">31</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">431.3628</span> <span class="n">&#177;</span> <span class="n">8.9104</span> <span class="id">ms</span><span class="pn">)</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">278.7760</span> 
 </code></pre></td>
 </tr>
 </table>
@@ -206,13 +213,35 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span class="id">DateTime</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">DependentType</span> <span class="id">DateTime</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">312.0462</span> <span class="n">&#177;</span> <span class="n">3.9815</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">28</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">433.5667</span> <span class="n">&#177;</span> <span class="n">10.5693</span> <span class="id">ms</span><span class="pn">)</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">7.3626</span> 
 </code></pre></td>
 </tr>
 </table>
-<sup>1</sup> For those following along from home, you must manually run the benchmark tests. They do not run as part of the build process. The usual caveats about benchmarking apply. You should benchmark
+<p>In this case the create and read performance differences are barely meainingful.</p>
+<h2><a name="DependentPair" class="anchor" href="#DependentPair">DependentPair</a></h2>
+<p>Banchmarks comparing a validated pair to DependentPair yields similar performance ratios to option DependentType.</p>
+<p>1M runs again creates 2M instances.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">pair</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentPair</span><span class="pn">.</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">30.2823</span> 
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span class="id">pair</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">DependentPair</span><span class="pn">.</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">28.5499</span> 
+</code></pre></td>
+</tr>
+</table>
+<p>Creation of a simple validated pair is 7X faster than creating a DependentPair, but read/consume performance is so similar we sometimes see the benchmark test failing because DependentPair performs faster.</p>
+<sup>1</sup> FThe usual caveats about benchmarking apply. You should benchmark
 your own situation on your own system, etc. There is variance in running the benchmarks multiple times. The variance I saw was typically
-in absolute run time for each scenario, and not so much in the DependentType / control run time ratios. By and large these results are representative of typical benchmark runs. 
+in absolute run time for each scenario, and not so much in the DependentType / control run time ratios. By and large these results are representative of typical benchmark runs on my system, 
+FSharp.Core 4.5.3, net45 DependentTypes.dll
 
 <div class="tip" id="fs1">namespace DependentTypes</div>
 <div class="tip" id="fs2">module Helpers<br /><br />from DependentTypes</div>

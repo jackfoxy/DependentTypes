@@ -21,53 +21,28 @@ module PercentType =
 type Percent = DependentType<PercentType.PercentValidator, unit, float, float option>
 type PercentPair = DependentPair<PercentType.PairPercentValidator, unit, float, float option>
 
-type PctOption =
-    {
-        Pct : float option
-    }
-
-type DependentTypePctOption =
-    {
-        Pct : Percent option
-    }
-
-type DependentTypePct =
-    {
-        Pct : Percent
-    }
-
-type DateTimeUtc =
-    {
-        TimeDate : DateTime
-    }
-
-type DependentTypeDateTimeUtc =
-    {
-        TimeDate : UtcDateTime
-    }
-
 module Benchmarks =
     let runNakedOption() =
         [|
-            {PctOption.Pct = Some 0.5}
-            {PctOption.Pct = Some 2.5}
+            Some 0.5
+            Some 2.5
         |] 
 
     let runPctOption() =
         [|
-            {PctOption.Pct = PercentType.validatePercent () 0.5}
-            {PctOption.Pct = PercentType.validatePercent () 2.5}
+            PercentType.validatePercent () 0.5
+            PercentType.validatePercent () 2.5
         |] 
 
     let runLiftedPctDependentType() =
         [|
-            {DependentTypePctOption.Pct = Percent.TryCreate 0.5}
-            {DependentTypePctOption.Pct = Percent.TryCreate 2.5}
+            Percent.TryCreate 0.5
+            Percent.TryCreate 2.5
         |] 
     let runPctDependentType() =
         [|
-            {DependentTypePct.Pct = Percent.Create 0.5}
-            {DependentTypePct.Pct = Percent.Create 2.5}
+            Percent.Create 0.5
+            Percent.Create 2.5
         |] 
 
     let verifyUtcDateTime _ (value : DateTime) =
@@ -75,12 +50,24 @@ module Benchmarks =
 
     let runDateTimeUtc() =
         [|
-            {DateTimeUtc.TimeDate = verifyUtcDateTime () <| DateTime(2018, 11, 11, 11, 11, 11,DateTimeKind.Local)  }
+            verifyUtcDateTime () <| DateTime(2018, 11, 11, 11, 11, 11,DateTimeKind.Local)
         |] 
 
     let runDependentTypeDateTimeUtc() =
         [|
-            {DependentTypeDateTimeUtc.TimeDate = UtcDateTime.Create <| DateTime(2018, 11, 11, 11, 11, 11,DateTimeKind.Local)}
+            UtcDateTime.Create <| DateTime(2018, 11, 11, 11, 11, 11,DateTimeKind.Local)
+        |] 
+
+    let runPctPair() =
+        [|
+            (0.5, PercentType.validatePercent () 0.5)
+            (2.5, PercentType.validatePercent () 2.5)
+        |] 
+
+    let runPctDependentPair() =
+        [|
+            PercentPair.Create 0.5
+            PercentPair.Create 2.5
         |] 
 
     let inline repeat10 f a =
@@ -102,22 +89,28 @@ module Benchmarks =
     let inline repeat100000 f a = repeat10 (repeat10000 f) a
     let inline repeat1000000 f a = repeat10 (repeat100000 f) a
 
-    //let vanillaOption = runPctOption()
-    let readVanillaOption (xs : PctOption[]) =
+    let vanillaOption = runPctOption()
+    let readVanillaOption (xs : float option[]) =
         xs
         |> Array.map ( fun x ->
-        match x.Pct with
+        match x with
         | Some pct -> Some pct
         | None -> None )
-    let readVanilla() = readVanillaOption <| runPctOption()
+    let readVanilla() = readVanillaOption vanillaOption
 
     let liftedDependentType = runLiftedPctDependentType()
 
-    //let dateTime = runDateTimeUtc()
-    let readDatetime (xs : DateTimeUtc[]) = 
+    let vanillaPair = runPctPair()
+    let readVanillaPair (xs : (float * float option)[]) =
         xs
-        |> Array.map ( fun x -> x.TimeDate)
-    let readDateTime()  = readDatetime <| runDateTimeUtc()
+        |> Array.map ( fun x -> fst x, snd x )
+    let readPair() = readVanillaPair vanillaPair
+
+    let dateTime = runDateTimeUtc()
+    let readDatetime (xs : DateTime[]) = 
+        xs
+        |> Array.map ( fun x -> x)
+    let readDateTime()  = readDatetime dateTime
 
     [<Tests>]
     let benchmarkDependentTypeLiftedOption =
@@ -141,27 +134,29 @@ module Benchmarks =
                     "(10X) validated option is faster than TryCreate DependentType option" }
 
             test "option vs DependentType option: read" {
-                let readDependentType (xs : DependentTypePctOption[]) =
+                let dtValues = runLiftedPctDependentType()
+                let readDependentType (xs : Percent option []) =
                     xs
                     |> Array.map ( fun x ->
-                    match x.Pct with
-                    | Some _ -> Some (someValue x.Pct)
+                    match x with
+                    | Some _ -> Some (someValue x)
                     | None -> None )
-                let readDependentType() = readDependentType <| runLiftedPctDependentType()
+                let readDependentType() = readDependentType dtValues
 
                 Expect.isFasterThan
                     (readVanilla >> ignore |> repeat1000000)
                     (readDependentType >> ignore |> repeat1000000)
                     "read Option is faster than Option DependentType" }
 
-            test "Option DependentType vs Option: read value" {
-                let readDependentType (xs : DependentTypePctOption[]) =
+            test "Option vs Option DependentType: read value" {
+                let dtValues = runLiftedPctDependentType()
+                let readDependentType (xs : Percent option []) =
                     xs
                     |> Array.map ( fun x ->
-                    match x.Pct with
+                    match x with
                     | Some pct -> Some pct.Value.Value
                     | None -> None )
-                let readDependentType() = readDependentType <| runLiftedPctDependentType()
+                let readDependentType() = readDependentType dtValues
 
                 Expect.isFasterThan
                     (readVanilla >> ignore |> repeat1000000)
@@ -192,6 +187,28 @@ module Benchmarks =
         ]
 
     [<Tests>]
+    let benchmarkDependentPair =
+        testList "pair vs DependentPair" [
+            test "pair vs DependentPair: Create" {
+                Expect.isFasterThan
+                    (runPctPair >> ignore |> repeat1000000)
+                    (runPctDependentPair >> ignore |> repeat1000000)
+                    "pair is faster than Create DependentPair" }
+
+            test "pair vs DependentPair: read value" {
+                let dpValues = runPctDependentPair()
+                let readDependentPair (xs : PercentPair[]) =
+                    xs
+                    |> Array.map ( fun x -> fst x.Value, snd x.Value )
+                let readDependentPair() = readDependentPair dpValues
+
+                Expect.isFasterThan
+                    (readPair >> ignore |> repeat1000000)
+                    (readDependentPair >> ignore |> repeat1000000)
+                    "read pair is faster than DependentPair" }
+        ]
+
+    [<Tests>]
     let benchmarkUtcDateTime =
         testList "DateTime vs DependentType DateTime" [
             test "DateTime vs DependentType DateTime: Create" {
@@ -201,10 +218,11 @@ module Benchmarks =
                     "validated DateTime is faster than Create DependentType DateTime" }
 
             test "DateTime vs DependentType DateTime: read" {
-                let readDependentType (xs : DependentTypeDateTimeUtc[]) =
+                let dateTime = runDependentTypeDateTimeUtc()
+                let readDependentType (xs : UtcDateTime[]) =
                     xs
-                    |> Array.map ( fun x -> x.TimeDate.Value )
-                let readDependentTypeDateTime() = readDependentType <| runDependentTypeDateTimeUtc()
+                    |> Array.map ( fun x -> x.Value )
+                let readDependentTypeDateTime() = readDependentType dateTime
 
                 Expect.isFasterThan
                     (readDateTime >> ignore |> repeat1000000)
