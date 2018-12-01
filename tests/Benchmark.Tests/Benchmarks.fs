@@ -93,9 +93,9 @@ module Benchmarks =
     let readVanillaOption (xs : float option[]) =
         xs
         |> Array.map ( fun x ->
-        match x with
-        | Some pct -> Some pct
-        | None -> None )
+            match x with
+            | Some pct -> Some pct
+            | None -> None )
     let readVanilla() = readVanillaOption vanillaOption
 
     let liftedDependentType = runLiftedPctDependentType()
@@ -138,9 +138,9 @@ module Benchmarks =
                 let readDependentType (xs : Percent option []) =
                     xs
                     |> Array.map ( fun x ->
-                    match x with
-                    | Some _ -> Some (someValue x)
-                    | None -> None )
+                        match x with
+                        | Some _ -> Some (someValue x)
+                        | None -> None )
                 let readDependentType() = readDependentType dtValues
 
                 Expect.isFasterThan

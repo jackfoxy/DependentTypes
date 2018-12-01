@@ -64,9 +64,6 @@
 <span class="l">26: </span>
 <span class="l">27: </span>
 <span class="l">28: </span>
-<span class="l">29: </span>
-<span class="l">30: </span>
-<span class="l">31: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="id">DependentTypes</span>
 
@@ -83,21 +80,18 @@
         <span class="k">inherit</span> <span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="rt">SigmaType</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs10', 21)" onmouseover="showTip(event, 'fs10', 21)" class="rt">unit</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs5', 22)" onmouseover="showTip(event, 'fs5', 22)" class="vt">float</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs5', 23)" onmouseover="showTip(event, 'fs5', 23)" class="vt">float</span> <span onmouseout="hideTip(event, 'fs11', 24)" onmouseover="showTip(event, 'fs11', 24)" class="rt">option</span><span class="pn">&gt;</span><span class="pn">(</span><span class="pn">(</span><span class="pn">)</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs3', 25)" onmouseover="showTip(event, 'fs3', 25)" class="fn">validatePercent</span><span class="pn">)</span>
 
 <span class="k">type</span> <span onmouseout="hideTip(event, 'fs14', 26)" onmouseover="showTip(event, 'fs14', 26)" class="rt">Percent</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs15', 27)" onmouseover="showTip(event, 'fs15', 27)" class="rt">DependentType</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs16', 28)" onmouseover="showTip(event, 'fs16', 28)" class="m">PercentType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs17', 29)" onmouseover="showTip(event, 'fs17', 29)" class="id">PercentValidator</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs10', 30)" onmouseover="showTip(event, 'fs10', 30)" class="rt">unit</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs5', 31)" onmouseover="showTip(event, 'fs5', 31)" class="vt">float</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs5', 32)" onmouseover="showTip(event, 'fs5', 32)" class="vt">float</span> <span onmouseout="hideTip(event, 'fs11', 33)" onmouseover="showTip(event, 'fs11', 33)" class="rt">option</span><span class="pn">&gt;</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs18', 34)" onmouseover="showTip(event, 'fs18', 34)" class="rt">PercentPair</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 35)" onmouseover="showTip(event, 'fs19', 35)" class="rt">DependentPair</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs16', 36)" onmouseover="showTip(event, 'fs16', 36)" class="m">PercentType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 37)" onmouseover="showTip(event, 'fs20', 37)" class="id">PairPercentValidator</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs10', 38)" onmouseover="showTip(event, 'fs10', 38)" class="rt">unit</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs5', 39)" onmouseover="showTip(event, 'fs5', 39)" class="vt">float</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs5', 40)" onmouseover="showTip(event, 'fs5', 40)" class="vt">float</span> <span onmouseout="hideTip(event, 'fs11', 41)" onmouseover="showTip(event, 'fs11', 41)" class="rt">option</span><span class="pn">&gt;</span>
 
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs18', 34)" onmouseover="showTip(event, 'fs18', 34)" class="rt">PctOption</span> <span class="o">=</span> <span class="pn">{</span> <span onmouseout="hideTip(event, 'fs19', 35)" onmouseover="showTip(event, 'fs19', 35)" class="id">Pct</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 36)" onmouseover="showTip(event, 'fs5', 36)" class="vt">float</span> <span onmouseout="hideTip(event, 'fs11', 37)" onmouseover="showTip(event, 'fs11', 37)" class="rt">option</span> <span class="pn">}</span>
-
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs20', 38)" onmouseover="showTip(event, 'fs20', 38)" class="rt">DependentTypePctOption</span> <span class="o">=</span> <span class="pn">{</span> <span onmouseout="hideTip(event, 'fs21', 39)" onmouseover="showTip(event, 'fs21', 39)" class="id">Pct</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs14', 40)" onmouseover="showTip(event, 'fs14', 40)" class="rt">Percent</span> <span onmouseout="hideTip(event, 'fs11', 41)" onmouseover="showTip(event, 'fs11', 41)" class="rt">option</span> <span class="pn">}</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 42)" onmouseover="showTip(event, 'fs22', 42)" class="fn">runPctOption</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 42)" onmouseover="showTip(event, 'fs21', 42)" class="fn">runPctOption</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span>
     <span class="pn">[|</span>
-        <span class="pn">{</span><span onmouseout="hideTip(event, 'fs18', 43)" onmouseover="showTip(event, 'fs18', 43)" class="rt">PctOption</span><span class="pn">.</span><span class="id">Pct</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 44)" onmouseover="showTip(event, 'fs16', 44)" class="m">PercentType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 45)" onmouseover="showTip(event, 'fs3', 45)" class="id">validatePercent</span> <span class="pn">(</span><span class="pn">)</span> <span class="n">0.5</span><span class="pn">}</span>
-        <span class="pn">{</span><span onmouseout="hideTip(event, 'fs18', 46)" onmouseover="showTip(event, 'fs18', 46)" class="rt">PctOption</span><span class="pn">.</span><span class="id">Pct</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 47)" onmouseover="showTip(event, 'fs16', 47)" class="m">PercentType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 48)" onmouseover="showTip(event, 'fs3', 48)" class="id">validatePercent</span> <span class="pn">(</span><span class="pn">)</span> <span class="n">2.5</span><span class="pn">}</span>
+        <span onmouseout="hideTip(event, 'fs16', 43)" onmouseover="showTip(event, 'fs16', 43)" class="m">PercentType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 44)" onmouseover="showTip(event, 'fs3', 44)" class="id">validatePercent</span> <span class="pn">(</span><span class="pn">)</span> <span class="n">0.5</span>
+        <span onmouseout="hideTip(event, 'fs16', 45)" onmouseover="showTip(event, 'fs16', 45)" class="m">PercentType</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 46)" onmouseover="showTip(event, 'fs3', 46)" class="id">validatePercent</span> <span class="pn">(</span><span class="pn">)</span> <span class="n">2.5</span>
     <span class="pn">|]</span> 
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 49)" onmouseover="showTip(event, 'fs23', 49)" class="fn">runLiftedPctDependentType</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 47)" onmouseover="showTip(event, 'fs22', 47)" class="fn">runLiftedPctDependentType</span><span class="pn">(</span><span class="pn">)</span> <span class="o">=</span>
     <span class="pn">[|</span>
-        <span class="pn">{</span><span onmouseout="hideTip(event, 'fs20', 50)" onmouseover="showTip(event, 'fs20', 50)" class="rt">DependentTypePctOption</span><span class="pn">.</span><span class="id">Pct</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 51)" onmouseover="showTip(event, 'fs14', 51)" class="rt">Percent</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 52)" onmouseover="showTip(event, 'fs24', 52)" class="id">TryCreate</span> <span class="n">0.5</span><span class="pn">}</span>
-        <span class="pn">{</span><span onmouseout="hideTip(event, 'fs20', 53)" onmouseover="showTip(event, 'fs20', 53)" class="rt">DependentTypePctOption</span><span class="pn">.</span><span class="id">Pct</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 54)" onmouseover="showTip(event, 'fs14', 54)" class="rt">Percent</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 55)" onmouseover="showTip(event, 'fs24', 55)" class="id">TryCreate</span> <span class="n">2.5</span><span class="pn">}</span>
+        <span onmouseout="hideTip(event, 'fs14', 48)" onmouseover="showTip(event, 'fs14', 48)" class="rt">Percent</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs23', 49)" onmouseover="showTip(event, 'fs23', 49)" class="id">TryCreate</span> <span class="n">0.5</span>
+        <span onmouseout="hideTip(event, 'fs14', 50)" onmouseover="showTip(event, 'fs14', 50)" class="rt">Percent</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs23', 51)" onmouseover="showTip(event, 'fs23', 51)" class="id">TryCreate</span> <span class="n">2.5</span>
     <span class="pn">|]</span> 
 </code></pre></td>
 </tr>
@@ -110,8 +104,8 @@
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 56)" onmouseover="showTip(event, 'fs11', 56)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 57)" onmouseover="showTip(event, 'fs11', 57)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">21.9484</span> 
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 52)" onmouseover="showTip(event, 'fs11', 52)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 53)" onmouseover="showTip(event, 'fs11', 53)" class="id">option</span><span class="pn">.</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">21.9484</span> <span class="n">&#177;</span> <span class="n">2.5478</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">96</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">607.0490</span> <span class="n">&#177;</span> <span class="n">15.8352</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -120,8 +114,8 @@
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="pn">(</span><span class="n">10X</span><span class="pn">)</span> <span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 58)" onmouseover="showTip(event, 'fs11', 58)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 59)" onmouseover="showTip(event, 'fs11', 59)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">0.0006</span> 
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="pn">(</span><span class="n">10X</span><span class="pn">)</span> <span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 54)" onmouseover="showTip(event, 'fs11', 54)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 55)" onmouseover="showTip(event, 'fs11', 55)" class="id">option</span><span class="pn">.</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">0.0006</span> <span class="n">&#177;</span> <span class="n">0.0000</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">94</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">0.0091</span> <span class="n">&#177;</span> <span class="n">0.0002</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -131,8 +125,8 @@ demanding network applications.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">naked</span> <span onmouseout="hideTip(event, 'fs11', 60)" onmouseover="showTip(event, 'fs11', 60)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 61)" onmouseover="showTip(event, 'fs11', 61)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">18.3340</span> 
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">naked</span> <span onmouseout="hideTip(event, 'fs11', 56)" onmouseover="showTip(event, 'fs11', 56)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 57)" onmouseover="showTip(event, 'fs11', 57)" class="id">option</span><span class="pn">.</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">18.3340</span> <span class="n">&#177;</span> <span class="n">0.1073</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">97</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">601.7315</span> <span class="n">&#177;</span> <span class="n">4.2582</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -141,8 +135,8 @@ to the DependentType element.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 62)" onmouseover="showTip(event, 'fs11', 62)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentType</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">17.0064</span> 
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 58)" onmouseover="showTip(event, 'fs11', 58)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentType</span><span class="pn">.</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">17.0064</span> <span class="n">&#177;</span> <span class="n">0.3517</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">93</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">256.9292</span> <span class="n">&#177;</span> <span class="n">2.3419</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -162,27 +156,27 @@ to the DependentType element.</p>
 <span class="l">12: </span>
 <span class="l">13: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 63)" onmouseover="showTip(event, 'fs25', 63)" class="fn">readDependentType</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs26', 64)" onmouseover="showTip(event, 'fs26', 64)" class="id">xs</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs20', 65)" onmouseover="showTip(event, 'fs20', 65)" class="rt">DependentTypePctOption</span><span class="pn">[</span><span class="pn">]</span><span class="pn">)</span> <span class="o">=</span>
-        <span onmouseout="hideTip(event, 'fs26', 66)" onmouseover="showTip(event, 'fs26', 66)" class="id">xs</span>
-        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs27', 67)" onmouseover="showTip(event, 'fs27', 67)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 68)" onmouseover="showTip(event, 'fs28', 68)" class="id">map</span> <span class="pn">(</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs29', 69)" onmouseover="showTip(event, 'fs29', 69)" class="id">x</span> <span class="k">-&gt;</span>
-        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs29', 70)" onmouseover="showTip(event, 'fs29', 70)" class="id">x</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 71)" onmouseover="showTip(event, 'fs21', 71)" class="id">Pct</span> <span class="k">with</span>
-        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs6', 72)" onmouseover="showTip(event, 'fs6', 72)" class="uc">Some</span> <span class="id">_</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs6', 73)" onmouseover="showTip(event, 'fs6', 73)" class="uc">Some</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 74)" onmouseover="showTip(event, 'fs30', 74)" class="fn">someValue</span> <span onmouseout="hideTip(event, 'fs29', 75)" onmouseover="showTip(event, 'fs29', 75)" class="id">x</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 76)" onmouseover="showTip(event, 'fs21', 76)" class="id">Pct</span><span class="pn">)</span>
-        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs7', 77)" onmouseover="showTip(event, 'fs7', 77)" class="uc">None</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs7', 78)" onmouseover="showTip(event, 'fs7', 78)" class="uc">None</span> <span class="pn">)</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 59)" onmouseover="showTip(event, 'fs24', 59)" class="fn">readDependentType</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs25', 60)" onmouseover="showTip(event, 'fs25', 60)" class="id">xs</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs14', 61)" onmouseover="showTip(event, 'fs14', 61)" class="rt">Percent</span> <span onmouseout="hideTip(event, 'fs11', 62)" onmouseover="showTip(event, 'fs11', 62)" class="rt">option</span> <span class="pn">[</span><span class="pn">]</span><span class="pn">)</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs25', 63)" onmouseover="showTip(event, 'fs25', 63)" class="id">xs</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 64)" onmouseover="showTip(event, 'fs26', 64)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 65)" onmouseover="showTip(event, 'fs27', 65)" class="id">map</span> <span class="pn">(</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs28', 66)" onmouseover="showTip(event, 'fs28', 66)" class="id">x</span> <span class="k">-&gt;</span>
+        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs28', 67)" onmouseover="showTip(event, 'fs28', 67)" class="id">x</span> <span class="k">with</span>
+        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs6', 68)" onmouseover="showTip(event, 'fs6', 68)" class="uc">Some</span> <span class="id">_</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs6', 69)" onmouseover="showTip(event, 'fs6', 69)" class="uc">Some</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 70)" onmouseover="showTip(event, 'fs29', 70)" class="fn">someValue</span> <span onmouseout="hideTip(event, 'fs28', 71)" onmouseover="showTip(event, 'fs28', 71)" class="id">x</span><span class="pn">)</span>
+        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs7', 72)" onmouseover="showTip(event, 'fs7', 72)" class="uc">None</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs7', 73)" onmouseover="showTip(event, 'fs7', 73)" class="uc">None</span> <span class="pn">)</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 79)" onmouseover="showTip(event, 'fs31', 79)" class="fn">readVanillaOption</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs32', 80)" onmouseover="showTip(event, 'fs32', 80)" class="id">xs</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs18', 81)" onmouseover="showTip(event, 'fs18', 81)" class="rt">PctOption</span><span class="pn">[</span><span class="pn">]</span><span class="pn">)</span> <span class="o">=</span>
-        <span onmouseout="hideTip(event, 'fs32', 82)" onmouseover="showTip(event, 'fs32', 82)" class="id">xs</span>
-        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs27', 83)" onmouseover="showTip(event, 'fs27', 83)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 84)" onmouseover="showTip(event, 'fs28', 84)" class="id">map</span> <span class="pn">(</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs33', 85)" onmouseover="showTip(event, 'fs33', 85)" class="id">x</span> <span class="k">-&gt;</span>
-        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs33', 86)" onmouseover="showTip(event, 'fs33', 86)" class="id">x</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 87)" onmouseover="showTip(event, 'fs19', 87)" class="id">Pct</span> <span class="k">with</span>
-        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs6', 88)" onmouseover="showTip(event, 'fs6', 88)" class="uc">Some</span> <span onmouseout="hideTip(event, 'fs34', 89)" onmouseover="showTip(event, 'fs34', 89)" class="id">pct</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs6', 90)" onmouseover="showTip(event, 'fs6', 90)" class="uc">Some</span> <span onmouseout="hideTip(event, 'fs34', 91)" onmouseover="showTip(event, 'fs34', 91)" class="id">pct</span>
-        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs7', 92)" onmouseover="showTip(event, 'fs7', 92)" class="uc">None</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs7', 93)" onmouseover="showTip(event, 'fs7', 93)" class="uc">None</span> <span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 74)" onmouseover="showTip(event, 'fs30', 74)" class="fn">readVanillaOption</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs31', 75)" onmouseover="showTip(event, 'fs31', 75)" class="id">xs</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 76)" onmouseover="showTip(event, 'fs5', 76)" class="vt">float</span> <span onmouseout="hideTip(event, 'fs11', 77)" onmouseover="showTip(event, 'fs11', 77)" class="rt">option</span><span class="pn">[</span><span class="pn">]</span><span class="pn">)</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs31', 78)" onmouseover="showTip(event, 'fs31', 78)" class="id">xs</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 79)" onmouseover="showTip(event, 'fs26', 79)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 80)" onmouseover="showTip(event, 'fs27', 80)" class="id">map</span> <span class="pn">(</span> <span class="k">fun</span> <span onmouseout="hideTip(event, 'fs32', 81)" onmouseover="showTip(event, 'fs32', 81)" class="id">x</span> <span class="k">-&gt;</span>
+        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs32', 82)" onmouseover="showTip(event, 'fs32', 82)" class="id">x</span> <span class="k">with</span>
+        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs6', 83)" onmouseover="showTip(event, 'fs6', 83)" class="uc">Some</span> <span onmouseout="hideTip(event, 'fs33', 84)" onmouseover="showTip(event, 'fs33', 84)" class="id">pct</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs6', 85)" onmouseover="showTip(event, 'fs6', 85)" class="uc">Some</span> <span onmouseout="hideTip(event, 'fs33', 86)" onmouseover="showTip(event, 'fs33', 86)" class="id">pct</span>
+        <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs7', 87)" onmouseover="showTip(event, 'fs7', 87)" class="uc">None</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs7', 88)" onmouseover="showTip(event, 'fs7', 88)" class="uc">None</span> <span class="pn">)</span>
 </code></pre></td>
 </tr>
 </table>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span onmouseout="hideTip(event, 'fs35', 94)" onmouseover="showTip(event, 'fs35', 94)" class="id">Option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span onmouseout="hideTip(event, 'fs35', 95)" onmouseover="showTip(event, 'fs35', 95)" class="id">Option</span> <span class="id">DependentType</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">17.9776</span> 
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span onmouseout="hideTip(event, 'fs34', 89)" onmouseover="showTip(event, 'fs34', 89)" class="id">Option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span onmouseout="hideTip(event, 'fs34', 90)" onmouseover="showTip(event, 'fs34', 90)" class="id">Option</span> <span class="id">DependentType</span><span class="pn">.</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">17.9776</span> <span class="n">&#177;</span> <span class="n">0.2142</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">33</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">27.0092</span> <span class="n">&#177;</span> <span class="n">0.3793</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -193,8 +187,8 @@ to the DependentType element.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span onmouseout="hideTip(event, 'fs35', 96)" onmouseover="showTip(event, 'fs35', 96)" class="id">Option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span onmouseout="hideTip(event, 'fs35', 97)" onmouseover="showTip(event, 'fs35', 97)" class="id">Option</span> <span class="id">DependentType</span> <span class="id">Value</span><span class="pn">.</span><span class="id">Value</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">19.5531</span> 
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span onmouseout="hideTip(event, 'fs34', 91)" onmouseover="showTip(event, 'fs34', 91)" class="id">Option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span onmouseout="hideTip(event, 'fs34', 92)" onmouseover="showTip(event, 'fs34', 92)" class="id">Option</span> <span class="id">DependentType</span> <span class="id">Value</span><span class="pn">.</span><span class="id">Value</span><span class="pn">.</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">19.5531</span> <span class="n">&#177;</span> <span class="n">0.1250</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">4</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">20.2828</span> <span class="n">&#177;</span> <span class="n">0.1295</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -205,7 +199,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span class="id">DateTime</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentType</span> <span class="id">DateTime</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">278.7760</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">278.7760</span> <span class="n">&#177;</span> <span class="n">3.3103</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">28</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">385.8573</span> <span class="n">&#177;</span> <span class="n">0.6970</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -213,7 +207,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span class="id">DateTime</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">DependentType</span> <span class="id">DateTime</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">7.3626</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">7.3626</span> <span class="n">&#177;</span> <span class="n">0.0496</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">7</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">7.9543</span> <span class="n">&#177;</span> <span class="n">0.0946</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -225,7 +219,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">pair</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentPair</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">30.2823</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">30.2823</span> <span class="n">&#177;</span> <span class="n">0.0807</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">86</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">223.3536</span> <span class="n">&#177;</span> <span class="n">0.9640</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -233,7 +227,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span class="id">pair</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">DependentPair</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">28.5499</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">28.5499</span> <span class="n">&#177;</span> <span class="n">0.0862</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">2</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">29.0964</span> <span class="n">&#177;</span> <span class="n">0.1033</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -260,24 +254,23 @@ FSharp.Core 4.5.3, net45 DependentTypes.dll
 <div class="tip" id="fs15">Multiple items<br />union case DependentType.DependentType: &#39;T2 -&gt; DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;<br /><br />--------------------<br />type DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2 (requires &#39;PiType :&gt; PiType&lt;&#39;Config,&#39;T,&#39;T2&gt; and default constructor)&gt; =<br />&#160;&#160;| DependentType of &#39;T2<br />&#160;&#160;&#160;&#160;override ToString : unit -&gt; string<br />&#160;&#160;&#160;&#160;member Value : &#39;T2<br />&#160;&#160;&#160;&#160;static member ConvertTo : x:DependentType&lt;&#39;x,&#39;y,&#39;q,&#39;r&gt; -&gt; DependentType&lt;&#39;a,&#39;b,&#39;r,&#39;s&gt; (requires &#39;x :&gt; PiType&lt;&#39;y,&#39;q,&#39;r&gt; and default constructor and &#39;a :&gt; PiType&lt;&#39;b,&#39;r,&#39;s&gt; and default constructor)<br />&#160;&#160;&#160;&#160;static member Create : x:&#39;T -&gt; DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;<br />&#160;&#160;&#160;&#160;static member Extract : x:DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt; -&gt; &#39;T2<br />&#160;&#160;&#160;&#160;static member TryCreate : x:Option&lt;&#39;T&gt; -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />&#160;&#160;&#160;&#160;static member TryCreate : x:&#39;T -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;</div>
 <div class="tip" id="fs16">module PercentType<br /><br />from Article</div>
 <div class="tip" id="fs17">Multiple items<br />type PercentValidator =<br />&#160;&#160;inherit PiType&lt;unit,float,float option&gt;<br />&#160;&#160;new : unit -&gt; PercentValidator<br /><br />--------------------<br />new : unit -&gt; PercentType.PercentValidator</div>
-<div class="tip" id="fs18">type PctOption =<br />&#160;&#160;{Pct: float option;}</div>
-<div class="tip" id="fs19">PctOption.Pct: float option</div>
-<div class="tip" id="fs20">type DependentTypePctOption =<br />&#160;&#160;{Pct: Percent option;}</div>
-<div class="tip" id="fs21">DependentTypePctOption.Pct: Percent option</div>
-<div class="tip" id="fs22">val runPctOption : unit -&gt; PctOption []</div>
-<div class="tip" id="fs23">val runLiftedPctDependentType : unit -&gt; DependentTypePctOption []</div>
-<div class="tip" id="fs24">static member DependentType.TryCreate : x:Option&lt;&#39;T&gt; -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />static member DependentType.TryCreate : x:&#39;T -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;</div>
-<div class="tip" id="fs25">val readDependentType : xs:DependentTypePctOption [] -&gt; float option []</div>
-<div class="tip" id="fs26">val xs : DependentTypePctOption []</div>
-<div class="tip" id="fs27">module Array<br /><br />from Microsoft.FSharp.Collections</div>
-<div class="tip" id="fs28">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; array:&#39;T [] -&gt; &#39;U []</div>
-<div class="tip" id="fs29">val x : DependentTypePctOption</div>
-<div class="tip" id="fs30">val someValue : x:Option&lt;&#39;S&gt; -&gt; &#39;T (requires member Extract)</div>
-<div class="tip" id="fs31">val readVanillaOption : xs:PctOption [] -&gt; float option []</div>
-<div class="tip" id="fs32">val xs : PctOption []</div>
-<div class="tip" id="fs33">val x : PctOption</div>
-<div class="tip" id="fs34">val pct : float</div>
-<div class="tip" id="fs35">module Option<br /><br />from Microsoft.FSharp.Core</div>
+<div class="tip" id="fs18">type PercentPair = DependentPair&lt;PercentType.PairPercentValidator,unit,float,float option&gt;</div>
+<div class="tip" id="fs19">Multiple items<br />union case DependentPair.DependentPair: &#39;T * &#39;T2 -&gt; DependentPair&lt;&#39;SigmaType,&#39;Config,&#39;T,&#39;T2&gt;<br /><br />--------------------<br />type DependentPair&lt;&#39;SigmaType,&#39;Config,&#39;T,&#39;T2 (requires &#39;SigmaType :&gt; SigmaType&lt;&#39;Config,&#39;T,&#39;T2&gt; and default constructor)&gt; =<br />&#160;&#160;| DependentPair of &#39;T * &#39;T2<br />&#160;&#160;&#160;&#160;member Value : &#39;T * &#39;T2<br />&#160;&#160;&#160;&#160;static member Create : x:&#39;T -&gt; DependentPair&lt;&#39;SigmaType,&#39;Config,&#39;T,&#39;T2&gt;</div>
+<div class="tip" id="fs20">Multiple items<br />type PairPercentValidator =<br />&#160;&#160;inherit SigmaType&lt;unit,float,float option&gt;<br />&#160;&#160;new : unit -&gt; PairPercentValidator<br /><br />--------------------<br />new : unit -&gt; PercentType.PairPercentValidator</div>
+<div class="tip" id="fs21">val runPctOption : unit -&gt; float option []</div>
+<div class="tip" id="fs22">val runLiftedPctDependentType : unit -&gt; Option&lt;DependentType&lt;PercentType.PercentValidator,unit,float,float option&gt;&gt; []</div>
+<div class="tip" id="fs23">static member DependentType.TryCreate : x:Option&lt;&#39;T&gt; -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />static member DependentType.TryCreate : x:&#39;T -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;</div>
+<div class="tip" id="fs24">val readDependentType : xs:Percent option [] -&gt; float option []</div>
+<div class="tip" id="fs25">val xs : Percent option []</div>
+<div class="tip" id="fs26">module Array<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs27">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; array:&#39;T [] -&gt; &#39;U []</div>
+<div class="tip" id="fs28">val x : Percent option</div>
+<div class="tip" id="fs29">val someValue : x:Option&lt;&#39;S&gt; -&gt; &#39;T (requires member Extract)</div>
+<div class="tip" id="fs30">val readVanillaOption : xs:float option [] -&gt; float option []</div>
+<div class="tip" id="fs31">val xs : float option []</div>
+<div class="tip" id="fs32">val x : float option</div>
+<div class="tip" id="fs33">val pct : float</div>
+<div class="tip" id="fs34">module Option<br /><br />from Microsoft.FSharp.Core</div>
 
         </div>
         <div class="span3">
