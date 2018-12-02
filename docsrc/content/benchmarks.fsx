@@ -5,8 +5,8 @@
 #r "DependentTypes.dll"
 open DependentTypes.Helpers
 (**
-Benchmarking <sup>1</sup>
-============
+Benchmarks <sup>1</sup>
+==========
 
 Let's benchmark... 
 

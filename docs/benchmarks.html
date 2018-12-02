@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Benchmarking <sup>1</sup>
+    <title>Benchmarks <sup>1</sup>
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="F# DependentTypes"/>
@@ -33,7 +33,7 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1><a name="Benchmarking-sup-1-sup" class="anchor" href="#Benchmarking-sup-1-sup">Benchmarking <sup>1</sup></a></h1>
+<h1><a name="Benchmarks-sup-1-sup" class="anchor" href="#Benchmarks-sup-1-sup">Benchmarks <sup>1</sup></a></h1>
 <p>Let's benchmark...</p>
 <h2><a name="DependentType-option" class="anchor" href="#DependentType-option">DependentType option</a></h2>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
@@ -103,7 +103,7 @@
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 43)" onmouseover="showTip(event, 'fs11', 43)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 44)" onmouseover="showTip(event, 'fs11', 44)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">21.9484</span> <span class="n">&#177;</span> <span class="n">2.5478</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">96</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">607.0490</span> <span class="n">&#177;</span> <span class="n">15.8352</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">21.9484</span> <span class="n">00B1</span> <span class="n">2.5478</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">96</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">607.0490</span> <span class="n">00B1</span> <span class="n">15.8352</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -113,7 +113,7 @@
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="pn">(</span><span class="n">10X</span><span class="pn">)</span> <span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 45)" onmouseover="showTip(event, 'fs11', 45)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 46)" onmouseover="showTip(event, 'fs11', 46)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">0.0006</span> <span class="n">&#177;</span> <span class="n">0.0000</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">94</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">0.0091</span> <span class="n">&#177;</span> <span class="n">0.0002</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">0.0006</span> <span class="n">00B1</span> <span class="n">0.0000</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">94</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">0.0091</span> <span class="n">00B1</span> <span class="n">0.0002</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -124,7 +124,7 @@ demanding network applications.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">naked</span> <span onmouseout="hideTip(event, 'fs11', 47)" onmouseover="showTip(event, 'fs11', 47)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span> <span onmouseout="hideTip(event, 'fs11', 48)" onmouseover="showTip(event, 'fs11', 48)" class="id">option</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">18.3340</span> <span class="n">&#177;</span> <span class="n">0.1073</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">97</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">601.7315</span> <span class="n">&#177;</span> <span class="n">4.2582</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">18.3340</span> <span class="n">00B1</span> <span class="n">0.1073</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">97</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">601.7315</span> <span class="n">00B1</span> <span class="n">4.2582</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -134,7 +134,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span onmouseout="hideTip(event, 'fs11', 49)" onmouseover="showTip(event, 'fs11', 49)" class="id">option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentType</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">17.0064</span> <span class="n">&#177;</span> <span class="n">0.3517</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">93</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">256.9292</span> <span class="n">&#177;</span> <span class="n">2.3419</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">17.0064</span> <span class="n">00B1</span> <span class="n">0.3517</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">93</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">256.9292</span> <span class="n">00B1</span> <span class="n">2.3419</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -174,7 +174,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span onmouseout="hideTip(event, 'fs31', 80)" onmouseover="showTip(event, 'fs31', 80)" class="id">Option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span onmouseout="hideTip(event, 'fs31', 81)" onmouseover="showTip(event, 'fs31', 81)" class="id">Option</span> <span class="id">DependentType</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">17.9776</span> <span class="n">&#177;</span> <span class="n">0.2142</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">33</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">27.0092</span> <span class="n">&#177;</span> <span class="n">0.3793</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">17.9776</span> <span class="n">00B1</span> <span class="n">0.2142</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">33</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">27.0092</span> <span class="n">00B1</span> <span class="n">0.3793</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -186,7 +186,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span onmouseout="hideTip(event, 'fs31', 82)" onmouseover="showTip(event, 'fs31', 82)" class="id">Option</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span onmouseout="hideTip(event, 'fs31', 83)" onmouseover="showTip(event, 'fs31', 83)" class="id">Option</span> <span class="id">DependentType</span> <span class="id">Value</span><span class="pn">.</span><span class="id">Value</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">19.5531</span> <span class="n">&#177;</span> <span class="n">0.1250</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">4</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">20.2828</span> <span class="n">&#177;</span> <span class="n">0.1295</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">19.5531</span> <span class="n">00B1</span> <span class="n">0.1250</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">4</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">20.2828</span> <span class="n">00B1</span> <span class="n">0.1295</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -197,7 +197,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">validated</span> <span class="id">DateTime</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentType</span> <span class="id">DateTime</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">278.7760</span> <span class="n">&#177;</span> <span class="n">3.3103</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">28</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">385.8573</span> <span class="n">&#177;</span> <span class="n">0.6970</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">278.7760</span> <span class="n">00B1</span> <span class="n">3.3103</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">28</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">385.8573</span> <span class="n">00B1</span> <span class="n">0.6970</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -205,7 +205,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span class="id">DateTime</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">DependentType</span> <span class="id">DateTime</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">7.3626</span> <span class="n">&#177;</span> <span class="n">0.0496</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">7</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">7.9543</span> <span class="n">&#177;</span> <span class="n">0.0946</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">7.3626</span> <span class="n">00B1</span> <span class="n">0.0496</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">7</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">7.9543</span> <span class="n">00B1</span> <span class="n">0.0946</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -247,7 +247,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">pair</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">Create</span> <span class="id">DependentPair</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">30.2823</span> <span class="n">&#177;</span> <span class="n">0.0807</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">86</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">223.3536</span> <span class="n">&#177;</span> <span class="n">0.9640</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">30.2823</span> <span class="n">00B1</span> <span class="n">0.0807</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">86</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">223.3536</span> <span class="n">00B1</span> <span class="n">0.9640</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -255,7 +255,7 @@ to the DependentType element.</p>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">read</span> <span class="id">pair</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">DependentPair</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">28.5499</span> <span class="n">&#177;</span> <span class="n">0.0862</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">2</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">29.0964</span> <span class="n">&#177;</span> <span class="n">0.1033</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
+<span class="id">f1</span> <span class="pn">(</span><span class="n">28.5499</span> <span class="n">00B1</span> <span class="n">0.0862</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">2</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">29.0964</span> <span class="n">00B1</span> <span class="n">0.1033</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -280,7 +280,7 @@ FSharp.Core 4.5.3, net45 DependentTypes.dll
 <div class="tip" id="fs13">Multiple items<br />type SigmaType&lt;&#39;Config,&#39;T,&#39;T2&gt; =<br />&#160;&#160;new : config:&#39;Config * pi:(&#39;Config -&gt; &#39;T -&gt; &#39;T2) -&gt; SigmaType&lt;&#39;Config,&#39;T,&#39;T2&gt;<br />&#160;&#160;member Create : x:&#39;T -&gt; &#39;T * &#39;T2<br /><br />--------------------<br />new : config:&#39;Config * pi:(&#39;Config -&gt; &#39;T -&gt; &#39;T2) -&gt; SigmaType&lt;&#39;Config,&#39;T,&#39;T2&gt;</div>
 <div class="tip" id="fs14">type Percent = DependentType&lt;PercentType.PercentValidator,unit,float,float option&gt;</div>
 <div class="tip" id="fs15">Multiple items<br />union case DependentType.DependentType: &#39;T2 -&gt; DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;<br /><br />--------------------<br />type DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2 (requires &#39;PiType :&gt; PiType&lt;&#39;Config,&#39;T,&#39;T2&gt; and default constructor)&gt; =<br />&#160;&#160;| DependentType of &#39;T2<br />&#160;&#160;&#160;&#160;override ToString : unit -&gt; string<br />&#160;&#160;&#160;&#160;member Value : &#39;T2<br />&#160;&#160;&#160;&#160;static member ConvertTo : x:DependentType&lt;&#39;x,&#39;y,&#39;q,&#39;r&gt; -&gt; DependentType&lt;&#39;a,&#39;b,&#39;r,&#39;s&gt; (requires &#39;x :&gt; PiType&lt;&#39;y,&#39;q,&#39;r&gt; and default constructor and &#39;a :&gt; PiType&lt;&#39;b,&#39;r,&#39;s&gt; and default constructor)<br />&#160;&#160;&#160;&#160;static member Create : x:&#39;T -&gt; DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;<br />&#160;&#160;&#160;&#160;static member Extract : x:DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt; -&gt; &#39;T2<br />&#160;&#160;&#160;&#160;static member TryCreate : x:Option&lt;&#39;T&gt; -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />&#160;&#160;&#160;&#160;static member TryCreate : x:&#39;T -&gt; Option&lt;DependentType&lt;&#39;PiType,&#39;Config,&#39;T,&#39;T2&gt;&gt;</div>
-<div class="tip" id="fs16">module PercentType<br /><br />from Article</div>
+<div class="tip" id="fs16">module PercentType<br /><br />from Benchmarks</div>
 <div class="tip" id="fs17">Multiple items<br />type PercentValidator =<br />&#160;&#160;inherit PiType&lt;unit,float,float option&gt;<br />&#160;&#160;new : unit -&gt; PercentValidator<br /><br />--------------------<br />new : unit -&gt; PercentType.PercentValidator</div>
 <div class="tip" id="fs18">val runPctOption : unit -&gt; float option []</div>
 <div class="tip" id="fs19">val runLiftedPctDependentType : unit -&gt; Option&lt;DependentType&lt;PercentType.PercentValidator,unit,float,float option&gt;&gt; []</div>

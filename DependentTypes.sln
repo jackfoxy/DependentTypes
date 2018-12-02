@@ -27,6 +27,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D5255-776D-4B61-85F9-73C37AA1FB9A}"
 	ProjectSection(SolutionItems) = preProject
 		docsrc\content\article.fsx = docsrc\content\article.fsx
+		docsrc\content\benchmarks.fsx = docsrc\content\benchmarks.fsx
 		docsrc\content\index.fsx = docsrc\content\index.fsx
 		docsrc\content\tutorial.fsx = docsrc\content\tutorial.fsx
 	EndProjectSection
