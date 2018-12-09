@@ -2,6 +2,24 @@
 #I "../../bin/DependentTypes/net45"
 #r "DependentTypes.dll"
 open DependentTypes.Helpers
+
+open System
+open System.Text.RegularExpressions
+let regExStringVerify (regex : Regex) config (value : string) =
+    if String.IsNullOrWhiteSpace value then
+        None
+    else
+        let s' = value.Trim()
+        if regex.IsMatch s' then 
+            if config > 0 then
+                if String.length(s') = config then 
+                        Some s'
+                    else 
+                        None
+            else
+                Some s'
+        else
+            None
 (**
 # Dependent Types for those who know how to use them #
 
@@ -44,13 +62,49 @@ module PercentType =
 
 type Percent = DependentType<PercentType.PercentValidator, unit, float, float option>
 
+printfn "%A" <| Percent.TryCreate 0.42
+// Some (DependentType (Some 0.42))
 (**
+By inheriting from the ````Pi```` type any total function may be used to construct dependent types. Note organizing the type and function
+in a module is just a housekeeping convenience.
 
+We see ````Pi```` is a function that takes an element of a type to an element of another type. That is the essence of Dependent Types.
+ 
+But why is ````unit```` necessary in the signature? Actually it is not an integral part of the Pi function. ````unit```` in this case is a placeholder for
+a convenience feature. You can replace it with any type whatsoever to leverage the same function over similar DepenedentTypes.
+*)
+module DigitsDef =
+    let verifyDigits config value =
+        regExStringVerify (new Regex("^[0-9]+$")) config value
 
+    type DigitsValidator(config) = 
+        inherit Pi<int, string, string option>(config, verifyDigits)
 
+    type ValidDigits () = inherit DigitsValidator(0)
+    type ValidDigits2 () = inherit DigitsValidator(2)
+    type ValidDigits3 () = inherit DigitsValidator(3)
+    type ValidDigits4 () = inherit DigitsValidator(4)
 
+type Digits = DependentType<DigitsDef.ValidDigits, int, string, string option>
+type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string option>
+type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string option>
+type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string option>
 
-Benchmarking <sup>1</sup>
+printfn "%A" <| Digits.Create "093884765"
+// DependentType (Some "093884765")
+
+printfn "%A" <| Digits3.Create "007"
+// DependentType (Some "007") 
+
+printfn "%A" <| Digits3.TryCreate "0007"
+// None
+(**
+Notice this requires a second level of type inheritance.
+
+If the Pi function results in an option, and you use ````TryCreate```` rather than ````Create```` to reify an element the resulting
+option is *lifted*<sup>1</sup> to the resulting DependentType.
+
+Benchmarking <sup>2</sup>
 ------------
 
 Let's benchmark... 
@@ -229,8 +283,10 @@ It is worth noting the definitive work on the preeminent *dependently typed* lan
 
 Notes
 -----
+<sup>1</sup> *Lift* ususually has a different technical meaning within the context of functional programming. I am re-using this term because in this case
+the action is intuitively *lifting* the option up a level.
 
-<sup>1</sup> The usual caveats about benchmarking apply. You should benchmark
+<sup>2</sup> The usual caveats about benchmarking apply. You should benchmark
 your own situation on your own system, etc. There is variance in running the benchmarks multiple times. The variance I saw was typically
 in absolute run time for each scenario, and not so much in the DependentType / control run time ratios. By and large these results are representative of typical benchmark runs on my system, 
 FSharp.Core 4.5.3, net45 DependentTypes.dll
