@@ -13,9 +13,9 @@ module SetUp =
     let validateRange (min,max) v = 
         validate id (fun v -> v >= min && v <= max) v
 
-    type MaxNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMax)
-    type MinNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMin)
-    type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
+    type MaxNumRangeValidator(config) = inherit Pi<int, int, int option>(config, validateMax)
+    type MinNumRangeValidator(config) = inherit Pi<int, int, int option>(config, validateMin)
+    type NumRangeValidator(config) = inherit Pi<int * int, int, int option>(config, validateRange)
 
     type MaxMinus101 () = inherit MaxNumRangeValidator(-101)
     type Min101 () = inherit MinNumRangeValidator(101)

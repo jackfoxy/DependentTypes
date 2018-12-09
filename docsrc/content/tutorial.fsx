@@ -27,7 +27,7 @@ module TrimNonEmptyStringDef =
             Some <| value.Trim()
 
     type NonEmptyValidator() = 
-        inherit PiType<unit, string, string option>((), verifyTrimNonEmptyString)
+        inherit Pi<unit, string, string option>((), verifyTrimNonEmptyString)
 
 type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmptyValidator, unit, string, string option>  
 (**
@@ -49,7 +49,7 @@ module RangeValidation =
 
     let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
 
-    type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
+    type NumRangeValidator(config) = inherit Pi<int * int, int, int option>(config, validateRange)
 
     type MaxPos100 () = inherit NumRangeValidator(0, 100)
 
@@ -101,7 +101,7 @@ module UtcDateTimeDef =
         value.ToUniversalTime()     
 
     type UtcDateTimeValidator() = 
-        inherit PiType<unit, DateTime, DateTime>((), verifyUtcDateTime)
+        inherit Pi<unit, DateTime, DateTime>((), verifyUtcDateTime)
 
     type ValidUtcDateTime () = inherit UtcDateTimeValidator()
     
@@ -129,7 +129,7 @@ module SumType =
             IntegerOfSign.NegativeInt v
 
     type IntSumTypeDiscriminator() = 
-        inherit PiType<unit, int, IntegerOfSign>((), intType)
+        inherit Pi<unit, int, IntegerOfSign>((), intType)
     
 type IntegerType = DependentType<SumType.IntSumTypeDiscriminator, unit, int, IntegerOfSign>
 
@@ -158,7 +158,7 @@ module NonEmptySetDef =
             None
 
     type NonEmptySetValidator<'T when 'T : comparison>() = 
-        inherit PiType<unit, Set<'T>, Set<'T> option>((), verifyNonEmptySet)
+        inherit Pi<unit, Set<'T>, Set<'T> option>((), verifyNonEmptySet)
   
 type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.NonEmptySetValidator<'T>, unit, Set<'T>, Set<'T> option> 
 
@@ -176,9 +176,9 @@ module IntRange =
     let validateMin (min) v = validate (fun v -> v >= min) v
     let validateMax (max) v = validate (fun v -> v <= max) v
 
-    type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
-    type MinNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMin)
-    type MaxNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMax)
+    type NumRangeValidator(config) = inherit Pi<int * int, int, int option>(config, validateRange)
+    type MinNumRangeValidator(config) = inherit Pi<int, int, int option>(config, validateMin)
+    type MaxNumRangeValidator(config) = inherit Pi<int, int, int option>(config, validateMax)
 
     type MaxPos100 () = inherit NumRangeValidator(0, 100)
     type MaxPos20000 () = inherit NumRangeValidator(0, 20000)
@@ -227,10 +227,10 @@ module SizeMax5Type =
         validate id (fun (s:string) -> s.Length <= len) s
 
     type LenValidator(config) = 
-        inherit PiType<int, string, string option>(config, validateLen)
+        inherit Pi<int, string, string option>(config, validateLen)
 
     type PairLenValidator(config) = 
-        inherit SigmaType<int, string, string option>(config, validateLen)
+        inherit Sigma<int, string, string option>(config, validateLen)
 
     type SizeMax5 () = inherit LenValidator(5) 
 
@@ -266,7 +266,7 @@ module NonNegativSumType =
             IntegerNegNonNeg.NegativeInt v
 
     type IntSumTypeDiscriminator() = 
-        inherit PiType<unit, IntegerOfSign, IntegerNegNonNeg>((), intType)
+        inherit Pi<unit, IntegerOfSign, IntegerNegNonNeg>((), intType)
     
 type IntegerSignType = DependentType<NonNegativSumType.IntSumTypeDiscriminator, unit, IntegerOfSign, IntegerNegNonNeg>
 

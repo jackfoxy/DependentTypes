@@ -11,7 +11,7 @@ module TrimNonEmptyStringDef =
             Some <| value.Trim()
 
     type NonEmptyValidator() = 
-        inherit PiType<unit, string, string option>((), verifyTrimNonEmptyString)
+        inherit Pi<unit, string, string option>((), verifyTrimNonEmptyString)
 
     type NonEmpty () = inherit NonEmptyValidator()
 

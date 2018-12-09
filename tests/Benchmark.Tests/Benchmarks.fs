@@ -13,10 +13,10 @@ module PercentType =
         | false -> None
 
     type PercentValidator() = 
-        inherit PiType<unit, float, float option>((), validatePercent)
+        inherit Pi<unit, float, float option>((), validatePercent)
 
     type PairPercentValidator() = 
-        inherit SigmaType<unit, float, float option>((), validatePercent)
+        inherit Sigma<unit, float, float option>((), validatePercent)
 
 type Percent = DependentType<PercentType.PercentValidator, unit, float, float option>
 type PercentPair = DependentPair<PercentType.PairPercentValidator, unit, float, float option>
@@ -119,13 +119,13 @@ module Benchmarks =
                 Expect.isFasterThan
                     (runNakedOption >> ignore |> repeat1000000)
                     (runLiftedPctDependentType >> ignore |> repeat1000000)
-                    "naked option is faster than TryCreate DependentType option" }
+                    "Naked option is faster than TryCreate DependentType option" }
 
             test "validated option vs DependentType option: TryCreate" {
                 Expect.isFasterThan
                     (runPctOption >> ignore |> repeat1000000)
                     (runLiftedPctDependentType >> ignore |> repeat1000000)
-                    "validated option is faster than TryCreate DependentType option" }
+                    "Validated option is faster than TryCreate DependentType option" }
 
             test "validated option vs DependentType option: TryCreate 10X" {
                 Expect.isFasterThan
@@ -146,7 +146,7 @@ module Benchmarks =
                 Expect.isFasterThan
                     (readVanilla >> ignore |> repeat1000000)
                     (readDependentType >> ignore |> repeat1000000)
-                    "read Option is faster than Option DependentType" }
+                    "Read Option is faster than Option DependentType" }
 
             test "Option vs Option DependentType: read value" {
                 let dtValues = runLiftedPctDependentType()
@@ -161,7 +161,7 @@ module Benchmarks =
                 Expect.isFasterThan
                     (readVanilla >> ignore |> repeat1000000)
                     (readDependentType >> ignore |> repeat1000000)
-                    "read Option is faster than Option DependentType Value.Value" }
+                    "Read Option is faster than Option DependentType Value.Value" }
         ]
 
     [<Tests>]
@@ -171,19 +171,25 @@ module Benchmarks =
                 Expect.isFasterThan
                     (runNakedOption >> ignore |> repeat1000000)
                     (runPctDependentType >> ignore |> repeat1000000)
-                    "naked option is faster than Create DependentType" }
+                    "Naked option is faster than Create DependentType" }
 
             test "validated option vs DependentType option: Create" {
                 Expect.isFasterThan
                     (runPctOption >> ignore |> repeat1000000)
                     (runPctDependentType >> ignore |> repeat1000000)
-                    "validated option is faster than Create DependentType" }
+                    "Validated option is faster than Create DependentType" }
 
             test "validated option vs DependentType option: Create 10X" {
                 Expect.isFasterThan
                     (runPctOption >> ignore |> repeat10)
                     (runPctDependentType >> ignore |> repeat10)
                     "(10X) validated option is faster than Create DependentType" }
+
+            test "DependentType option Create vs DependentType option TryCreate" {
+               Expect.isFasterThan
+                   (runPctDependentType >> ignore |> repeat1000000)
+                   (runLiftedPctDependentType >> ignore |> repeat1000000)
+                   "Create DependentType is faster than TryCreate DependentType" }
         ]
 
     [<Tests>]
@@ -193,7 +199,7 @@ module Benchmarks =
                 Expect.isFasterThan
                     (runPctPair >> ignore |> repeat1000000)
                     (runPctDependentPair >> ignore |> repeat1000000)
-                    "pair is faster than Create DependentPair" }
+                    "Pair is faster than Create DependentPair" }
 
             test "pair vs DependentPair: read value" {
                 let dpValues = runPctDependentPair()
@@ -205,7 +211,7 @@ module Benchmarks =
                 Expect.isFasterThan
                     (readPair >> ignore |> repeat1000000)
                     (readDependentPair >> ignore |> repeat1000000)
-                    "read pair is faster than DependentPair" }
+                    "Read pair is faster than DependentPair" }
         ]
 
     [<Tests>]
@@ -215,7 +221,7 @@ module Benchmarks =
                 Expect.isFasterThan
                     (runDateTimeUtc >> ignore |> repeat1000000)
                     (runDependentTypeDateTimeUtc >> ignore |> repeat1000000)
-                    "validated DateTime is faster than Create DependentType DateTime" }
+                    "Validated DateTime is faster than Create DependentType DateTime" }
 
             test "DateTime vs DependentType DateTime: read" {
                 let dateTime = runDependentTypeDateTimeUtc()
@@ -227,5 +233,5 @@ module Benchmarks =
                 Expect.isFasterThan
                     (readDateTime >> ignore |> repeat1000000)
                     (readDependentTypeDateTime >> ignore |> repeat1000000)
-                    "read DateTime is faster than DependentType DateTime" }
+                    "Read DateTime is faster than DependentType DateTime" }
         ]

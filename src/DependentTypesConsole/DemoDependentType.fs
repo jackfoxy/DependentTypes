@@ -12,7 +12,7 @@ let validateLen len s =
     validate id (fun (s:string) -> s.Length <= len) s
 
 type LenValidator(config) = 
-    inherit PiType<int, string, string option>(config, validateLen)
+    inherit Pi<int, string, string option>(config, validateLen)
 
 type Size4 () = inherit LenValidator(4) 
 
@@ -29,9 +29,9 @@ let validateRange (min,max) v = validate id (fun v -> v >= min && v <= max) v
 let validateMin (min) v = validate id (fun v -> v >= min) v
 let validateMax (max) v = validate id (fun v -> v <= max) v
 
-type NumRangeValidator(config) = inherit PiType<int * int, int, int option>(config, validateRange)
-type MinNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMin)
-type MaxNumRangeValidator(config) = inherit PiType<int, int, int option>(config, validateMax)
+type NumRangeValidator(config) = inherit Pi<int * int, int, int option>(config, validateRange)
+type MinNumRangeValidator(config) = inherit Pi<int, int, int option>(config, validateMin)
+type MaxNumRangeValidator(config) = inherit Pi<int, int, int option>(config, validateMax)
 
 type MaxPos100 () = inherit NumRangeValidator(0, 100)
 type MaxPos20000 () = inherit NumRangeValidator(0, 20000)
@@ -70,10 +70,10 @@ let tryConstructIndexToString i =
 
 let tryIndexToString _ v = tryConstruct id tryConstructIndexToString v
 
-type IndexToStringPiType() = 
-    inherit PiType<unit, int, string>((), tryIndexToString)
+type IndexToStringPi() = 
+    inherit Pi<unit, int, string>((), tryIndexToString)
 
-type IndexToString = DependentType<IndexToStringPiType, unit, int, string>
+type IndexToString = DependentType<IndexToStringPi, unit, int, string>
 
 let demo4() =
     printfn ""
@@ -98,10 +98,10 @@ let tryConstructMultiplyToString multiplier i =
         (multiplier * i').ToString()
         |> Some ) i
 
-type Multiply5ToStringPiType() = 
-    inherit PiType<int, int, string option>(5, tryConstructMultiplyToString)
+type Multiply5ToStringPi() = 
+    inherit Pi<int, int, string option>(5, tryConstructMultiplyToString)
 
-type Multiply5ToString = DependentType<Multiply5ToStringPiType, int, int, string option>
+type Multiply5ToString = DependentType<Multiply5ToStringPi, int, int, string option>
 
 let demo5() =
     printfn ""

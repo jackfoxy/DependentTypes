@@ -18,10 +18,10 @@ module DependentType =
             validate id (fun (s:string) -> s.Length <= len) s
 
         type LenValidator(config) = 
-            inherit PiType<int, string, string option>(config, validateLen)
+            inherit Pi<int, string, string option>(config, validateLen)
 
         type PairLenValidator(config) = 
-            inherit SigmaType<int, string, string option>(config, validateLen)
+            inherit Sigma<int, string, string option>(config, validateLen)
 
         type Size5 () = inherit LenValidator(5) 
 
@@ -35,7 +35,7 @@ module DependentType =
             value.ToUniversalTime()     
 
         type UtcDateTimeTransformer() = 
-            inherit PiType<unit, DateTime, DateTime>((), transformToUtcDateTime)
+            inherit Pi<unit, DateTime, DateTime>((), transformToUtcDateTime)
 
         type DateTimeUtc () = inherit UtcDateTimeTransformer()
     
@@ -119,7 +119,7 @@ module DependentType =
                 IntegerOfSign.NegativeInt v
 
         type IntSumTypeDiscriminator() = 
-            inherit PiType<unit, int, IntegerOfSign>((), intType)
+            inherit Pi<unit, int, IntegerOfSign>((), intType)
     
     type IntegerType = DependentType<SumType.IntSumTypeDiscriminator, unit, int, IntegerOfSign>
 
@@ -138,7 +138,7 @@ module DependentType =
                 IntegerNegNonNeg.NegativeInt v
 
         type IntSumTypeDiscriminator() = 
-            inherit PiType<unit, IntegerOfSign, IntegerNegNonNeg>((), intType)
+            inherit Pi<unit, IntegerOfSign, IntegerNegNonNeg>((), intType)
     
     type IntegerSignType = DependentType<NonNegativSumType.IntSumTypeDiscriminator, unit, IntegerOfSign, IntegerNegNonNeg>
 

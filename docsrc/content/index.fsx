@@ -44,12 +44,12 @@ The base ````'T2```` output types can be:
 
 The dependent type 
 ````
-type DependentType<'PiType, 'Config, 'T, 'T2 when 'PiType :> PiType<'Config, 'T, 'T2>  
-                                              and  'PiType : (new: unit -> 'PiType)>
+type DependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2>  
+                                              and  'Pi : (new: unit -> 'Pi)>
 ````
 has a type parameter that includes a *configuration*, and a typed *pi* function, which maps input elements of the specified type to elements of the output type.
 ````
-type PiType<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2)
+type Pi<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2)
 ````
 The *configuration* is a convenience allowing re-use of the same function code to serve multiple dependent types by passing any desired parameters.
 
@@ -62,7 +62,7 @@ module DigitsDef =
         regExStringVerify (new Regex("^[0-9]+$")) config value
 
     type DigitsValidator(config) = 
-        inherit PiType<int, string, string option>(config, verifyDigits)
+        inherit Pi<int, string, string option>(config, verifyDigits)
 
     type ValidDigits () = inherit DigitsValidator(0)
     type ValidDigits2 () = inherit DigitsValidator(2)
@@ -99,8 +99,8 @@ DependentPairs
 
 The dependent pair 
 ````
-type DependentPair<'SigmaType, 'Config, 'T, 'T2 when 'SigmaType :> SigmaType<'Config, 'T, 'T2>  
-                                                 and 'SigmaType : (new: unit -> 'SigmaType)>
+type DependentPair<'Sigma, 'Config, 'T, 'T2 when 'Sigma :> Sigma<'Config, 'T, 'T2>  
+                                                 and 'Sigma : (new: unit -> 'Sigma)>
 ````
 is a pair of the input element and resulting dependent type. Usage is similar to that of dependent types.
 
