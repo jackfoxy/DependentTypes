@@ -1,9 +1,9 @@
 #### 0.2.0 - unreleased, 2018
-* breaking change
+* more efficient option type lift
+* breaking changes:
 * module DependentTypes.DependentTypes renamed DependentTypes.Helpers
 * PiType renamed to Pi
 * SigmaType renamed to Sigma
-* more efficient option type lift
 
 #### 0.1.0 - September 25, 2018
 * breaking change

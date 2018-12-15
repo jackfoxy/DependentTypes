@@ -31,21 +31,20 @@ This is a powerful idea that strongly-typed languages like F# can apply in the s
 - introduce [dependent types for F#](https://jackfoxy.github.io/DependentTypes/)
 - discuss advantages in domain-driven design and development
 - review performance benchmarks
-- and finally, discuss some matters of type theory and why these are dependent types
+- and finally, discuss how these are dependent types according to type theory
 
 (Readers with strong opinions about *dependently typed languages* may want to read the final section first.)
 
 Introducing Dependent Types in F#
 ---------------------------------
 
-The benefits of well thought-out granular types in designing software domains is [well known](https://www.amazon.com/Domain-Modeling-Made-Functional-Domain-Driven-ebook/dp/B07B44BPFB/). 
-The string type is never sufficient for specific type definition, and every other F# or .NET type and even units of measure can be refined for more specific type useage. 
-There are several methods for creating ad hoc granular types, you may have used some of these. 
-One thing none of them do is carry around their semantic information with them.
+There are several methods for creating ad hoc granular types, you may have used [some of these](https://fsharpforfunandprofit.com/series/designing-with-types.html). 
+
+DependentTypes are easy to instantiate and carry their semantic information with them.
 
 <div><img src="/DependentTypes/img/DependentTypeTooltip.png" alt="Dependent Type Tooltip" style="width:495px;margin:10px" /></div>
 
-We see from the semantic tool tip data elements of this type are validated by a typed function in the PercentType module
+We see from the tool tip data elements of this type are validated by a typed function in the PercentType module
 named PercentValidator, and that function has the signature ````unit -> float -> float option````.
 
 *)
@@ -65,12 +64,12 @@ type Percent = DependentType<PercentType.PercentValidator, unit, float, float op
 printfn "%A" <| Percent.TryCreate 0.42
 // Some (DependentType (Some 0.42))
 (**
-By inheriting from the ````Pi```` type any total function may be used to construct dependent types. Note organizing the type and function
-in a module is just a housekeeping convenience.
+By inheriting from the ````Pi```` type any total function may be used to construct dependent types. (Organizing the type and function
+in a module is just a housekeeping convenience.)
 
-We see ````Pi```` is a function that takes an element of a type to an element of another type. That is the essence of Dependent Types.
+````Pi```` is a function that takes an element of a type to an element of another type. That is the essence of Dependent Types.
  
-But why is ````unit```` necessary in the signature? Actually it is not an integral part of the Pi function. ````unit```` in this case is a placeholder for
+But why is ````unit```` necessary in the signature? Actually it is not an integral part of what the Pi function needs to be. ````unit```` in this case is a placeholder for
 a convenience feature. You can replace it with any type whatsoever to leverage the same function over similar DepenedentTypes.
 *)
 module DigitsDef =
@@ -99,36 +98,89 @@ printfn "%A" <| Digits3.Create "007"
 printfn "%A" <| Digits3.TryCreate "0007"
 // None
 (**
-Notice this requires a second level of type inheritance.
+Notice this function reuse requires a second level of type inheritance.
 
-If the Pi function results in an option, and you use ````TryCreate```` rather than ````Create```` to reify an element the resulting
-option is *lifted*<sup>1</sup> to the resulting DependentType.
+If the Pi function results in an option, and you use ````TryCreate```` rather than ````Create```` to instantiate an element the resulting
+option is *lifted* <a href="#note1"><sup>1</sup></a> to the resulting DependentType.
 
-Benchmarking <sup>2</sup>
+Dependent Typing all the Things
+-------------------------------
+
+If it is important enough to validate data, why not type the validated data as we did above?
+
+Option types are the mark of validated data. Some more examples available in the [DomainLib](https://github.com/jackfoxy/DependentTypes/blob/master/src/DomainLib/Domain.fs)
+include
+
+- [TrimNonEmptyString](https://github.com/jackfoxy/DependentTypes/blob/13461b84895d402b6a1ab1744feda18724c647f0/src/DomainLib/Domain.fs#L17)
+- [NonEmptySet](https://github.com/jackfoxy/DependentTypes/blob/13461b84895d402b6a1ab1744feda18724c647f0/src/DomainLib/Domain.fs#L38)
+- [integer in a range](https://github.com/jackfoxy/DependentTypes/blob/13461b84895d402b6a1ab1744feda18724c647f0/src/DomainLib/Domain.fs#L108)
+
+But DependentTypes are for more than data validation. We are not restricted to emitting option types. Anything you can do with a total function you can type.
+
+For instance ensure that [DateTime is in UTC format](https://github.com/jackfoxy/DependentTypes/blob/13461b84895d402b6a1ab1744feda18724c647f0/src/DomainLib/Domain.fs#L26).
+
+````
+type UtcDateTime = DependentType<UtcDateTimeDef.UtcDateTimeValidator, unit, DateTime, DateTime>
+````
+
+We can also categorize data with discriminated union types.
+*)
+type IntegerOfSign =
+| PositiveInt of int
+| Zero of int
+| NegativeInt of int
+
+module SumType =
+    let intType _ (value : int) =
+        match value with
+        | v when v > 0 ->
+            IntegerOfSign.PositiveInt v
+        | v when v = 0 ->
+            IntegerOfSign.Zero v
+        | v ->
+            IntegerOfSign.NegativeInt v
+
+    type IntSumTypeDiscriminator() = 
+        inherit Pi<unit, int, IntegerOfSign>((), intType)
+    
+type IntegerType = DependentType<SumType.IntSumTypeDiscriminator, unit, int, IntegerOfSign>
+
+// DependentType (NegativeInt -21)
+printfn "%A" <| IntegerType.Create -21
+
+// DependentType (Zero 0)
+printfn "%A" <| IntegerType.Create 0
+
+// DependentType (PositiveInt 21)
+printfn "%A" <| IntegerType.Create 21
+
+(**
+### DependentPairs ###
+
+Another feature of Type Theory is the idea of *Dependent Pairs*. This is a typed pair of the original data element and the resulting dependently typed element.
+They are just as easy to create, relying on a ````Sigma```` type in place of the ````Pi```` type, and of course carry around their semantic information. 
+
+<div><img src="/DependentTypes/img/DependentPairTooltip.png" alt="Dependent Type Tooltip" style="width:495px;margin:10px" /></div>
+
+### Future Directions ###
+
+One thing DependentTypes cannot do, yet, is support extension members. Hopefully the implementation of 
+[these F# language suggestions](https://github.com/Microsoft/visualfsharp/pull/3582) will remedy this situation. <a href="#note2"><sup>2</sup></a>
+
+DependentTypes is still a work in progress. Please submit [suggestions and feedback](https://github.com/jackfoxy/DependentTypes/issues).
+
+And my apologies to anyone who has suffered through a breaking change in the project. Hopefully we are at an end of those.
+
+Benchmarking <a href="#note3"><sup>3</sup></a>
 ------------
+
+You may be thinking "Fine. But what about performance?"
 
 Let's benchmark... 
 
 ### DependentType option ###
 
-
 *)
-//open DependentTypes
-
-module PercentType2 =
-    //let validatePercent _ n = 
-    //    match n >= 0. && n <= 1. with
-    //    | true -> Some n
-    //    | false -> None
-
-    //type PercentValidator() = 
-    //    inherit Pi<unit, float, float option>((), validatePercent)
-
-    type PairPercentValidator() = 
-        inherit Sigma<unit, float, float option>((), PercentType.validatePercent)
-
-//type Percent = DependentType<PercentType.PercentValidator, unit, float, float option>
-
 let runPctOption() =
     [|
         PercentType.validatePercent () 0.5
@@ -239,6 +291,10 @@ In this case the create and read performance differences are barely meaningful.
 
 ### DependentPair ###
 *)
+module PercentType2 =
+    type PairPercentValidator() = 
+        inherit Sigma<unit, float, float option>((), PercentType.validatePercent)
+
 type PercentPair = DependentPair<PercentType2.PairPercentValidator, unit, float, float option>
 
 let runPctPair() =
@@ -267,27 +323,31 @@ Read pair is faster than DependentPair.
 f1 (28.5499 00B1 0.0862 ms) is ~2% faster than f2 (29.0964 00B1 0.1033 ms).
 ````
 
-Creation of a simple validated pair is 7X faster than creating a DependentPair, but read/consume performance is so similar we sometimes see the benchmark test failing because DependentPair performs faster.
-
-It's also worth noting to squeeze the absolute most performance out of DependentTypes at creation time, creating a DependentPair is nearly 3X faster.
+Creation of a simple validated tuple is 7X faster than creating a DependentPair, but read/consume performance is so similar we sometimes see the benchmark test failing because DependentPair performs faster.
 
 But are these Dependent Types?
 ------------------------------
 
-If F# were a so-call *dependently typed language*, my project would probably be called *refinement types*, because something called *dependent types* would already exist, 
-and rather than being defined by a PI type function, they would depend on inductive proofs. But F# is not now and never will be an *inductively proven* language. (Try F* for that.) 
+If F# were a so-called *dependently typed language*, this project would probably be called *refinement types*, because something called *dependent types* would already exist, 
+and rather than being defined by a PI type function, dependent types would depend on inductive proofs. 
+But F# is not now and never will be an *inductively proven* language. (Try F* for that.) <a href="#note4"><sup>4</sup></a>
 
 
-
-It is worth noting the definitive work on the preeminent *dependently typed* language, Software Foundations (Vols. I & II), barely mentions dependent types.
 
 Notes
 -----
-<sup>1</sup> *Lift* ususually has a different technical meaning within the context of functional programming. I am re-using this term because in this case
-the action is intuitively *lifting* the option up a level.
+<a name="note1"><sup>1</sup></a> *Lift* ususually has a different technical meaning within the context of functional programming. I am re-using this term because in this case
+the intuitive notion of *lifting* the option up a level seems right.
 
-<sup>2</sup> The usual caveats about benchmarking apply. You should benchmark
+<a name="note2"><sup>2</sup></a> Not everyone has the skill and time to implement complex language features, but everyone can register their opinion as to which features are important to them.
+
+<a name="note3"><sup>3</sup></a> The usual caveats about benchmarking apply. You should benchmark
 your own situation on your own system, etc. There is variance in running the benchmarks multiple times. The variance I saw was typically
 in absolute run time for each scenario, and not so much in the DependentType / control run time ratios. By and large these results are representative of typical benchmark runs on my system, 
 FSharp.Core 4.5.3, net45 DependentTypes.dll
+
+<a name="note4"><sup>4</sup></a> It is worth noting the definitive work on the preeminent *dependently typed* language, Software Foundations (Vols. I & II), 
+barely mentions dependent types. Tracing the evolution of how languages supporting formal methods came to be called *dependently typed* would be an interesting
+article in its own right.
+
 *)

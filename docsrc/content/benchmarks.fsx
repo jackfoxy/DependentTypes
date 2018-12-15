@@ -172,7 +172,6 @@ f1 (28.5499 00B1 0.0862 ms) is ~2% faster than f2 (29.0964 00B1 0.1033 ms).
 
 Creation of a simple validated pair is 7X faster than creating a DependentPair, but read/consume performance is so similar we sometimes see the benchmark test failing because DependentPair performs faster.
 
-It's also worth noting to squeeze the absolute most performance out of DependentTypes at creation time, creating a DependentPair is nearly 3X faster.
 *)
 
 

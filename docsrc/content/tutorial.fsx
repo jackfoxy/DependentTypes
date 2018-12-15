@@ -16,7 +16,7 @@ We will see later that passing a configuration other than unit, (), requires a s
 Note that the ````module TrimNonEmptyStringDef```` helps format the code for readability. Otherwise it serves no functional purpose. 
 *)
 open DependentTypes
-open DependentTypes.DependentTypes
+open DependentTypes.Helpers
 open System
 
 module TrimNonEmptyStringDef =
@@ -138,13 +138,13 @@ let s3 = IntegerType.Create 0
 let s4 = IntegerType.Create 21
 
 // DependentType (NegativeInt -21)
-printfn "%A"s2
+printfn "%A" s2
 
 // DependentType (Zero 0)
-printfn "%A"s3
+printfn "%A" s3
 
 // DependentType (PositiveInt 21)
-printfn "%A"s4
+printfn "%A" s4
 (**
 ### Generic dependent types
 
