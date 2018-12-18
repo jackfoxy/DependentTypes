@@ -21,7 +21,7 @@ let regExStringVerify (regex : Regex) config (value : string) =
         else
             None
 (**
-# Type All The Things #
+# Type All the Things #
 
 In computer science and logic, a [dependent type](https://en.wikipedia.org/wiki/Dependent_type) is a type whose definition depends on a value. 
 A "pair of integers" is a type. A "pair of integers where the second is greater than the first" is a dependent type...
@@ -65,7 +65,7 @@ printfn "%A" <| Percent.TryCreate 0.42
 // Some (DependentType (Some 0.42))
 (**
 By inheriting from the ````Pi```` type any total function may be used to construct dependent types. (Organizing the type and function
-in a module is just a housekeeping convenience.)
+in a module is a housekeeping convenience.)
 
 ````Pi```` is a function that takes an element of a type to an element of another type. That is the essence of Dependent Types.
  
@@ -103,7 +103,7 @@ Notice this function reuse requires a second level of type inheritance.
 If the Pi function results in an option, and you use ````TryCreate```` rather than ````Create```` to instantiate an element the resulting
 option is *lifted* <a href="#note1"><sup>1</sup></a> to the resulting DependentType.
 
-Dependent Typing All The Things
+Dependent Typing All the Things
 -------------------------------
 
 If it is important enough to validate data, why not type the validated data as we did above?
@@ -193,7 +193,7 @@ let runLiftedPctDependentType() =
         Percent.TryCreate 2.5
     |] 
 (**
-- Create a percent DependentType option compared to creating a simple float option using the same validation logic. 
+- Compare creating a percent DependentType option to creating a simple float option using the same validation logic. 
 - Each benchmark instance creates 1 Some option and 1 None option in both cases. 
 - Benchmark 1,000,000 instances, hence 2M option instances. 
 
@@ -211,7 +211,7 @@ And it scales nearly linearly, as we see when executing the benchmark 10X instea
 f1 (0.0006 00B1 0.0000 ms) is ~94% faster than f2 (0.0091 00B1 0.0002 ms).
 ````
 
-Considering our DependentType optin benchmark creates 2M option instances in less than 700 ms, and creates 20 in 9 micro-seconds, this is probably acceptable performance for all but the most
+Considering our DependentType option benchmark creates 2M option instances in less than 700 ms, and creates 20 in 9 micro-seconds, this is probably acceptable performance for all but the most
 demanding network applications.
 
 The validation logic adds little overhead. Even comparing creating DependentType to "naked" options (not run through the validation logic) makes little difference in the performance ratio.
@@ -221,7 +221,7 @@ Naked option is faster than TryCreate DependentType option.
 f1 (18.3340 00B1 0.1073 ms) is ~97% faster than f2 (601.7315 00B1 4.2582 ms).
 ````
 
-Can we squeeze even more performance from DependentType option creation? Let's use ````Create```` instead of ````TryCreate```` so we eliminate the overhead of "lifting" the ````'T2```` base type element option result
+Can we squeeze even more performance from DependentType option creation? Let's use ````Create```` instead of ````TryCreate```` so we eliminate the overhead of "lifting" the ````'T2```` option result
 to the DependentType element.
 
 ````
@@ -231,12 +231,12 @@ f1 (17.0064 00B1 0.3517 ms) is ~93% faster than f2 (256.9292 00B1 2.3419 ms).
 
 Validate option is now only 15X faster, so the "lift" overhead of DependentType is noticeable at large scales (2M creations).
 
-We expect from these results Create DepeendentType option is twice as fast as TryCreate, because it does not lift the option from the value to the DependentType.
+We expect from these results Create DependentType option is twice as fast as TryCreate, because it does not lift the option from the value to the DependentType.
 And we see if we do a Create to TryCreate direct comparison, that is roughly true.
 
 ````
 Create DependentType is faster than TryCreate DependentType. 
-f1 (258.6811 00B1 1.3004 ms) is ~56% faster than f2 (592.7512 ± 2.1457 ms).
+f1 (258.6811 00B1 1.3004 ms) is ~56% faster than f2 (592.7512 00B1 2.1457 ms).
 ````
 
 #### Consuming (reading) DependentType ####
@@ -309,7 +309,7 @@ let runPctDependentPair() =
         PercentPair.Create 2.5
     |]  
 (**
-Benchmarks comparing a validated pair to DependentPair yields similar performance ratios to option DependentType.
+Benchmarks comparing a validated option pair to DependentPair yields similar performance ratios to option DependentType.
 
 1M runs again creates 2M instances.
 
@@ -328,7 +328,7 @@ Creation of a simple validated tuple is 7X faster than creating a DependentPair,
 But are these Dependent Types?
 ------------------------------
 
-Yes, from the standpoint of Type Theory <a href="#note4"><sup>4</sup></a>, no, if you believe Dependent Types can only exist in laguages implementing
+Yes, from the standpoint of Type Theory <a href="#note4"><sup>4</sup></a>, no, if you believe Dependent Types can only exist in languages implementing
 formal proof architectures.
 
 If F# were a so-called *dependently typed language*, this project would be called *Refinement Types*, because something called 
@@ -354,12 +354,12 @@ The F# type system does not allow for a family of types, but there are types tha
 Inductive proofs can support a powerful type system, but the difficulty in implementing and using such a language is attested to 
 by the fact none of these languages have gone mainstream.
 
-Correctness by construction is sufficient to achieve one simple thing we want from depenedent types, granular type representation. And why name
+Correctness by construction is sufficient to achieve one simple thing we want from dependent types, granular type representation. And why name
 them something else when they so neatly fit in with theory? *Non sunt multiplicanda entia sine necessitate.* <a href="#note6"><sup>6</sup></a>
 
 Notes
 -----
-<p><a name="note1"><sup>1</sup></a> <em>Lift</em> ususually has a different technical meaning within the context of functional programming. In this case
+<p><a name="note1"><sup>1</sup></a> <em>Lift</em> usually has a different technical meaning within the context of functional programming. In this case
 the intuitive notion of <em>lifting</em> the option up a level seems right. <a href="https://stackoverflow.com/questions/2395697/what-is-lifting-in-haskell">What is “lifting” in Haskell?</a></p>
 
 <p><a name="note2"><sup>2</sup></a> Not everyone has the skill and time to implement complex language features, 

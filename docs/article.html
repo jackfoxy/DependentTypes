@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Type All The Things
+    <title>Type All the Things
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="F# DependentTypes"/>
@@ -33,7 +33,7 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1><a name="Type-All-The-Things" class="anchor" href="#Type-All-The-Things">Type All The Things</a></h1>
+<h1><a name="Type-All-the-Things" class="anchor" href="#Type-All-the-Things">Type All the Things</a></h1>
 <p>In computer science and logic, a <a href="https://en.wikipedia.org/wiki/Dependent_type">dependent type</a> is a type whose definition depends on a value.
 A "pair of integers" is a type. A "pair of integers where the second is greater than the first" is a dependent type...</p>
 <p>This is a powerful idea that strongly-typed languages like F# can apply in the service of correctness. In this article I will</p>
@@ -85,7 +85,7 @@ named PercentValidator, and that function has the signature <code>unit -&gt; flo
 </tr>
 </table>
 <p>By inheriting from the <code>Pi</code> type any total function may be used to construct dependent types. (Organizing the type and function
-in a module is just a housekeeping convenience.)</p>
+in a module is a housekeeping convenience.)</p>
 <p><code>Pi</code> is a function that takes an element of a type to an element of another type. That is the essence of Dependent Types.</p>
 <p>But why is <code>unit</code> necessary in the signature? Actually it is not an integral part of what the Pi function needs to be. <code>unit</code> in this case is a placeholder for
 a convenience feature. You can replace it with any type whatsoever to leverage the same function over similar DepenedentTypes.</p>
@@ -146,7 +146,7 @@ a convenience feature. You can replace it with any type whatsoever to leverage t
 <p>Notice this function reuse requires a second level of type inheritance.</p>
 <p>If the Pi function results in an option, and you use <code>TryCreate</code> rather than <code>Create</code> to instantiate an element the resulting
 option is <em>lifted</em> <a href="#note1"><sup>1</sup></a> to the resulting DependentType.</p>
-<h2><a name="Dependent-Typing-All-The-Things" class="anchor" href="#Dependent-Typing-All-The-Things">Dependent Typing All The Things</a></h2>
+<h2><a name="Dependent-Typing-All-the-Things" class="anchor" href="#Dependent-Typing-All-the-Things">Dependent Typing All the Things</a></h2>
 <p>If it is important enough to validate data, why not type the validated data as we did above?</p>
 <p>Option types are the mark of validated data. Some more examples available in the <a href="https://github.com/jackfoxy/DependentTypes/blob/master/src/DomainLib/Domain.fs">DomainLib</a>
 include</p>
@@ -264,7 +264,7 @@ They are just as easy to create, relying on a <code>Sigma</code> type in place o
 </tr>
 </table>
 <ul>
-<li>Create a percent DependentType option compared to creating a simple float option using the same validation logic.</li>
+<li>Compare creating a percent DependentType option to creating a simple float option using the same validation logic.</li>
 <li>Each benchmark instance creates 1 Some option and 1 None option in both cases.</li>
 <li>Benchmark 1,000,000 instances, hence 2M option instances.</li>
 </ul>
@@ -286,7 +286,7 @@ They are just as easy to create, relying on a <code>Sigma</code> type in place o
 </code></pre></td>
 </tr>
 </table>
-<p>Considering our DependentType optin benchmark creates 2M option instances in less than 700 ms, and creates 20 in 9 micro-seconds, this is probably acceptable performance for all but the most
+<p>Considering our DependentType option benchmark creates 2M option instances in less than 700 ms, and creates 20 in 9 micro-seconds, this is probably acceptable performance for all but the most
 demanding network applications.</p>
 <p>The validation logic adds little overhead. Even comparing creating DependentType to "naked" options (not run through the validation logic) makes little difference in the performance ratio.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
@@ -297,7 +297,7 @@ demanding network applications.</p>
 </code></pre></td>
 </tr>
 </table>
-<p>Can we squeeze even more performance from DependentType option creation? Let's use <code>Create</code> instead of <code>TryCreate</code> so we eliminate the overhead of "lifting" the <code>'T2</code> base type element option result
+<p>Can we squeeze even more performance from DependentType option creation? Let's use <code>Create</code> instead of <code>TryCreate</code> so we eliminate the overhead of "lifting" the <code>'T2</code> option result
 to the DependentType element.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -308,13 +308,13 @@ to the DependentType element.</p>
 </tr>
 </table>
 <p>Validate option is now only 15X faster, so the "lift" overhead of DependentType is noticeable at large scales (2M creations).</p>
-<p>We expect from these results Create DepeendentType option is twice as fast as TryCreate, because it does not lift the option from the value to the DependentType.
+<p>We expect from these results Create DependentType option is twice as fast as TryCreate, because it does not lift the option from the value to the DependentType.
 And we see if we do a Create to TryCreate direct comparison, that is roughly true.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">Create</span> <span class="id">DependentType</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">258.6811</span> <span class="n">&#177;</span> <span class="n">1.3004</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">56</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">592.7512</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">258.6811</span> <span class="n">&#177;</span> <span class="n">1.3004</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">56</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">592.7512</span> <span class="n">&#177;</span> <span class="n">2.1457</span> <span class="id">ms</span><span class="pn">)</span><span class="pn">.</span>
 </code></pre></td>
 </tr>
 </table>
@@ -428,7 +428,7 @@ And we see if we do a Create to TryCreate direct comparison, that is roughly tru
 </code></pre></td>
 </tr>
 </table>
-<p>Benchmarks comparing a validated pair to DependentPair yields similar performance ratios to option DependentType.</p>
+<p>Benchmarks comparing a validated option pair to DependentPair yields similar performance ratios to option DependentType.</p>
 <p>1M runs again creates 2M instances.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -448,7 +448,7 @@ And we see if we do a Create to TryCreate direct comparison, that is roughly tru
 </table>
 <p>Creation of a simple validated tuple is 7X faster than creating a DependentPair, but read/consume performance is so similar we sometimes see the benchmark test failing because DependentPair performs faster.</p>
 <h2><a name="But-are-these-Dependent-Types" class="anchor" href="#But-are-these-Dependent-Types">But are these Dependent Types?</a></h2>
-<p>Yes, from the standpoint of Type Theory <a href="#note4"><sup>4</sup></a>, no, if you believe Dependent Types can only exist in laguages implementing
+<p>Yes, from the standpoint of Type Theory <a href="#note4"><sup>4</sup></a>, no, if you believe Dependent Types can only exist in languages implementing
 formal proof architectures.</p>
 <p>If F# were a so-called <em>dependently typed language</em>, this project would be called <em>Refinement Types</em>, because something called
 <em>dependent types</em> would already exist in the language,
@@ -467,10 +467,10 @@ element value) depend on the input element value.</p>
 </ul>
 <p>Inductive proofs can support a powerful type system, but the difficulty in implementing and using such a language is attested to
 by the fact none of these languages have gone mainstream.</p>
-<p>Correctness by construction is sufficient to achieve one simple thing we want from depenedent types, granular type representation. And why name
+<p>Correctness by construction is sufficient to achieve one simple thing we want from dependent types, granular type representation. And why name
 them something else when they so neatly fit in with theory? <em>Non sunt multiplicanda entia sine necessitate.</em> <a href="#note6"><sup>6</sup></a></p>
 <h2><a name="Notes" class="anchor" href="#Notes">Notes</a></h2>
-<p><a name="note1"><sup>1</sup></a> <em>Lift</em> ususually has a different technical meaning within the context of functional programming. In this case
+<p><a name="note1"><sup>1</sup></a> <em>Lift</em> usually has a different technical meaning within the context of functional programming. In this case
 the intuitive notion of <em>lifting</em> the option up a level seems right. <a href="https://stackoverflow.com/questions/2395697/what-is-lifting-in-haskell">What is “lifting” in Haskell?</a></p>
 <p><a name="note2"><sup>2</sup></a> Not everyone has the skill and time to implement complex language features, 
 but everyone can register their opinion as to which features are important to them.</p>
