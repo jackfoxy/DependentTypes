@@ -1,4 +1,4 @@
-(*** hide ***)
+﻿(*** hide ***)
 #I "../../bin/DependentTypes/net45"
 #r "DependentTypes.dll"
 open DependentTypes.Helpers
@@ -21,7 +21,7 @@ let regExStringVerify (regex : Regex) config (value : string) =
         else
             None
 (**
-# Dependent Types for those who know how to use them #
+# Type All The Things #
 
 In computer science and logic, a [dependent type](https://en.wikipedia.org/wiki/Dependent_type) is a type whose definition depends on a value. 
 A "pair of integers" is a type. A "pair of integers where the second is greater than the first" is a dependent type...
@@ -103,7 +103,7 @@ Notice this function reuse requires a second level of type inheritance.
 If the Pi function results in an option, and you use ````TryCreate```` rather than ````Create```` to instantiate an element the resulting
 option is *lifted* <a href="#note1"><sup>1</sup></a> to the resulting DependentType.
 
-Dependent Typing all the Things
+Dependent Typing All The Things
 -------------------------------
 
 If it is important enough to validate data, why not type the validated data as we did above?
@@ -174,7 +174,7 @@ And my apologies to anyone who has suffered through a breaking change in the pro
 Benchmarking <a href="#note3"><sup>3</sup></a>
 ------------
 
-You may be thinking "Fine. But what about performance?"
+*Fine. But what about performance?*
 
 Let's benchmark... 
 
@@ -211,7 +211,7 @@ And it scales nearly linearly, as we see when executing the benchmark 10X instea
 f1 (0.0006 00B1 0.0000 ms) is ~94% faster than f2 (0.0091 00B1 0.0002 ms).
 ````
 
-Considering in our first benchmark DependentType created 2M option instances in less than 700 ms, and creates 20 in 9 micro-seconds, this is probably acceptable performance for all but the most
+Considering our DependentType optin benchmark creates 2M option instances in less than 700 ms, and creates 20 in 9 micro-seconds, this is probably acceptable performance for all but the most
 demanding network applications.
 
 The validation logic adds little overhead. Even comparing creating DependentType to "naked" options (not run through the validation logic) makes little difference in the performance ratio.
@@ -221,7 +221,7 @@ Naked option is faster than TryCreate DependentType option.
 f1 (18.3340 00B1 0.1073 ms) is ~97% faster than f2 (601.7315 00B1 4.2582 ms).
 ````
 
-Can we squeeze even more performance from DependentType creation? Let's use ````Create```` instead of ````TryCreate```` so we eliminate the overhead of "lifting" the ````'T2```` base type element option result
+Can we squeeze even more performance from DependentType option creation? Let's use ````Create```` instead of ````TryCreate```` so we eliminate the overhead of "lifting" the ````'T2```` base type element option result
 to the DependentType element.
 
 ````
@@ -236,10 +236,10 @@ And we see if we do a Create to TryCreate direct comparison, that is roughly tru
 
 ````
 Create DependentType is faster than TryCreate DependentType. 
-f1 (258.6811 � 1.3004 ms) is ~56% faster than f2 (592.7512 � 2.1457 ms).
+f1 (258.6811 00B1 1.3004 ms) is ~56% faster than f2 (592.7512 ± 2.1457 ms).
 ````
 
-#### Consuming (reading) DependentType. ####
+#### Consuming (reading) DependentType ####
 *)
 let readDependentType (xs : Percent option []) =
     xs
@@ -328,26 +328,57 @@ Creation of a simple validated tuple is 7X faster than creating a DependentPair,
 But are these Dependent Types?
 ------------------------------
 
-If F# were a so-called *dependently typed language*, this project would probably be called *refinement types*, because something called *dependent types* would already exist, 
-and rather than being defined by a PI type function, dependent types would depend on inductive proofs. 
-But F# is not now and never will be an *inductively proven* language. (Try F* for that.) <a href="#note4"><sup>4</sup></a>
+Yes, from the standpoint of Type Theory <a href="#note4"><sup>4</sup></a>, no, if you believe Dependent Types can only exist in laguages implementing
+formal proof architectures.
 
+If F# were a so-called *dependently typed language*, this project would be called *Refinement Types*, because something called 
+*dependent types* would already exist in the language, 
+and rather than being defined by a Pi type function, dependent types would depend on inductive proofs. 
+But F# is not now and never will be an *inductively proven* language. [Try F* for that.](https://www.fstar-lang.org/) <a href="#note5"><sup>5</sup></a>
 
+This is the maths notation for dependent types in type theory.
+
+ ∏<sub>(x:A)</sub> <sup>B(x)</sup> 
+
+It tells us that ∏ (Pi) is a function that takes an element of Type A and sends it to a family of Types, B. In other words, the resulting type (and its
+element value) depend on the input element value.
+
+You see, Type Theory defines dependent types without regard to any proof. A dependent type is what it is by construction.
+
+The F# type system does not allow for a family of types, but there are types that we can use to mimic a family of types.
+
+- Any F# or .NET type, a family of one type.
+- An F# option type, mimicking a family of two types.
+- An F# discriminated union type, mimicking a family of arbitrarily many types.
+
+Inductive proofs can support a powerful type system, but the difficulty in implementing and using such a language is attested to 
+by the fact none of these languages have gone mainstream.
+
+Correctness by construction is sufficient to achieve one simple thing we want from depenedent types, granular type representation. And why name
+them something else when they so neatly fit in with theory? *Non sunt multiplicanda entia sine necessitate.* <a href="#note6"><sup>6</sup></a>
 
 Notes
 -----
-<a name="note1"><sup>1</sup></a> *Lift* ususually has a different technical meaning within the context of functional programming. I am re-using this term because in this case
-the intuitive notion of *lifting* the option up a level seems right.
+<p><a name="note1"><sup>1</sup></a> <em>Lift</em> ususually has a different technical meaning within the context of functional programming. In this case
+the intuitive notion of <em>lifting</em> the option up a level seems right. <a href="https://stackoverflow.com/questions/2395697/what-is-lifting-in-haskell">What is “lifting” in Haskell?</a></p>
 
-<a name="note2"><sup>2</sup></a> Not everyone has the skill and time to implement complex language features, but everyone can register their opinion as to which features are important to them.
+<p><a name="note2"><sup>2</sup></a> Not everyone has the skill and time to implement complex language features, 
+but everyone can register their opinion as to which features are important to them.</p>
 
-<a name="note3"><sup>3</sup></a> The usual caveats about benchmarking apply. You should benchmark
+<p><a name="note3"><sup>3</sup></a> The usual caveats about benchmarking apply. You should benchmark
 your own situation on your own system, etc. There is variance in running the benchmarks multiple times. The variance I saw was typically
 in absolute run time for each scenario, and not so much in the DependentType / control run time ratios. By and large these results are representative of typical benchmark runs on my system, 
-FSharp.Core 4.5.3, net45 DependentTypes.dll
+FSharp.Core 4.5.3, net45 DependentTypes.dll</p>
 
-<a name="note4"><sup>4</sup></a> It is worth noting the definitive work on the preeminent *dependently typed* language, Software Foundations (Vols. I & II), 
-barely mentions dependent types. Tracing the evolution of how languages supporting formal methods came to be called *dependently typed* would be an interesting
-article in its own right.
+<p><a name="note4"><sup>4</sup></a> There are several different type theories. Most references in regard to programming and type systems
+mean some version of the lineage that began in the early 1970's with the work of <a href="https://en.wikipedia.org/wiki/Intuitionistic_type_theory">Per Martin-Löf</a>.
+For our purposes we refer to the Type Theory outlined in chapter 1 and appendix A of <a href="https://homotopytypetheory.org/">Homotopy Type Theory</a>, Voevodsky, et al.
+
+<p><a name="note5"><sup>5</sup></a> It is worth noting the definitive work on the preeminent <em>dependently typed</em> language, 
+<a href="https://softwarefoundations.cis.upenn.edu/current/index.html">Software Foundations</a> (Vols. I & II), 
+barely mentions dependent types. Tracing the evolution of how proof assistant languages came to be called <em>dependently typed</em> would be an interesting
+article in its own right.</p>
+
+<p><a name="note6"><sup>6</sup></a> "Entities are not to be multiplied without necessity." 
 
 *)

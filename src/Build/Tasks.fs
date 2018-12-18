@@ -323,7 +323,7 @@ let createAndGetDefault () =
         Git.Branches.pushTag "" "origin" releaseNotes.NugetVersion
     }
 
-    BuildTask.createEmpty "All" [runTests; runBenchmarks; generateDocs]
+    BuildTask.createEmpty "All" [runTests; runBenchmarks; generateDocs; nuGet]
 
 
 let listAvailable() = BuildTask.listAvailable()

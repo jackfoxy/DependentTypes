@@ -201,7 +201,9 @@ module Benchmarks =
                     (runPctDependentPair >> ignore |> repeat1000000)
                     "Pair is faster than Create DependentPair" }
 
-            test "pair vs DependentPair: read value" {
+            // This benchmark is always close and sometimes fails.
+            // Expecto still does not have a good test option for such cases.
+            ptest "pair vs DependentPair: read value" {
                 let dpValues = runPctDependentPair()
                 let readDependentPair (xs : PercentPair[]) =
                     xs

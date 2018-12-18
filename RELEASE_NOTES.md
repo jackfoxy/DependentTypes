@@ -1,4 +1,4 @@
-#### 0.2.0 - unreleased, 2018
+#### 0.2.0 - December 17, 2018
 * more efficient option type lift
 * breaking changes:
 * module DependentTypes.DependentTypes renamed DependentTypes.Helpers

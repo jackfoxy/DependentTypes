@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Dependent Types for those who know how to use them
+    <title>Type All The Things
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="F# DependentTypes"/>
@@ -33,7 +33,7 @@
       <div class="row">
         <div class="span9" id="main">
           
-<h1><a name="Dependent-Types-for-those-who-know-how-to-use-them" class="anchor" href="#Dependent-Types-for-those-who-know-how-to-use-them">Dependent Types for those who know how to use them</a></h1>
+<h1><a name="Type-All-The-Things" class="anchor" href="#Type-All-The-Things">Type All The Things</a></h1>
 <p>In computer science and logic, a <a href="https://en.wikipedia.org/wiki/Dependent_type">dependent type</a> is a type whose definition depends on a value.
 A "pair of integers" is a type. A "pair of integers where the second is greater than the first" is a dependent type...</p>
 <p>This is a powerful idea that strongly-typed languages like F# can apply in the service of correctness. In this article I will</p>
@@ -146,7 +146,7 @@ a convenience feature. You can replace it with any type whatsoever to leverage t
 <p>Notice this function reuse requires a second level of type inheritance.</p>
 <p>If the Pi function results in an option, and you use <code>TryCreate</code> rather than <code>Create</code> to instantiate an element the resulting
 option is <em>lifted</em> <a href="#note1"><sup>1</sup></a> to the resulting DependentType.</p>
-<h2><a name="Dependent-Typing-all-the-Things" class="anchor" href="#Dependent-Typing-all-the-Things">Dependent Typing all the Things</a></h2>
+<h2><a name="Dependent-Typing-All-The-Things" class="anchor" href="#Dependent-Typing-All-The-Things">Dependent Typing All The Things</a></h2>
 <p>If it is important enough to validate data, why not type the validated data as we did above?</p>
 <p>Option types are the mark of validated data. Some more examples available in the <a href="https://github.com/jackfoxy/DependentTypes/blob/master/src/DomainLib/Domain.fs">DomainLib</a>
 include</p>
@@ -234,7 +234,7 @@ They are just as easy to create, relying on a <code>Sigma</code> type in place o
 <p>DependentTypes is still a work in progress. Please submit <a href="https://github.com/jackfoxy/DependentTypes/issues">suggestions and feedback</a>.</p>
 <p>And my apologies to anyone who has suffered through a breaking change in the project. Hopefully we are at an end of those.</p>
 <h2><a name="Benchmarking-a-href-note3-sup-3-sup-a" class="anchor" href="#Benchmarking-a-href-note3-sup-3-sup-a">Benchmarking <a href="#note3"><sup>3</sup></a></a></h2>
-<p>You may be thinking "Fine. But what about performance?"</p>
+<p><em>Fine. But what about performance?</em></p>
 <p>Let's benchmark...</p>
 <h3><a name="DependentType-option" class="anchor" href="#DependentType-option">DependentType option</a></h3>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
@@ -286,7 +286,7 @@ They are just as easy to create, relying on a <code>Sigma</code> type in place o
 </code></pre></td>
 </tr>
 </table>
-<p>Considering in our first benchmark DependentType created 2M option instances in less than 700 ms, and creates 20 in 9 micro-seconds, this is probably acceptable performance for all but the most
+<p>Considering our DependentType optin benchmark creates 2M option instances in less than 700 ms, and creates 20 in 9 micro-seconds, this is probably acceptable performance for all but the most
 demanding network applications.</p>
 <p>The validation logic adds little overhead. Even comparing creating DependentType to "naked" options (not run through the validation logic) makes little difference in the performance ratio.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
@@ -297,7 +297,7 @@ demanding network applications.</p>
 </code></pre></td>
 </tr>
 </table>
-<p>Can we squeeze even more performance from DependentType creation? Let's use <code>Create</code> instead of <code>TryCreate</code> so we eliminate the overhead of "lifting" the <code>'T2</code> base type element option result
+<p>Can we squeeze even more performance from DependentType option creation? Let's use <code>Create</code> instead of <code>TryCreate</code> so we eliminate the overhead of "lifting" the <code>'T2</code> base type element option result
 to the DependentType element.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -314,11 +314,11 @@ And we see if we do a Create to TryCreate direct comparison, that is roughly tru
 <span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">Create</span> <span class="id">DependentType</span> <span class="id">is</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">TryCreate</span> <span class="id">DependentType</span><span class="pn">.</span> 
-<span class="id">f1</span> <span class="pn">(</span><span class="n">258.6811</span> 
+<span class="id">f1</span> <span class="pn">(</span><span class="n">258.6811</span> <span class="n">&#177;</span> <span class="n">1.3004</span> <span class="id">ms</span><span class="pn">)</span> <span class="id">is</span> <span class="k">~</span><span class="n">56</span><span class="o">%</span> <span class="id">faster</span> <span class="id">than</span> <span class="id">f2</span> <span class="pn">(</span><span class="n">592.7512</span> 
 </code></pre></td>
 </tr>
 </table>
-<h4><a name="Consuming-reading-DependentType" class="anchor" href="#Consuming-reading-DependentType">Consuming (reading) DependentType.</a></h4>
+<h4><a name="Consuming-reading-DependentType" class="anchor" href="#Consuming-reading-DependentType">Consuming (reading) DependentType</a></h4>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -448,20 +448,44 @@ And we see if we do a Create to TryCreate direct comparison, that is roughly tru
 </table>
 <p>Creation of a simple validated tuple is 7X faster than creating a DependentPair, but read/consume performance is so similar we sometimes see the benchmark test failing because DependentPair performs faster.</p>
 <h2><a name="But-are-these-Dependent-Types" class="anchor" href="#But-are-these-Dependent-Types">But are these Dependent Types?</a></h2>
-<p>If F# were a so-called <em>dependently typed language</em>, this project would probably be called <em>refinement types</em>, because something called <em>dependent types</em> would already exist,
-and rather than being defined by a PI type function, dependent types would depend on inductive proofs.
-But F# is not now and never will be an <em>inductively proven</em> language. (Try F* for that.) <a href="#note4"><sup>4</sup></a></p>
+<p>Yes, from the standpoint of Type Theory <a href="#note4"><sup>4</sup></a>, no, if you believe Dependent Types can only exist in laguages implementing
+formal proof architectures.</p>
+<p>If F# were a so-called <em>dependently typed language</em>, this project would be called <em>Refinement Types</em>, because something called
+<em>dependent types</em> would already exist in the language,
+and rather than being defined by a Pi type function, dependent types would depend on inductive proofs.
+But F# is not now and never will be an <em>inductively proven</em> language. <a href="https://www.fstar-lang.org/">Try F* for that.</a> <a href="#note5"><sup>5</sup></a></p>
+<p>This is the maths notation for dependent types in type theory.</p>
+<p>∏<sub>(x:A)</sub> <sup>B(x)</sup></p>
+<p>It tells us that ∏ (Pi) is a function that takes an element of Type A and sends it to a family of Types, B. In other words, the resulting type (and its
+element value) depend on the input element value.</p>
+<p>You see, Type Theory defines dependent types without regard to any proof. A dependent type is what it is by construction.</p>
+<p>The F# type system does not allow for a family of types, but there are types that we can use to mimic a family of types.</p>
+<ul>
+<li>Any F# or .NET type, a family of one type.</li>
+<li>An F# option type, mimicking a family of two types.</li>
+<li>An F# discriminated union type, mimicking a family of arbitrarily many types.</li>
+</ul>
+<p>Inductive proofs can support a powerful type system, but the difficulty in implementing and using such a language is attested to
+by the fact none of these languages have gone mainstream.</p>
+<p>Correctness by construction is sufficient to achieve one simple thing we want from depenedent types, granular type representation. And why name
+them something else when they so neatly fit in with theory? <em>Non sunt multiplicanda entia sine necessitate.</em> <a href="#note6"><sup>6</sup></a></p>
 <h2><a name="Notes" class="anchor" href="#Notes">Notes</a></h2>
-<a name="note1"><sup>1</sup></a> *Lift* ususually has a different technical meaning within the context of functional programming. I am re-using this term because in this case
-the intuitive notion of *lifting* the option up a level seems right.
-<a name="note2"><sup>2</sup></a> Not everyone has the skill and time to implement complex language features, but everyone can register their opinion as to which features are important to them.
-<a name="note3"><sup>3</sup></a> The usual caveats about benchmarking apply. You should benchmark
+<p><a name="note1"><sup>1</sup></a> <em>Lift</em> ususually has a different technical meaning within the context of functional programming. In this case
+the intuitive notion of <em>lifting</em> the option up a level seems right. <a href="https://stackoverflow.com/questions/2395697/what-is-lifting-in-haskell">What is “lifting” in Haskell?</a></p>
+<p><a name="note2"><sup>2</sup></a> Not everyone has the skill and time to implement complex language features, 
+but everyone can register their opinion as to which features are important to them.</p>
+<p><a name="note3"><sup>3</sup></a> The usual caveats about benchmarking apply. You should benchmark
 your own situation on your own system, etc. There is variance in running the benchmarks multiple times. The variance I saw was typically
 in absolute run time for each scenario, and not so much in the DependentType / control run time ratios. By and large these results are representative of typical benchmark runs on my system, 
-FSharp.Core 4.5.3, net45 DependentTypes.dll
-<a name="note4"><sup>4</sup></a> It is worth noting the definitive work on the preeminent *dependently typed* language, Software Foundations (Vols. I & II), 
-barely mentions dependent types. Tracing the evolution of how languages supporting formal methods came to be called *dependently typed* would be an interesting
-article in its own right.
+FSharp.Core 4.5.3, net45 DependentTypes.dll</p>
+<p><a name="note4"><sup>4</sup></a> There are several different type theories. Most references in regard to programming and type systems
+mean some version of the lineage that began in the early 1970's with the work of <a href="https://en.wikipedia.org/wiki/Intuitionistic_type_theory">Per Martin-Löf</a>.
+For our purposes we refer to the Type Theory outlined in chapter 1 and appendix A of <a href="https://homotopytypetheory.org/">Homotopy Type Theory</a>, Voevodsky, et al.
+<p><a name="note5"><sup>5</sup></a> It is worth noting the definitive work on the preeminent <em>dependently typed</em> language, 
+<a href="https://softwarefoundations.cis.upenn.edu/current/index.html">Software Foundations</a> (Vols. I & II), 
+barely mentions dependent types. Tracing the evolution of how proof assistant languages came to be called <em>dependently typed</em> would be an interesting
+article in its own right.</p>
+<p><a name="note6"><sup>6</sup></a> "Entities are not to be multiplied without necessity." 
 
 <div class="tip" id="fs1">namespace DependentTypes</div>
 <div class="tip" id="fs2">module Helpers<br /><br />from DependentTypes</div>
