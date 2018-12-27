@@ -34,6 +34,7 @@
         <div class="span9" id="main">
           
 <h1><a name="Type-All-the-Things" class="anchor" href="#Type-All-the-Things">Type All the Things</a></h1>
+<p><em>This article is posted as part of <a href="https://sergeytihon.com/2018/10/22/f-advent-calendar-in-english-2018/">F# Advent 2018</a>.</em></p>
 <p>In computer science and logic, a <a href="https://en.wikipedia.org/wiki/Dependent_type">dependent type</a> is a type whose definition depends on a value.
 A "pair of integers" is a type. A "pair of integers where the second is greater than the first" is a dependent type...</p>
 <p>This is a powerful idea that strongly-typed languages like F# can apply in the service of correctness. In this article I will</p>
@@ -515,7 +516,7 @@ article in its own right.</p>
 <div class="tip" id="fs26">type &#39;T option = Option&lt;&#39;T&gt;</div>
 <div class="tip" id="fs27">type Percent = DependentType&lt;PercentType.PercentValidator,unit,float,float option&gt;</div>
 <div class="tip" id="fs28">Multiple items<br />union case DependentType.DependentType: &#39;T2 -&gt; DependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt;<br /><br />--------------------<br />type DependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2 (requires &#39;Pi :&gt; Pi&lt;&#39;Config,&#39;T,&#39;T2&gt; and default constructor)&gt; =<br />&#160;&#160;| DependentType of &#39;T2<br />&#160;&#160;&#160;&#160;override ToString : unit -&gt; string<br />&#160;&#160;&#160;&#160;member Value : &#39;T2<br />&#160;&#160;&#160;&#160;static member ConvertTo : x:DependentType&lt;&#39;x,&#39;y,&#39;q,&#39;r&gt; -&gt; DependentType&lt;&#39;a,&#39;b,&#39;r,&#39;s&gt; (requires &#39;x :&gt; Pi&lt;&#39;y,&#39;q,&#39;r&gt; and default constructor and &#39;a :&gt; Pi&lt;&#39;b,&#39;r,&#39;s&gt; and default constructor)<br />&#160;&#160;&#160;&#160;static member Create : x:&#39;T -&gt; DependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt;<br />&#160;&#160;&#160;&#160;static member Extract : x:DependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt; -&gt; &#39;T2<br />&#160;&#160;&#160;&#160;static member TryCreate : x:Option&lt;&#39;T&gt; -&gt; Option&lt;DependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />&#160;&#160;&#160;&#160;static member TryCreate : x:&#39;T -&gt; Option&lt;DependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt;&gt;</div>
-<div class="tip" id="fs29">module PercentType<br /><br />from Article</div>
+<div class="tip" id="fs29">module PercentType<br /><br />from Typeallthethings</div>
 <div class="tip" id="fs30">Multiple items<br />type PercentValidator =<br />&#160;&#160;inherit Pi&lt;unit,float,float option&gt;<br />&#160;&#160;new : unit -&gt; PercentValidator<br /><br />--------------------<br />new : unit -&gt; PercentType.PercentValidator</div>
 <div class="tip" id="fs31">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T</div>
 <div class="tip" id="fs32">static member DependentType.TryCreate : x:Option&lt;&#39;T&gt; -&gt; Option&lt;DependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />static member DependentType.TryCreate : x:&#39;T -&gt; Option&lt;DependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt;&gt;</div>
@@ -527,7 +528,7 @@ article in its own right.</p>
 <div class="tip" id="fs38">Multiple items<br />type ValidDigits3 =<br />&#160;&#160;inherit DigitsValidator<br />&#160;&#160;new : unit -&gt; ValidDigits3<br /><br />--------------------<br />new : unit -&gt; ValidDigits3</div>
 <div class="tip" id="fs39">Multiple items<br />type ValidDigits4 =<br />&#160;&#160;inherit DigitsValidator<br />&#160;&#160;new : unit -&gt; ValidDigits4<br /><br />--------------------<br />new : unit -&gt; ValidDigits4</div>
 <div class="tip" id="fs40">type Digits = DependentType&lt;DigitsDef.ValidDigits,int,string,string option&gt;</div>
-<div class="tip" id="fs41">module DigitsDef<br /><br />from Article</div>
+<div class="tip" id="fs41">module DigitsDef<br /><br />from Typeallthethings</div>
 <div class="tip" id="fs42">Multiple items<br />type ValidDigits =<br />&#160;&#160;inherit DigitsValidator<br />&#160;&#160;new : unit -&gt; ValidDigits<br /><br />--------------------<br />new : unit -&gt; DigitsDef.ValidDigits</div>
 <div class="tip" id="fs43">type Digits2 = DependentType&lt;DigitsDef.ValidDigits2,int,string,string option&gt;</div>
 <div class="tip" id="fs44">Multiple items<br />type ValidDigits2 =<br />&#160;&#160;inherit DigitsValidator<br />&#160;&#160;new : unit -&gt; ValidDigits2<br /><br />--------------------<br />new : unit -&gt; DigitsDef.ValidDigits2</div>
@@ -546,7 +547,7 @@ article in its own right.</p>
 <div class="tip" id="fs57">val v : int</div>
 <div class="tip" id="fs58">Multiple items<br />type IntSumTypeDiscriminator =<br />&#160;&#160;inherit Pi&lt;unit,int,IntegerOfSign&gt;<br />&#160;&#160;new : unit -&gt; IntSumTypeDiscriminator<br /><br />--------------------<br />new : unit -&gt; IntSumTypeDiscriminator</div>
 <div class="tip" id="fs59">type IntegerType = DependentType&lt;SumType.IntSumTypeDiscriminator,unit,int,IntegerOfSign&gt;</div>
-<div class="tip" id="fs60">module SumType<br /><br />from Article</div>
+<div class="tip" id="fs60">module SumType<br /><br />from Typeallthethings</div>
 <div class="tip" id="fs61">Multiple items<br />type IntSumTypeDiscriminator =<br />&#160;&#160;inherit Pi&lt;unit,int,IntegerOfSign&gt;<br />&#160;&#160;new : unit -&gt; IntSumTypeDiscriminator<br /><br />--------------------<br />new : unit -&gt; SumType.IntSumTypeDiscriminator</div>
 <div class="tip" id="fs62">val runPctOption : unit -&gt; float option []</div>
 <div class="tip" id="fs63">val runLiftedPctDependentType : unit -&gt; Option&lt;DependentType&lt;PercentType.PercentValidator,unit,float,float option&gt;&gt; []</div>
@@ -565,7 +566,7 @@ article in its own right.</p>
 <div class="tip" id="fs76">Multiple items<br />type Sigma&lt;&#39;Config,&#39;T,&#39;T2&gt; =<br />&#160;&#160;new : config:&#39;Config * pi:(&#39;Config -&gt; &#39;T -&gt; &#39;T2) -&gt; Sigma&lt;&#39;Config,&#39;T,&#39;T2&gt;<br />&#160;&#160;member Create : x:&#39;T -&gt; &#39;T * &#39;T2<br /><br />--------------------<br />new : config:&#39;Config * pi:(&#39;Config -&gt; &#39;T -&gt; &#39;T2) -&gt; Sigma&lt;&#39;Config,&#39;T,&#39;T2&gt;</div>
 <div class="tip" id="fs77">type PercentPair = DependentPair&lt;PercentType2.PairPercentValidator,unit,float,float option&gt;</div>
 <div class="tip" id="fs78">Multiple items<br />union case DependentPair.DependentPair: &#39;T * &#39;T2 -&gt; DependentPair&lt;&#39;Sigma,&#39;Config,&#39;T,&#39;T2&gt;<br /><br />--------------------<br />type DependentPair&lt;&#39;Sigma,&#39;Config,&#39;T,&#39;T2 (requires &#39;Sigma :&gt; Sigma&lt;&#39;Config,&#39;T,&#39;T2&gt; and default constructor)&gt; =<br />&#160;&#160;| DependentPair of &#39;T * &#39;T2<br />&#160;&#160;&#160;&#160;member Value : &#39;T * &#39;T2<br />&#160;&#160;&#160;&#160;static member Create : x:&#39;T -&gt; DependentPair&lt;&#39;Sigma,&#39;Config,&#39;T,&#39;T2&gt;</div>
-<div class="tip" id="fs79">module PercentType2<br /><br />from Article</div>
+<div class="tip" id="fs79">module PercentType2<br /><br />from Typeallthethings</div>
 <div class="tip" id="fs80">Multiple items<br />type PairPercentValidator =<br />&#160;&#160;inherit Sigma&lt;unit,float,float option&gt;<br />&#160;&#160;new : unit -&gt; PairPercentValidator<br /><br />--------------------<br />new : unit -&gt; PercentType2.PairPercentValidator</div>
 <div class="tip" id="fs81">val runPctPair : unit -&gt; (float * float option) []</div>
 <div class="tip" id="fs82">val runPctDependentPair : unit -&gt; DependentPair&lt;PercentType2.PairPercentValidator,unit,float,float option&gt; []</div>
@@ -578,6 +579,7 @@ article in its own right.</p>
               <li class="nav-header">DependentTypes</li>
               <li><a href="/DependentTypes/index.html">Home page</a></li>
               <li><a href="/DependentTypes/benchmarks.html">Benchmarks</a></li>
+              <li><a href="/DependentTypes/typeallthethings.html">Type All the Things</a></li>
               <li class="divider"></li>
               <li><a href="http://nuget.org/packages/DependentTypes">Get Library via NuGet</a></li>
               <li><a href="https://github.com/jackfoxy/DependentTypes">Source Code on GitHub</a></li>

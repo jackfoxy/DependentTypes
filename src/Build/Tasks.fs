@@ -226,7 +226,7 @@ let createAndGetDefault () =
 
         let filePaths = 
             [|
-                System.IO.Path.Combine(dirInfo.FullName, "article.html")
+                System.IO.Path.Combine(dirInfo.FullName, "typeallthethings.html")
                 System.IO.Path.Combine(dirInfo.FullName, "benchmarks.html")
             |]
 
