@@ -98,7 +98,7 @@ printfn "%s" <| Helpers.forceValue myCreatedGoodString
 
 // is there an option value?
 printfn "%b" <| Helpers.isSome myGoodString.Value
-printfn "%s" <| Helpers.forceValue myCreatedGoodString
+printfn "%b" <| Helpers.isSome myCreatedGoodString
 
 // true
 printfn "%b" notTrimNonEmptyString.IsNone
