@@ -216,6 +216,31 @@ module DependentType =
                 reflexivity n5
         ]
 
+    [<Tests>]
+    let optionDependentTypeHelpers =
+        testList "Option DependentTypes Helpers" [
+            testCase "IsSome" <| fun () ->
+                let s100 = String5.Create "100"
+
+                Expect.isTrue (Helpers.isSome s100) "Expected IsSome"
+
+            testCase "not IsSome" <| fun () ->
+                let s100 = String5.Create "100123"
+
+                Expect.isFalse (Helpers.isSome s100) "Expected not IsSome"
+
+            testCase "forceValue" <| fun () ->
+                let s100 = String5.TryCreate "100"
+
+                Expect.equal(Helpers.forceValue s100.Value) "100" "Expected equal"
+
+            testCase "someValue" <| fun () ->
+                let s100 = String5.TryCreate "100"
+
+                Expect.equal(Helpers.someValue s100) "100" "Expected equal"
+        ]
+
+    [<Tests>]
     let singleDependentType =
         testList "Single DependentTypes.Equality and Comparison" [
 
@@ -289,6 +314,7 @@ module DependentType =
                 reflexivity d5
         ]
 
+    [<Tests>]
     let sumDependentType =
         testList "Sum DependentTypes.Equality and Comparison" [
 
@@ -359,6 +385,7 @@ module DependentType =
                 reflexivity s5
         ]
 
+    [<Tests>]
     let convertsToDependentType =
 
         testList "ConvertTo" [
@@ -385,6 +412,7 @@ module DependentType =
                 reflexivity s_42B
         ]
 
+    [<Tests>]
     let dependentPairs =
 
         testList "DependentPairs.Equality and Comparison" [

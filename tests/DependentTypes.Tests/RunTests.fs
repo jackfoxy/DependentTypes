@@ -9,6 +9,7 @@ module RunTests =
 
         [
             Tests.runTestsWithArgs defaultConfig args DependentType.optionDependentType
+            Tests.runTestsWithArgs defaultConfig args DependentType.optionDependentTypeHelpers
             Tests.runTestsWithArgs defaultConfig args DependentType.singleDependentType
             Tests.runTestsWithArgs defaultConfig args DependentType.sumDependentType
             Tests.runTestsWithArgs defaultConfig args DependentType.convertsToDependentType

@@ -96,9 +96,49 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '3', 3)" onmouseover="showTip(event, '3', 3)">
-            mkDependentType(x)
+            forceValue(x)
           </code>
           <div class="tip" id="3">
+            <strong>Signature:</strong> x:^S -&gt; ^T<br />
+                          <strong>Type parameters:</strong> ^S, ^T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L30-30" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Retrieves the 'T2 (base type) element value from a DependentType when 'T2 is option.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '4', 4)" onmouseover="showTip(event, '4', 4)">
+            isSome(x)
+          </code>
+          <div class="tip" id="4">
+            <strong>Signature:</strong> x:^S -&gt; bool<br />
+                          <strong>Type parameters:</strong> ^S, ^T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L34-34" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Queries the 'T2 (base type) element for IsSome from a DependentType when 'T2 is option.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '5', 5)" onmouseover="showTip(event, '5', 5)">
+            mkDependentType(x)
+          </code>
+          <div class="tip" id="5">
             <strong>Signature:</strong> x:^S -&gt; ^T<br />
                           <strong>Type parameters:</strong> ^S, ^T                      </div>
         </td>
@@ -115,10 +155,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '4', 4)" onmouseover="showTip(event, '4', 4)">
+          <code onmouseout="hideTip(event, '6', 6)" onmouseover="showTip(event, '6', 6)">
             someValue(x)
           </code>
-          <div class="tip" id="4">
+          <div class="tip" id="6">
             <strong>Signature:</strong> x:Option&lt;^S&gt; -&gt; ^T<br />
                           <strong>Type parameters:</strong> ^S, ^T                      </div>
         </td>
@@ -127,7 +167,7 @@
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Retrieves the 'T2 (base type) element from a DependentType option.</p>
+          <p>Retrieves the 'T2 (base type) element value from a DependentType option.</p>
 
 
         </td>

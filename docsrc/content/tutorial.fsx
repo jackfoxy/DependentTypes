@@ -60,15 +60,20 @@ let a : PositiveInt100 = mkDependentType 100
 let b = PositiveInt100.TryCreate 100
 
 let c = PositiveInt100.Create 100
+
+printfn "%A" c.Value
 (**
+````DependentType.Value```` returns the base type value.
+
 ### TryCreate method
 
 If the base type is an option type, and it was created with ````TryCreate````, option is lifted to the DependentType itself. If the value is known to be 
-````Some````, the unsafe function ````someValue```` may be used to access the value.
+````Some````, the unsafe function ````Helpers.someValue```` may be used to access the value.
 
-````DependentType.Value```` returns the base type value.
+If you have already returned the ````DependentType option Value````, the Helper methods ````isSome```` and ````forceValue```` will make your code less verbose.
 *)
 let myGoodString = (TrimNonEmptyString.TryCreate "good string   ")
+let myCreatedGoodString = (TrimNonEmptyString.Create "good string   ")
 
 let notTrimNonEmptyString = TrimNonEmptyString.TryCreate "    "
 
@@ -84,8 +89,16 @@ printfn "%s" <|
 // "good string"
 printfn "%s" myGoodString.Value.Value.Value
 
-// "good string" (unsafe)
-printfn "%s" <| someValue myGoodString
+// "good string" (unsafe just like the Value property of an option, but less verbose)
+printfn "%s" <| Helpers.someValue myGoodString
+
+// forceValue (potentially unsafe) less vebose 
+printfn "%s" <| Helpers.forceValue myGoodString.Value
+printfn "%s" <| Helpers.forceValue myCreatedGoodString
+
+// is there an option value?
+printfn "%b" <| Helpers.isSome myGoodString.Value
+printfn "%s" <| Helpers.forceValue myCreatedGoodString
 
 // true
 printfn "%b" notTrimNonEmptyString.IsNone

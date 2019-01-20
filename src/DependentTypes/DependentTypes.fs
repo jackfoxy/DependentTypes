@@ -1,5 +1,5 @@
 ﻿namespace DependentTypes
-
+    
 /// Inline helper functions for dependent types.
 module Helpers =
     /// Create instance of dependent type.
@@ -15,14 +15,25 @@ module Helpers =
         (^T: (static member ConvertTo: ^S -> ^T) x)
 
     /// <summary>
-    /// Retrieves the 'T2 (base type) element from a DependentType option.
+    /// Retrieves the 'T2 (base type) element value from a DependentType option.
     /// </summary>
     /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
     let inline someValue (x : ^S Option) =
         (x |> Option.map (fun x' ->
             (^S: (static member Extract: ^S -> ^T option ) x') )
             |> Option.flatten).Value
-     
+
+    /// <summary>
+    /// Retrieves the 'T2 (base type) element value from a DependentType when 'T2 is option.
+    /// </summary>
+    /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
+    let inline forceValue (x : ^S) =
+        (^S  : (member Value: ^T Option) x).Value
+
+    /// Queries the 'T2 (base type) element for IsSome from a DependentType when 'T2 is option.
+    let inline isSome (x : ^S) =
+        (^S  : (member Value: ^T Option) x).IsSome
+
 open Helpers
 
 [<Class>]

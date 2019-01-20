@@ -1,3 +1,6 @@
+#### 0.3.0 - January 20, 2019
+* Helpers.isSome and Helpers.forceValue for working with DependentType option
+
 #### 0.2.0 - December 17, 2018
 * more efficient option type lift
 * breaking changes:
