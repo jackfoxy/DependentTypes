@@ -14,7 +14,6 @@
     <Compile Include="DomainTypes.fs" />
     <Compile Include="RunTests.fs" />
     <None Include="paket.references" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\DependentTypes\DependentTypes.fsproj"></ProjectReference>
