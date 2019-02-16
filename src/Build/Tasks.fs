@@ -56,6 +56,8 @@ let gitName = "DependentTypes"
 
 let website = "/DependentTypes"
 
+let testFolder = sprintf "tests/%s.Tests" project
+
 // --------------------------------------------------------------------------------------
 // END TODO: The rest of the file includes standard build steps
 // --------------------------------------------------------------------------------------
@@ -74,7 +76,11 @@ let (|Fsproj|Csproj|Vbproj|Shproj|) (projFileName:string) =
 
 let createAndGetDefault () =
     let clean = BuildTask.create "Clean" [] {
-        Shell.cleanDirs ["bin"; "temp"]
+        let projectBin = sprintf "src/%s/bin" project
+        let testBin = sprintf "%s/bin" testFolder
+        let benchmarkTestBin = "tests/Benchmark.Tests/bin"
+
+        Shell.cleanDirs ["bin"; "temp"; projectBin; testBin; benchmarkTestBin]
         }
 
     let cleanDocs = BuildTask.create "CleanDocs" [] {
