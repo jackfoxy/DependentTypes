@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>DependentPair<'Sigma, 'Config, 'T, 'T2> - DependentTypes</title>
+    <title>SomeDependentType<'Pi, 'Config, 'T, 'T2> - DependentTypes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Robert Kuzelj, Jack Fox"/>
@@ -35,14 +35,12 @@
 
 
 
-<h1>DependentPair<'Sigma, 'Config, 'T, 'T2></h1>
+<h1>SomeDependentType<'Pi, 'Config, 'T, 'T2></h1>
 <p>
 
     <span>Namespace: DependentTypes</span><br />
     </p>
 <div class="xmldoc">
-<p>'T -&gt; 'T * 'T2 dependent pair</p>
-
 </div>
   <h3>Union Cases</h3>
   <table class="table table-bordered member-list">
@@ -53,15 +51,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '7', 7)" onmouseover="showTip(event, '7', 7)">
-            DependentPair(&#39;T,&#39;T2)
+          <code onmouseout="hideTip(event, '21', 21)" onmouseover="showTip(event, '21', 21)">
+            SomeDependentType(&#39;T2)
           </code>
-          <div class="tip" id="7">
-            <strong>Signature:</strong> &#39;T * &#39;T2<br />
+          <div class="tip" id="21">
+            <strong>Signature:</strong> &#39;T2<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L135-135" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L103-103" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -79,19 +77,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '8', 8)" onmouseover="showTip(event, '8', 8)">
+          <code onmouseout="hideTip(event, '22', 22)" onmouseover="showTip(event, '22', 22)">
             x.Value
           </code>
-          <div class="tip" id="8">
-            <strong>Signature:</strong> &#39;T * &#39;T2<br />
+          <div class="tip" id="22">
+            <strong>Signature:</strong> &#39;T2<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L138-138" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L106-106" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Pair of 'T1 element and 'T2 (base type) element value.</p>
+          <p>'T2 (base type) element value.</p>
 
 
               <p>CompiledName: <code>get_Value</code></p>
@@ -108,19 +106,38 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '9', 9)" onmouseover="showTip(event, '9', 9)">
-            DependentPair.Create(x)
+          <code onmouseout="hideTip(event, '23', 23)" onmouseover="showTip(event, '23', 23)">
+            SomeDependentType.Extract(x)
           </code>
-          <div class="tip" id="9">
-            <strong>Signature:</strong> x:&#39;T -&gt; DependentPair&lt;&#39;Sigma,&#39;Config,&#39;T,&#39;T2&gt;<br />
+          <div class="tip" id="23">
+            <strong>Signature:</strong> x:SomeDependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt; -&gt; &#39;T2<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L143-143" class="github-link">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L114-114" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Create instance of dependent pair type.</p>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '24', 24)" onmouseover="showTip(event, '24', 24)">
+            SomeDependentType.TryCreate(x)
+          </code>
+          <div class="tip" id="24">
+            <strong>Signature:</strong> x:&#39;T -&gt; Option&lt;SomeDependentType&lt;&#39;Pi,&#39;Config,&#39;T,&#39;T2&gt;&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jackfoxy/DependentTypes/tree/master/src/DependentTypes/DependentTypes.fs#L120-120" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Create instance of SomeDependentType option.
+If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.</p>
 
 
         </td>

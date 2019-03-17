@@ -98,6 +98,37 @@ type DependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2>
             let (DependentType t2) = x
             mkDependentType t2  
 
+type SomeDependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2 option>  
+and  'Pi : (new: unit -> 'Pi)> =
+    SomeDependentType of 'T2
+    with 
+        /// 'T2 (base type) element value.
+        member __.Value = 
+            let (SomeDependentType t2) = __
+            t2
+
+        /// 'T2 (base type) ToString(). 
+        override __.ToString() = __.Value.ToString()     
+        
+        ///// Retrieve 'T2 (base type) element value.
+        static member Extract  (x : SomeDependentType<'Pi, 'Config, 'T, 'T2> ) = 
+            let (SomeDependentType t2) = x
+            t2
+
+        /// Create instance of SomeDependentType option.
+        /// If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.
+        static member TryCreate x : SomeDependentType<'Pi, 'Config, 'T, 'T2> Option =
+            match (new 'Pi()).Create x with
+            | Some value ->
+                Some (SomeDependentType value)
+            | None ->
+                 None
+
+        ///// Create compatible dependent type from 'T2 (base type) element value.
+        //static member inline ConvertTo(x : SomeDependentType<'x, 'y, 'q, 'r> ) : SomeDependentType<'a, 'b, 'r, 's> = 
+        //    let (SomeDependentType t2) = x
+        //    mkDependentType t2  
+
 /// 'T -> 'T * 'T2 dependent pair
 type DependentPair<'Sigma, 'Config, 'T, 'T2 when 'Sigma :> Sigma<'Config, 'T, 'T2>  
                                                  and 'Sigma : (new: unit -> 'Sigma)> =
