@@ -12,6 +12,7 @@
   <ItemGroup>
     <Compile Include="Generators.fs" />
     <Compile Include="DomainTypes.fs" />
+    <Compile Include="Domain2Types.fs" />
     <Compile Include="RunTests.fs" />
     <None Include="paket.references" />
   </ItemGroup>

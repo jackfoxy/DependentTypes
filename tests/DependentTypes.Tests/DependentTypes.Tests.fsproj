@@ -12,6 +12,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="DependentType.fs" />
+    <Compile Include="SomeDependentType .fs" />
     <Compile Include="RunTests.fs" />
     <None Include="paket.references" />
   </ItemGroup>

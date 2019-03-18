@@ -6,6 +6,10 @@ module Helpers =
     let inline mkDependentType (x: ^S) : ^T = 
         (^T: (static member Create: ^S -> ^T) x)
 
+    ///// Create instance of dependent type.
+    //let inline mkSomeDependentType (x: ^S) : ^T option = 
+    //    (^T: (static member Create: ^S -> ^T option) x)
+
     /// Retrieves 'T2 (base type) element value.
     let inline extract (x:^S) = 
         (^S: (static member Extract: ^S -> ^T) x)
@@ -115,6 +119,12 @@ and  'Pi : (new: unit -> 'Pi)> =
             let (SomeDependentType t2) = x
             t2
 
+        /// Create instance of dependent type.
+        static member Create x : SomeDependentType<'Pi, 'Config, 'T, 'T2> =
+            ((new 'Pi()).Create x).Value
+            |> SomeDependentType
+
+
         /// Create instance of SomeDependentType option.
         /// If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.
         static member TryCreate x : SomeDependentType<'Pi, 'Config, 'T, 'T2> Option =
@@ -125,9 +135,9 @@ and  'Pi : (new: unit -> 'Pi)> =
                  None
 
         ///// Create compatible dependent type from 'T2 (base type) element value.
-        //static member inline ConvertTo(x : SomeDependentType<'x, 'y, 'q, 'r> ) : SomeDependentType<'a, 'b, 'r, 's> = 
-        //    let (SomeDependentType t2) = x
-        //    mkDependentType t2  
+        static member inline ConvertTo(x : SomeDependentType<'x, 'y, 'q, 'r> ) : SomeDependentType<'a, 'b, 'r, 's> = 
+            let (SomeDependentType t2) = x
+            mkDependentType t2  
 
 /// 'T -> 'T * 'T2 dependent pair
 type DependentPair<'Sigma, 'Config, 'T, 'T2 when 'Sigma :> Sigma<'Config, 'T, 'T2>  
