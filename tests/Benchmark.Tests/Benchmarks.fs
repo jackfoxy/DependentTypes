@@ -19,6 +19,7 @@ module PercentType =
         inherit Sigma<unit, float, float option>((), validatePercent)
 
 type Percent = DependentType<PercentType.PercentValidator, unit, float, float option>
+type SomePercent = SomeDependentType<PercentType.PercentValidator, unit, float, float>
 type PercentPair = DependentPair<PercentType.PairPercentValidator, unit, float, float option>
 
 module Benchmarks =
@@ -38,12 +39,19 @@ module Benchmarks =
         [|
             Percent.TryCreate 0.5
             Percent.TryCreate 2.5
-        |] 
+        |]
+
     let runPctDependentType() =
         [|
             Percent.Create 0.5
             Percent.Create 2.5
-        |] 
+        |]
+        
+    let runSomePctDependentType() =
+        [|
+            SomePercent.TryCreate 0.5
+            SomePercent.TryCreate 2.5
+        |]
 
     let verifyUtcDateTime _ (value : DateTime) =
         value.ToUniversalTime() 
@@ -190,6 +198,28 @@ module Benchmarks =
                    (runPctDependentType >> ignore |> repeat1000000)
                    (runLiftedPctDependentType >> ignore |> repeat1000000)
                    "Create DependentType is faster than TryCreate DependentType" }
+        ]
+
+    [<Tests>]
+    let benchmarkSomeDependentType =
+        testList "option vs SomeDependentType" [
+            test "naked option vs SomeDependentType: TryCreate" {
+                Expect.isFasterThan
+                    (runNakedOption >> ignore |> repeat1000000)
+                    (runSomePctDependentType >> ignore |> repeat1000000)
+                    "Naked option is faster than TryCreate SomeDependentType" }
+
+            test "validated option vs SomeDependentType option: TryCreate" {
+                Expect.isFasterThan
+                    (runPctOption >> ignore |> repeat1000000)
+                    (runSomePctDependentType >> ignore |> repeat1000000)
+                    "Validated option is faster than TryCreate SomeDependentType" }
+
+            test "validated option vs SomeDependentType option: Create 10X" {
+                Expect.isFasterThan
+                    (runPctOption >> ignore |> repeat10)
+                    (runSomePctDependentType >> ignore |> repeat10)
+                    "(10X) validated option is faster than TryCreate SomeDependentType" }
         ]
 
     [<Tests>]

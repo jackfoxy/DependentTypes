@@ -19,7 +19,7 @@ module Helpers =
         (^T: (static member ConvertTo: ^S -> ^T) x)
 
     /// <summary>
-    /// Retrieves the 'T2 (base type) element value from a DependentType option.
+    /// DEPRECATED, use SomeDependentType. Retrieves the 'T2 (base type) element value from a DependentType option.
     /// </summary>
     /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
     let inline someValue (x : ^S Option) =
@@ -28,13 +28,13 @@ module Helpers =
             |> Option.flatten).Value
 
     /// <summary>
-    /// Retrieves the 'T2 (base type) element value from a DependentType when 'T2 is option.
+    /// DEPRECATED, use SomeDependentType. Retrieves the 'T2 (base type) element value from a DependentType when 'T2 is option.
     /// </summary>
     /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
     let inline forceValue (x : ^S) =
         (^S  : (member Value: ^T Option) x).Value
 
-    /// Queries the 'T2 (base type) element for IsSome from a DependentType when 'T2 is option.
+    /// DEPRECATED, use SomeDependentType. Queries the 'T2 (base type) element for IsSome from a DependentType when 'T2 is option.
     let inline isSome (x : ^S) =
         (^S  : (member Value: ^T Option) x).IsSome
 
@@ -57,7 +57,7 @@ type Sigma<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
 
 /// 'T -> 'T2 dependent type
 type DependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2>  
-                                              and  'Pi : (new: unit -> 'Pi)> =
+                                         and  'Pi : (new: unit -> 'Pi)> =
     DependentType of 'T2
     with 
         /// 'T2 (base type) element value.
@@ -107,7 +107,7 @@ type DependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2>
             mkDependentType t2  
 
 type SomeDependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2 option>  
-and  'Pi : (new: unit -> 'Pi)> =
+                                             and  'Pi : (new: unit -> 'Pi)> =
     SomeDependentType of 'T2
     with 
         /// 'T2 (base type) element value.
@@ -123,11 +123,13 @@ and  'Pi : (new: unit -> 'Pi)> =
             let (SomeDependentType t2) = x
             t2
 
+        /// <summary>
         /// Create instance of dependent type.
+        /// </summary>
+        /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
         static member Create x : SomeDependentType<'Pi, 'Config, 'T, 'T2> =
             ((new 'Pi()).Create x).Value
             |> SomeDependentType
-
 
         /// Create instance of SomeDependentType option.
         /// If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.
@@ -145,7 +147,7 @@ and  'Pi : (new: unit -> 'Pi)> =
 
 /// 'T -> 'T * 'T2 dependent pair
 type DependentPair<'Sigma, 'Config, 'T, 'T2 when 'Sigma :> Sigma<'Config, 'T, 'T2>  
-                                                 and 'Sigma : (new: unit -> 'Sigma)> =
+                                            and 'Sigma : (new: unit -> 'Sigma)> =
      DependentPair of 'T * 'T2
      with 
         /// Pair of 'T1 element and 'T2 (base type) element value.
