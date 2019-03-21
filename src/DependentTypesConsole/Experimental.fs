@@ -30,7 +30,7 @@ type String5 = DependentType<Size5, int, string, string option>
 [<Extension>]
 type String5Length () =
     [<Extension>]
-    static member inline Length(x: String5) = x.Value.Value.Length
+    static member inline Length(x: String5) = (flatten x).Length
 
 let okString = String5.Create "short" // Some
 let z = okString.Value

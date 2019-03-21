@@ -148,13 +148,13 @@ module Benchmarks =
                     (readDependentType >> ignore |> repeat1000000)
                     "Read Option is faster than Option DependentType" }
 
-            test "Option vs Option DependentType: read value" {
+            ptest "Option vs Option DependentType: read value" {
                 let dtValues = runLiftedPctDependentType()
                 let readDependentType (xs : Percent option []) =
                     xs
                     |> Array.map ( fun x ->
                     match x with
-                    | Some pct -> Some pct.Value.Value
+                    | Some pct -> Some (flatten pct)
                     | None -> None )
                 let readDependentType() = readDependentType dtValues
 
@@ -225,7 +225,7 @@ module Benchmarks =
                     (runDependentTypeDateTimeUtc >> ignore |> repeat1000000)
                     "Validated DateTime is faster than Create DependentType DateTime" }
 
-            test "DateTime vs DependentType DateTime: read" {
+            ptest "DateTime vs DependentType DateTime: read" {
                 let dateTime = runDependentTypeDateTimeUtc()
                 let readDependentType (xs : UtcDateTime[]) =
                     xs

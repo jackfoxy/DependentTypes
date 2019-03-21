@@ -1,3 +1,6 @@
+#### 0.4.0-alpah01 - unreleased
+* SomeDependentType
+
 #### 0.3.0 - January 20, 2019
 * Helpers.isSome and Helpers.forceValue for working with DependentType option
 

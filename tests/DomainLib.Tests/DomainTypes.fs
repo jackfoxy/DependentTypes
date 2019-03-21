@@ -1,6 +1,7 @@
 ﻿namespace DomainLib.Tests
 
 open DependentTypes
+open Helpers
 open DomainLib
 open DomainGeneratorsCode
 open Expecto
@@ -45,7 +46,7 @@ module DomainTypes =
                         (fun (x : string) -> 
                             let t = TrimNonEmptyString.Create x
                             reflexivity t.Value
-                            x.Trim() = t.Value.Value )
+                            x.Trim() = flatten t )
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (x : NonEmptyString) ->
@@ -132,7 +133,7 @@ module DomainTypes =
                 fun  (digits : NonNegativeInt) ->
                     let t = digits.ToString() |> Digits.Create
                     reflexivity t.Value
-                    (digits.ToString()) = t.Value.Value
+                    (digits.ToString()) = flatten t
 
                     //to do: digit strings wrapped in whitespace
             testPropertyWithConfig config10k "TryCreate trims" <|
@@ -141,12 +142,12 @@ module DomainTypes =
                         (fun (x : string) -> 
                            let t = Digits.Create x
                            reflexivity t.Value
-                           x.Trim() = t.Value.Value)
+                           x.Trim() = flatten t)
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (digits : NonNegativeInt) ->
                     let t = digits.ToString() |> Digits.Create
-                    let t2 = Digits.Create t.Value.Value
+                    let t2 = Digits.Create (flatten t)
                     reflexivity t.Value
                     reflexivity t2.Value
                     t2 = t
@@ -183,7 +184,7 @@ module DomainTypes =
                     let validDigit = validDigits digits 2
                     let t = Digits2.Create validDigit
                     reflexivity t.Value
-                    validDigit = t.Value.Value
+                    validDigit = flatten t
 
             testPropertyWithConfig config10k "TryCreate trims" <|
                 fun  () ->
@@ -191,13 +192,13 @@ module DomainTypes =
                         (fun (x : string) -> 
                            let t = Digits2.Create x
                            reflexivity t.Value
-                           x.Trim() = t.Value.Value)
+                           x.Trim() = flatten t)
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (digits : NonNegativeInt) ->
                     let validDigit = validDigits digits 2
                     let t = Digits2.Create validDigit
-                    let t2 = Digits2.Create t.Value.Value
+                    let t2 = Digits2.Create (flatten t)
                     reflexivity t.Value
                     reflexivity t2.Value
                     t2 = t
@@ -215,11 +216,11 @@ module DomainTypes =
         testList "DomainTypes.GenericSet" [
             testCase "int" <| fun () ->
                 let nonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.Create
-                Expect.equal nonEmptyIntSet.Value.Value ([1;2;3] |> Set.ofList)
+                Expect.equal (flatten nonEmptyIntSet) ([1;2;3] |> Set.ofList)
                     "expected equality"
 
             testCase "string" <| fun () ->
                 let nonEmptyIntSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.Create
-                Expect.equal nonEmptyIntSet.Value.Value (["Rob";"Jack";"Don"] |> Set.ofList)
+                Expect.equal (flatten nonEmptyIntSet) (["Rob";"Jack";"Don"] |> Set.ofList)
                     "expected equality"
         ]

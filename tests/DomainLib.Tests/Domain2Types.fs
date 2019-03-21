@@ -1,6 +1,7 @@
 ﻿namespace DomainLib.Tests
 
 open DependentTypes
+open Helpers
 open DomainLib2
 open DomainGeneratorsCode
 open Expecto
@@ -100,7 +101,7 @@ module Domain2Types =
                 fun  (digits : NonNegativeInt) ->
                     let t = digits.ToString() |> Digits.TryCreate
                     reflexivity t.Value
-                    (digits.ToString()) = t.Value.Value
+                    (digits.ToString()) = flatten t
 
                     //to do: digit strings wrapped in whitespace
             testPropertyWithConfig config10k "TryCreate trims" <|
@@ -109,12 +110,12 @@ module Domain2Types =
                         (fun (x : string) -> 
                            let t = Digits.TryCreate x
                            reflexivity t.Value
-                           x.Trim() = t.Value.Value)
+                           x.Trim() = flatten t)
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (digits : NonNegativeInt) ->
                     let t = digits.ToString() |> Digits.TryCreate
-                    let t2 = Digits.Create t.Value.Value
+                    let t2 = Digits.Create (flatten t)
                     reflexivity t.Value
                     reflexivity t2.Value
                     t2 = t.Value
@@ -152,7 +153,7 @@ module Domain2Types =
                     let validDigit = validDigits digits 2
                     let t = Digits2.TryCreate validDigit
                     reflexivity t.Value
-                    validDigit = t.Value.Value
+                    validDigit = flatten t
 
             testPropertyWithConfig config10k "TryCreate trims" <|
                 fun  () ->
@@ -160,13 +161,13 @@ module Domain2Types =
                         (fun (x : string) -> 
                            let t = Digits2.TryCreate x
                            reflexivity t.Value
-                           x.Trim() = t.Value.Value)
+                           x.Trim() = flatten t)
 
             testPropertyWithConfig config10k "equality" <|
                 fun  (digits : NonNegativeInt) ->
                     let validDigit = validDigits digits 2
                     let t = Digits2.TryCreate validDigit
-                    let t2 = Digits2.Create t.Value.Value
+                    let t2 = Digits2.Create (flatten t)
                     reflexivity t.Value
                     reflexivity t2.Value
                     t2 = t.Value 
@@ -184,11 +185,11 @@ module Domain2Types =
         testList "Domain2Types.GenericSet" [
             testCase "int" <| fun () ->
                 let nonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.TryCreate
-                Expect.equal nonEmptyIntSet.Value.Value ([1;2;3] |> Set.ofList)
+                Expect.equal (flatten nonEmptyIntSet) ([1;2;3] |> Set.ofList)
                     "expected equality"
 
             testCase "string" <| fun () ->
                 let nonEmptyIntSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.TryCreate
-                Expect.equal nonEmptyIntSet.Value.Value (["Rob";"Jack";"Don"] |> Set.ofList)
+                Expect.equal (flatten nonEmptyIntSet) (["Rob";"Jack";"Don"] |> Set.ofList)
                     "expected equality"
         ]

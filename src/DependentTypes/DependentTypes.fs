@@ -38,6 +38,10 @@ module Helpers =
     let inline isSome (x : ^S) =
         (^S  : (member Value: ^T Option) x).IsSome
 
+    /// Flatten a type with Value which in turn has Value
+    let inline flatten (x : ^S) =
+        (^T'  : (member Value: ^U) (^S  : (member Value: ^T') x))
+
 open Helpers
 
 [<Class>]
