@@ -45,7 +45,7 @@ The base ````'T2```` output types can be:
 The dependent type 
 ````
 type DependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2>  
-                                              and  'Pi : (new: unit -> 'Pi)>
+                                         and  'Pi : (new: unit -> 'Pi)>
 ````
 has a type parameter that includes a *configuration*, and a typed *pi* function, which maps input elements of the specified type to elements of the output type.
 ````
@@ -53,6 +53,11 @@ type Pi<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2)
 ````
 The *configuration* is a convenience allowing re-use of the same function code to serve multiple dependent types by passing any desired parameters.
 
+The most convenient type implementation for *pi* functions emitting an option type is `SomeDependentType`.
+````
+type SomeDependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2 option>  
+                                             and  'Pi : (new: unit -> 'Pi)>
+````
 The construction of similar dependent types sharing the same *pi* function looks like this:
 *)
 open DependentTypes
@@ -74,9 +79,35 @@ type Digits2 = DependentType<DigitsDef.ValidDigits2, int, string, string option>
 type Digits3 = DependentType<DigitsDef.ValidDigits3, int, string, string option>
 type Digits4 = DependentType<DigitsDef.ValidDigits4, int, string, string option>
 
+type SomeDigits = SomeDependentType<DigitsDef.ValidDigits, int, string, string>
+type SomeDigits2 = SomeDependentType<DigitsDef.ValidDigits2, int, string, string>
+type SomeDigits3 = SomeDependentType<DigitsDef.ValidDigits3, int, string, string>
+type SomeDigits4 = SomeDependentType<DigitsDef.ValidDigits4, int, string, string>
+
 let digits = Digits.Create "093884765"
+// DependentType (Some "093884765")
+
 let digitsOfLength3 = Digits3.Create "007"
+// DependentType (Some "007")
+
 let notDigitsOfLength3 = Digits3.TryCreate "0007"
+// None
+
+printfn "%A" <| SomeDigits.TryCreate "093884765"
+// Some (SomeDependentType "093884765")
+
+printfn "%A" <| SomeDigits3.TryCreate "007"
+// Some (SomeDependentType "007")
+
+printfn "%A" <| SomeDigits3.TryCreate "0007"
+// None
+
+printfn "SomeDependentType Create is not safe: %A" <| SomeDigits3.Create "007"
+// SomeDependentType Create is not safe: SomeDependentType "007"
+
+printfn "System.NullReferenceException: %A" <| SomeDigits3.Create "0007"
+// System.NullReferenceException: Object reference not set to an instance of an object.
+
 (**
 ### Notes: 
 

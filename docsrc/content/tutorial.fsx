@@ -29,7 +29,7 @@ module TrimNonEmptyStringDef =
     type NonEmptyValidator() = 
         inherit Pi<unit, string, string option>((), verifyTrimNonEmptyString)
 
-type TrimNonEmptyString = DependentType<TrimNonEmptyStringDef.NonEmptyValidator, unit, string, string option>  
+type TrimNonEmptyString = SomeDependentType<TrimNonEmptyStringDef.NonEmptyValidator, unit, string, string>  
 (**
 ### Generalized and specific type creation
 
@@ -53,7 +53,7 @@ module RangeValidation =
 
     type MaxPos100 () = inherit NumRangeValidator(0, 100)
 
-type PositiveInt100 = DependentType<RangeValidation.MaxPos100, int * int, int, int option>
+type PositiveInt100 = SomeDependentType<RangeValidation.MaxPos100, int * int, int, int>
 
 let a : PositiveInt100 = mkDependentType 100
 
@@ -70,35 +70,23 @@ printfn "%A" c.Value
 If the base type is an option type, and it was created with ````TryCreate````, option is lifted to the DependentType itself. If the value is known to be 
 ````Some````, the unsafe function ````Helpers.someValue```` may be used to access the value.
 
-If you have already returned the ````DependentType option Value````, the Helper methods ````isSome```` and ````forceValue```` will make your code less verbose.
+If you have already returned the ````DependentType option Value````, the Helper method ````flatten```` and ````forceValue```` will make your code less verbose.
 *)
 let myGoodString = (TrimNonEmptyString.TryCreate "good string   ")
-let myCreatedGoodString = (TrimNonEmptyString.Create "good string   ")
 
-let notTrimNonEmptyString = TrimNonEmptyString.TryCreate "    "
-
-// DependentType "good string"
+// SomeDependentType "good string"
 printfn "%A" myGoodString
 
 // "good string"
 printfn "%s" <|
     match myGoodString with
-    | Some goodString -> goodString.Value.Value
+    | Some goodString -> goodString.Value
     | None -> "this won't print"
 
 // "good string"
-printfn "%s" myGoodString.Value.Value.Value
+printfn "%s" (flatten myGoodString)
 
-// "good string" (unsafe just like the Value property of an option, but less verbose)
-printfn "%s" <| Helpers.someValue myGoodString
-
-// forceValue (potentially unsafe) less vebose 
-printfn "%s" <| Helpers.forceValue myGoodString.Value
-printfn "%s" <| Helpers.forceValue myCreatedGoodString
-
-// is there an option value?
-printfn "%b" <| Helpers.isSome myGoodString.Value
-printfn "%b" <| Helpers.isSome myCreatedGoodString
+let notTrimNonEmptyString = TrimNonEmptyString.TryCreate "    "
 
 // true
 printfn "%b" notTrimNonEmptyString.IsNone
@@ -173,7 +161,7 @@ module NonEmptySetDef =
     type NonEmptySetValidator<'T when 'T : comparison>() = 
         inherit Pi<unit, Set<'T>, Set<'T> option>((), verifyNonEmptySet)
   
-type NonEmptySet<'T  when 'T : comparison> = DependentType<NonEmptySetDef.NonEmptySetValidator<'T>, unit, Set<'T>, Set<'T> option> 
+type NonEmptySet<'T  when 'T : comparison> = SomeDependentType<NonEmptySetDef.NonEmptySetValidator<'T>, unit, Set<'T>, Set<'T>> 
 
 let myNonEmptyIntSet = [1;2;3] |> Set.ofList |> NonEmptySet.Create
 let myNonEmptyStringSet = ["Rob";"Jack";"Don"] |> Set.ofList |> NonEmptySet.Create
@@ -199,9 +187,9 @@ module IntRange =
     type Min101 () = inherit MinNumRangeValidator(101)
     type MaxMinus101 () = inherit MaxNumRangeValidator(-101)
 
-type PositiveInt100' = DependentType<IntRange.MaxPos100, int * int, int, int option>
-type PositiveInt20000 = DependentType<IntRange.MaxPos20000, int * int, int, int option>
-type Minus100To100 = DependentType<IntRange.RangeMinus100To100, int * int, int, int option>
+type PositiveInt100' = SomeDependentType<IntRange.MaxPos100, int * int, int, int>
+type PositiveInt20000 = SomeDependentType<IntRange.MaxPos20000, int * int, int, int>
+type Minus100To100 = SomeDependentType<IntRange.RangeMinus100To100, int * int, int, int>
 
 type GT100 = DependentType<IntRange.Min101, int, int, int option>
 type LTminus100 = DependentType<IntRange.MaxMinus101, int, int, int option>
@@ -213,14 +201,14 @@ Return the underlying typed element with the ````extract```` function or the ```
 ````DependentType.ToString()```` implements the underlying ````'T2```` element's type ````ToString()````.
 *)
 let a' = extract a
-let b' = someValue b
-let c' = c.Value.Value
+let b' = b.Value
+let c' = c.Value
 
 // Some 100
 printfn "%A" a'
 
 // "100"
-printfn "%i" b'
+printfn "%i" <| extract b'
 
 // "100"
 printfn "%i" c'
