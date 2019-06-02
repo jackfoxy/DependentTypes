@@ -22,7 +22,7 @@ module Helpers =
     /// DEPRECATED, use SomeDependentType. Retrieves the 'T2 (base type) element value from a DependentType option.
     /// </summary>
     /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
-    let inline someValue (x : ^S Option) =
+    let inline someValue (x : ^S option) =
         (x |> Option.map (fun x' ->
             (^S: (static member Extract: ^S -> ^T option ) x') )
             |> Option.flatten).Value
@@ -32,11 +32,11 @@ module Helpers =
     /// </summary>
     /// <exception cref="System.NullReferenceException">Thrown when None.</exception>
     let inline forceValue (x : ^S) =
-        (^S  : (member Value: ^T Option) x).Value
+        (^S  : (member Value: ^T option) x).Value
 
     /// DEPRECATED, use SomeDependentType. Queries the 'T2 (base type) element for IsSome from a DependentType when 'T2 is option.
     let inline isSome (x : ^S) =
-        (^S  : (member Value: ^T Option) x).IsSome
+        (^S  : (member Value: ^T option) x).IsSome
 
     /// Flatten a type with Value which in turn has Value
     let inline flatten (x : ^S) =
@@ -45,7 +45,7 @@ module Helpers =
 open Helpers
 
 [<Class>]
-/// Construction / validation type for DependentType 'T -> 'T2 
+/// Construction / validation type for DependentType 
 type Pi<'Config, 'T, 'T2> (config: 'Config, pi: 'Config -> 'T -> 'T2) =
     member __.Create x  = pi config x
 
@@ -80,7 +80,7 @@ type DependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2>
 
         /// Create instance of DependentType option.
         /// If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.
-        static member TryCreate x : DependentType<'Pi, 'Config, 'T, 'T2> Option =
+        static member TryCreate x : DependentType<'Pi, 'Config, 'T, 'T2> option =
             let piResult = (new 'Pi()).Create x
 
             if typedefof<'T2> = typedefof<_ option> then
@@ -93,7 +93,7 @@ type DependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2>
 
         /// Create instance of DependentType option.
         /// If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.
-        static member TryCreate (x : 'T Option) : DependentType<'Pi, 'Config, 'T, 'T2> Option =
+        static member TryCreate (x : 'T Option) : DependentType<'Pi, 'Config, 'T, 'T2> option =
             match x with
             | Some t -> 
                 DependentType.TryCreate t
@@ -106,6 +106,7 @@ type DependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2>
             let (DependentType t2) = x
             mkDependentType t2  
 
+/// 'T -> 'T2 option dependent type
 type SomeDependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2 option>  
                                              and  'Pi : (new: unit -> 'Pi)> =
     SomeDependentType of 'T2
@@ -133,7 +134,7 @@ type SomeDependentType<'Pi, 'Config, 'T, 'T2 when 'Pi :> Pi<'Config, 'T, 'T2 opt
 
         /// Create instance of SomeDependentType option.
         /// If the 'T2 (base type) is option, lifts Some/None of base type element to DependentType option.
-        static member TryCreate x : SomeDependentType<'Pi, 'Config, 'T, 'T2> Option =
+        static member TryCreate x : SomeDependentType<'Pi, 'Config, 'T, 'T2> option =
             match (new 'Pi()).Create x with
             | Some value ->
                 Some (SomeDependentType value)

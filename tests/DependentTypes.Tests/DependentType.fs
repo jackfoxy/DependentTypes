@@ -2,7 +2,6 @@
 
 open DependentTypes
 open Expecto
-open FsCheck
 open System
 
 module DependentType =

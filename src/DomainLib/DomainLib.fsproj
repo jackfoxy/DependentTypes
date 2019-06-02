@@ -11,6 +11,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="paket.references" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Domain.fsi" />
     <Compile Include="Domain.fs" />
@@ -18,7 +19,8 @@
     <Compile Include="Domain2.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DependentTypes\DependentTypes.fsproj"></ProjectReference>
+    <ProjectReference Include="..\DependentTypes\DependentTypes.fsproj">
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

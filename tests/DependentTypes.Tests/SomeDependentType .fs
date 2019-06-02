@@ -2,8 +2,6 @@
 
 open DependentTypes
 open Expecto
-open FsCheck
-open System
 
 module SomeDependentType =
 
@@ -28,8 +26,6 @@ module SomeDependentType =
         type Size5Pair () = inherit PairLenValidator(5)
 
     type String5 = SomeDependentType<OptionType.Size5, int, string, string>
-    //type String5Pair = DependentPair<OptionType.Size5Pair, int, string, string option>
-
     
     let reflexivity x =
         Expect.equal x x "reflexivity"
@@ -104,42 +100,3 @@ module SomeDependentType =
                 reflexivity n4
                 reflexivity n5
         ]
-
-    //[<Tests>]
-    //let dependentPairs =
-
-    //    testList "DependentPairs.Equality and Comparison" [
-
-    //        testCase "Equality" <| fun () ->
-    //            let s100_1 = String5Pair.Create "100"
-    //            let s100_2 = String5Pair.Create "100"
-
-    //            Expect.equal s100_1 s100_2 "Expected equal"
-    //            reflexivity s100_1
-    //            reflexivity s100_2
-
-    //        testCase "Inequality" <| fun () ->
-    //            let s100 = String5Pair.Create "100"
-    //            let s200 = String5Pair.Create "200"
-
-    //            Expect.notEqual s100 s200 "Expected not equal"
-    //            reflexivity s100
-    //            reflexivity s200
-
-    //        testCase "Comparison" <| fun () ->
-    //            let n1 = String5Pair.Create "100"
-    //            let n2 = String5Pair.Create "200"
-    //            let n3 = String5Pair.Create "300"
-    //            let n4 = String5Pair.Create "400"
-    //            let n5 = String5Pair.Create "500"
-
-    //            let l1 = [n1; n2; n3; n4; n5]
-    //            let l2 = [n5; n4; n1; n2; n3]
-
-    //            Expect.equal l1 (l2 |> List.sort) "Expected equal"
-    //            reflexivity n1
-    //            reflexivity n2
-    //            reflexivity n3
-    //            reflexivity n4
-    //            reflexivity n5
-    //    ]
