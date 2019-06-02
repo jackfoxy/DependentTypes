@@ -23,7 +23,9 @@ let regExStringVerify (regex : Regex) config (value : string) =
 (**
 # Type All the Things #
 
-*This article was posted as part of [F# Advent 2018](https://sergeytihon.com/2018/10/22/f-advent-calendar-in-english-2018/). Since originally publishing, release 0.3.0 adds Helpers.isSome and Helpers.forceValue for working with DependentType option. See [Tutorial](tutorial.html) for usage.*
+*This article was posted as part of [F# Advent 2018](https://sergeytihon.com/2018/10/22/f-advent-calendar-in-english-2018/). 
+Since originally publishing, release 0.4.0 adds SoomeDependentType for working with option types. 
+See [Tutorial](tutorial.html) for usage.*
 
 In computer science and logic, a [dependent type](https://en.wikipedia.org/wiki/Dependent_type) is a type whose definition depends on a value. 
 A "pair of integers" is a type. A "pair of integers where the second is greater than the first" is a dependent type...

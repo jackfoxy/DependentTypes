@@ -1,5 +1,5 @@
-#### 0.4.0-alpah01 - unreleased
-* SomeDependentType
+#### 0.4.0 - June 2, 2019
+* SomeDependentType added for working with option types.
 * Deprecate someValue, forceValue, and isSome.
 
 #### 0.3.0 - January 20, 2019
