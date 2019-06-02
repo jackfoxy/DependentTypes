@@ -97,7 +97,7 @@ let createAndGetDefault () =
                 AssemblyInfo.FileVersion releaseNotes.AssemblyVersion
                 AssemblyInfo.Configuration configuration ]
 
-        let getProjectDetails projectPath =
+        let getProjectDetails (projectPath : string) =
             let projectName = System.IO.Path.GetFileNameWithoutExtension(projectPath)
             ( projectPath,
                 projectName,
@@ -220,7 +220,7 @@ let createAndGetDefault () =
         Shell.copyRecursive (formatting @@ "styles") (output @@ "content") true 
         |> Trace.logItems "Copying styles and scripts: "
         
-    let replace t r (lines:seq<string>) =
+    let replace (t : string) r (lines:seq<string>) =
         seq {
             for s in lines do
                 if s.Contains(t) then 
