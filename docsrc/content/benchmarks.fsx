@@ -28,7 +28,7 @@ module PercentType =
     type PairPercentValidator() = 
         inherit Sigma<unit, float, float option>((), validatePercent)
 
-type Percent = DependentType<PercentType.PercentValidator, unit, float, float option>
+type Percent = SomeDependentType<PercentType.PercentValidator, unit, float, float>
 
 let runPctOption() =
     [|
@@ -94,7 +94,7 @@ let readDependentType (xs : Percent option []) =
     xs
     |> Array.map ( fun x ->
         match x with
-        | Some _ -> Some (someValue x)
+        | Some _ -> Some x.Value
         | None -> None )
 
 let readVanillaOption (xs : float option[]) =
