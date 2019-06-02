@@ -143,7 +143,7 @@ Samples & documentation
  * [API Reference](reference/index.html) contains automatically generated documentation for all types, modules,
    and functions in the library.
 
- * The [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib/Domain.fs) project is a sample library of useful dependent types:
+ * The [DomainLib](https://github.com/jackfoxy/DependentTypes/tree/master/src/DomainLib/Domain2.fs) project is a sample library of useful dependent types:
 
      1. trimmed, non-empty, non-null string
 

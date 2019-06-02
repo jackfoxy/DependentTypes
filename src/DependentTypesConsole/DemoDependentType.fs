@@ -3,8 +3,6 @@
 open DependentTypes
 open DependentTypes.Helpers
 
-(* 'T -> 'T2 tests existing LimitValue tests where 'T = 'T2 *)
-
 let validate normalize fn v =
     if fn (normalize v) then Some (normalize v) else None
 
@@ -16,11 +14,11 @@ type LenValidator(config) =
 
 type Size4 () = inherit LenValidator(4) 
 
-type String4 = DependentType<Size4, int, string, string option>
+type String4 = SomeDependentType<Size4, int, string, string>
 
 let demo1() =
-    let okString = String4.Create "good" // Some
-    let failString = String4.Create "much too long" //None
+    let okString = String4.TryCreate "good" // Some
+    let failString = String4.TryCreate "much too long" //None
     let z = okString.Value
     printfn "okString is: %s" z.Value
     printfn "failString is: %A" failString
@@ -39,22 +37,21 @@ type RangeMinus100To100 () = inherit NumRangeValidator(-100, 100)
 type Min101 () = inherit MinNumRangeValidator(101)
 type MaxMinus101 () = inherit MaxNumRangeValidator(-101)
 
-type PositiveInt100 = DependentType<MaxPos100, int * int, int, int option>
-type PositiveInt20000 = DependentType<MaxPos20000, int * int, int, int option>
-type Minus100To100 = DependentType<RangeMinus100To100, int * int, int, int option>
+type PositiveInt100 = SomeDependentType<MaxPos100, int * int, int, int>
+type PositiveInt20000 = SomeDependentType<MaxPos20000, int * int, int, int>
+//type Minus100To100 = DependentType<RangeMinus100To100, int * int, int, int option>
 
 type GT100 = DependentType<Min101, int, int, int option>
-type LTminus100 = DependentType<MaxMinus101, int, int, int option>
+//type LTminus100 = DependentType<MaxMinus101, int, int, int option>
 
 let demo2() =
-    let a: PositiveInt100 = mkDependentType 100
+    let a : PositiveInt100 = mkDependentType 100
     let b = a |> extract
-    let c = a.Value
-    //let c' : PositiveInt20000 = convertTo a
-    //let d : Option<PositiveInt20000> = PositiveInt20000.ConvertTo c
+    let c : PositiveInt20000 = convertTo a
+    let d : PositiveInt20000 = PositiveInt20000.ConvertTo a
 
-    //printfn "%i" d.Value.Value
-    ()
+    printfn "%i" d.Value
+    printfn "%b" ((b = c.Value) = (c.Value = d.Value))
 
 (* 'T -> 'T2 test 1*)
 
@@ -87,9 +84,9 @@ let demo4() =
 
     printfn "zero extracted: %s" zeroExtracted
 
-    let zeroValToString4 : String4 =  zero |> convertTo 
+    //let zeroValToString4 : String4 =  zero |> convertTo 
 
-    printfn "zero converted to String5: %A of type %A" zeroValToString4.Value <| zeroValToString4.GetType()
+    //printfn "zero converted to String5: %A of type %A" zeroValToString4.Value <| zeroValToString4.GetType()
 
 (* 'T -> 'T2 test 2*)
 
@@ -101,12 +98,12 @@ let tryConstructMultiplyToString multiplier i =
 type Multiply5ToStringPi() = 
     inherit Pi<int, int, string option>(5, tryConstructMultiplyToString)
 
-type Multiply5ToString = DependentType<Multiply5ToStringPi, int, int, string option>
+type Multiply5ToString = SomeDependentType<Multiply5ToStringPi, int, int, string>
 
 let demo5() =
     printfn ""
     printfn "dependent type that performs arithmentic on element and converts to string (int -> string)"
-    let neg500 =  (Multiply5ToString.Create -100).Value
+    let neg500 =  Multiply5ToString.Create -100
 
     printfn "%s" neg500.Value
 
@@ -115,10 +112,10 @@ let demo5() =
 
     printfn "neg500Extracted extracted: %A" neg500Extracted
 
-    //let neg500Val = neg500'.Value
-    //let neg500ValToString5 : String5 = convertTo neg500'
+    let neg500Val = neg500'.Value
+    let neg500ValToString4 : String4 = convertTo neg500'
 
-    //printfn "neg500Val converted to String5: %A of type %A" neg500ValToString5.Value <| neg500ValToString5.GetType()
+    printfn "neg500Val converted to String5: %A of type %A" neg500ValToString4.Value <| neg500ValToString4.GetType()
 
 let demo6() =
     let neg500_1 =  (Multiply5ToString.Create -100).Value
